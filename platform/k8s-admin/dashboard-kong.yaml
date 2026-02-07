@@ -1,0 +1,50 @@
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: dash-insecure
+  namespace: kubernetes-dashboard
+spec:
+  insecureSkipVerify: true
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: dash-forward-headers
+  namespace: kubernetes-dashboard
+spec:
+  headers:
+    customRequestHeaders:
+      X-Forwarded-Proto: https
+      X-Forwarded-Port: "443"
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubernetes-dashboard
+  namespace: kubernetes-dashboard
+spec:
+  entryPoints: [websecure]
+  tls:
+    certResolver: le
+  routes:
+    - match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/api`)
+      kind: Rule
+      middlewares:
+        - name: dash-forward-headers
+      services:
+        - name: kubernetes-dashboard-kong-proxy
+          port: 443
+          scheme: https
+          serversTransport: dash-insecure
+    - match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/`)
+      kind: Rule
+      middlewares:
+        - name: dash-forward-headers
+      services:
+        - name: kubernetes-dashboard-kong-proxy
+          port: 443
+          scheme: https
+          serversTransport: dash-insecure
+

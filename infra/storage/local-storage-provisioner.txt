@@ -1,0 +1,4 @@
+kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.32/deploy/local-path-storage.yaml
+# (Optional) make it default:
+kubectl annotate sc local-path storageclass.kubernetes.io/is-default-class="true" --overwrite
+

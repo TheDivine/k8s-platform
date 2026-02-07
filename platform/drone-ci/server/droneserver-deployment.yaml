@@ -1,0 +1,95 @@
+# droneserver-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drone-server
+  namespace: drone
+  labels:
+    app: drone-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drone-server
+  template:
+    metadata:
+      labels:
+        app: drone-server
+    spec:
+      nodeSelector:
+         kubernetes.io/hostname: s231226.wholesaleinternet.net
+      containers:
+        - name: drone-server
+          image: drone/drone:2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80    # Drone serves HTTP; Traefik terminates TLS
+          env:
+            - name: DRONE_SERVER_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: drone-server-secret
+                  key: DRONE_SERVER_HOST
+            - name: DRONE_SERVER_PROTO
+              value: "https"
+            - name: DRONE_RPC_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: drone-server-secret
+                  key: DRONE_RPC_SECRET
+            - name: DRONE_DATABASE_DRIVER
+              value: "postgres"
+            - name: DRONE_DATABASE_DATASOURCE
+              valueFrom:
+                secretKeyRef:
+                  name: drone-server-secret
+                  key: DRONE_DATABASE_DATASOURCE
+            - name: DRONE_USER_CREATE
+              valueFrom:
+                secretKeyRef:
+                  name: drone-server-secret
+                  key: DRONE_USER_CREATE
+            - name: DRONE_GITHUB_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: drone-server-secret
+                  key: DRONE_GITHUB_CLIENT_ID
+            - name: DRONE_GITHUB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: drone-server-secret
+                  key: DRONE_GITHUB_CLIENT_SECRET
+
+            # Gitea:
+            # - name: DRONE_GITEA_SERVER
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: drone-server-secret
+            #       key: DRONE_GITEA_SERVER
+            # - name: DRONE_GITEA_CLIENT_ID
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: drone-server-secret
+            #       key: DRONE_GITEA_CLIENT_ID
+            # - name: DRONE_GITEA_CLIENT_SECRET
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: drone-server-secret
+            #       key: DRONE_GITEA_CLIENT_SECRET
+            # - name: DRONE_GIT_ALWAYS_AUTH
+            #   value: "true"
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 20
+

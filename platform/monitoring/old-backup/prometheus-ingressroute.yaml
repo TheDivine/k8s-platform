@@ -1,0 +1,17 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  entryPoints: [websecure]
+  tls: { certResolver: le }
+  routes:
+    - match: Host(`prometheus.kwiki.it.com`)
+      kind: Rule
+      middlewares:
+        - name: dashboard-basicauth
+          namespace: traefik
+      services:
+        - name: prometheus-operated
+          port: 9090

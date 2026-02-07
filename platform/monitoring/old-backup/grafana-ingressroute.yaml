@@ -1,0 +1,20 @@
+# grafana-ingressroute.yaml
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  entryPoints: [websecure]
+  routes:
+    - match: Host(`grafana.kwiki.it.com`)
+      kind: Rule
+      middlewares:
+        - name: traefik-dashboard-basicauth
+          namespace: traefik
+      services:
+        - name: kube-prom-grafana
+          port: 80           # change to port name if your svc uses named ports
+  tls:
+    certResolver: le
+

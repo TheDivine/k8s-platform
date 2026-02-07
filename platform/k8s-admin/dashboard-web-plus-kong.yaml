@@ -1,0 +1,37 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: dash-insecure
+  namespace: kubernetes-dashboard
+spec:
+  # Kong presents a self-signed cert in-cluster
+  insecureSkipVerify: true
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubernetes-dashboard
+  namespace: kubernetes-dashboard
+spec:
+  entryPoints: [websecure]
+  tls:
+    certResolver: le
+  routes:
+    # All API calls go to Kong so it can route /api/* (login, me, csrf, etc.)
+    - kind: Rule
+      match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/api`)
+      services:
+        - name: kubernetes-dashboard-kong-proxy
+          port: 443
+          scheme: https
+          serversTransport: dash-insecure
+
+    # The SPA itself is served by the web service
+    - kind: Rule
+      match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/`)
+      services:
+        - name: kubernetes-dashboard-web
+          port: 8000
+

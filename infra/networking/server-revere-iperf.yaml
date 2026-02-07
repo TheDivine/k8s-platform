@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: iperf-server-worker
+  labels:
+    app: iperf-worker
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: hcp.kwiki.it.com
+  containers:
+  - name: iperf-server
+    image: networkstatic/iperf3
+    command: ["iperf3", "-s"]
+    ports:
+    - containerPort: 5201

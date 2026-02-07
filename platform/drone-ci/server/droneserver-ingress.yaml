@@ -1,0 +1,50 @@
+# HTTP ingress with redirect
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: droneserver-http
+  namespace: drone
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.middlewares: drone-https-redirect@kubernetescrd
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: drone.kwiki.it.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: droneserver
+                port:
+                  number: 80
+---
+# HTTPS ingress without redirect
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: droneserver-https
+  namespace: drone
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.tls.certresolver: le
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: drone.kwiki.it.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: droneserver
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - drone.kwiki.it.com
+

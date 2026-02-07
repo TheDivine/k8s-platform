@@ -1,0 +1,58 @@
+# 1) Traefik transport: accept the self-signed cert from Kong
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: dash-insecure
+  namespace: kubernetes-dashboard
+spec:
+  insecureSkipVerify: true
+
+---
+# 2) Forward headers so Kong knows the external scheme/port
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: dash-forward-headers
+  namespace: kubernetes-dashboard
+spec:
+  headers:
+    customRequestHeaders:
+      X-Forwarded-Proto: https
+      X-Forwarded-Port: "443"
+
+---
+# 3) Route via Traefik → Kong (HTTPS). No basic-auth.
+#    Use IngressRoute so we can attach middleware & transport cleanly.
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubernetes-dashboard
+  namespace: kubernetes-dashboard
+spec:
+  entryPoints:
+    - websecure
+  tls:
+    certResolver: le
+  routes:
+    # API first: must NOT be gated by basic-auth, and must see the forwarded headers
+    - match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/api`)
+      kind: Rule
+      middlewares:
+        - name: dash-forward-headers
+      services:
+        - name: kubernetes-dashboard-kong-proxy
+          port: 443
+          scheme: https
+          serversTransport: dash-insecure
+
+    # UI: same backend, same headers; still no basic-auth (keeps things simple)
+    - match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/`)
+      kind: Rule
+      middlewares:
+        - name: dash-forward-headers
+      services:
+        - name: kubernetes-dashboard-kong-proxy
+          port: 443
+          scheme: https
+          serversTransport: dash-insecure
+

@@ -1,0 +1,23 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubernetes-dashboard
+  namespace: kubernetes-dashboard
+spec:
+  entryPoints: [websecure]
+  tls:
+    certResolver: le   # <-- change if your resolver name differs
+  routes:
+    # API -> JSON
+    - match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/api`)
+      kind: Rule
+      services:
+        - name: kubernetes-dashboard-api
+          port: 8000
+    # UI -> SPA
+    - match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: kubernetes-dashboard-web
+          port: 8000
+

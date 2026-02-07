@@ -1,0 +1,12 @@
+# Local repos kept separately
+apps/
+QloudK-Backup/
+
+# Common
+.DS_Store
+*.log
+*.swp
+node_modules/
+
+# K8s generated
+*.tmp

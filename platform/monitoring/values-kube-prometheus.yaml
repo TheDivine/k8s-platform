@@ -1,0 +1,47 @@
+grafana:
+  enabled: true
+  adminPassword: "ChangeMeStrong123!"
+
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
+      traefik.ingress.kubernetes.io/router.tls.certresolver: le
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-dashboard-basicauth@kubernetescrd
+    hosts:
+      - grafana.kwiki.it.com
+    path: /
+    pathType: Prefix
+
+  persistence:
+    enabled: true
+    storageClassName: longhorn
+    size: 10Gi
+
+prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
+      traefik.ingress.kubernetes.io/router.tls.certresolver: le
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-dashboard-basicauth@kubernetescrd
+    hosts:
+      - prometheus.kwiki.it.com
+    paths:
+      - /
+    pathType: Prefix
+
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 20Gi
+
