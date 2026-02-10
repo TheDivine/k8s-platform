@@ -5,6 +5,8 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
+  # Disabled for now (repo/app not production-ready). Set to false later to enable.
+  suspend: true
   path: ./k8s
   prune: true
   sourceRef:
