@@ -70,3 +70,36 @@ Point `flux.kwiki.it.com` to the Traefik external IP (MetalLB).
 - Apps publish container images or Helm charts.
 - Flux reconciles them into the cluster from Git.
 - Pin versions explicitly (avoid `latest`).
+
+---
+
+# Flux Bootstrap (Step-by-Step)
+
+## 1) Install Flux CLI (local)
+Follow the official instructions for your OS. Then verify:
+```bash
+flux version
+```
+
+## 2) Create GitHub Token
+Token must have repo access.
+
+## 3) Bootstrap Flux
+```bash
+export GITHUB_TOKEN=<token>
+flux bootstrap github \
+  --owner=TheDivine \
+  --repository=k8s-platform \
+  --branch=main \
+  --path=./clusters/production \
+  --personal
+```
+
+## 4) Verify
+```bash
+kubectl -n flux-system get pods
+flux check
+```
+
+## 5) Flux Will Reconcile
+Flux will continuously reconcile whatever is defined in `clusters/production/`.
