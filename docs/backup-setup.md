@@ -2,6 +2,8 @@
 
 This is a beginner-friendly, step-by-step guide to set up backups using **MinIO (S3-compatible)** and **Velero**.
 
+For a full “from scratch on the server” runbook, see `docs/deploy-backups-from-scratch.md`.
+
 ## Step 1: Deploy MinIO
 MinIO provides S3 storage for Velero backups.
 
