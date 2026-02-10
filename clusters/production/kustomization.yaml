@@ -5,3 +5,5 @@ resources:
   - argocd-app-infra.yaml
   - flux-kwiki-repo.yaml
   - flux-kwiki-kustomization.yaml
+  - weave-gitops-dashboard.yaml
+  - flux-ui-ingressroute.yaml
