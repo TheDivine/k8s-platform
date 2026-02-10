@@ -1,0 +1,40 @@
+apiVersion: v1
+items:
+  - apiVersion: traefik.io/v1alpha1
+    kind: IngressRoute
+    metadata:
+      annotations: {}
+      name: traefik-dashboard-web
+      namespace: traefik
+    spec:
+      entryPoints:
+        - web
+      routes:
+        - kind: Rule
+          match: Host(`traefik.kwiki.it.com`)
+          middlewares:
+            - name: https-redirect
+          services:
+            - kind: TraefikService
+              name: api@internal
+  - apiVersion: traefik.io/v1alpha1
+    kind: IngressRoute
+    metadata:
+      annotations: {}
+      name: traefik-dashboard-websecure
+      namespace: traefik
+    spec:
+      entryPoints:
+        - websecure
+      routes:
+        - kind: Rule
+          match: Host(`traefik.kwiki.it.com`)
+          middlewares:
+            - name: dashboard-basicauth
+          services:
+            - kind: TraefikService
+              name: api@internal
+      tls:
+        certResolver: le
+kind: List
+metadata: {}

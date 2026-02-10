@@ -1,0 +1,51 @@
+apiVersion: v1
+items:
+- apiVersion: traefik.io/v1alpha1
+  kind: Middleware
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"traefik.io/v1alpha1","kind":"Middleware","metadata":{"annotations":{},"name":"dashboard-basicauth","namespace":"traefik"},"spec":{"basicAuth":{"secret":"traefik-dashboard-auth"}}}
+    creationTimestamp: "2025-10-24T10:44:10Z"
+    generation: 1
+    name: dashboard-basicauth
+    namespace: traefik
+    resourceVersion: "52898"
+    uid: 53bfee50-d124-4cb5-ac84-7a12d5b8afd3
+  spec:
+    basicAuth:
+      secret: traefik-dashboard-auth
+- apiVersion: traefik.io/v1alpha1
+  kind: Middleware
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"traefik.io/v1alpha1","kind":"Middleware","metadata":{"annotations":{},"name":"gzip-compress","namespace":"traefik"},"spec":{"compress":{"minResponseBodyBytes":1024}}}
+    creationTimestamp: "2026-02-08T14:17:56Z"
+    generation: 1
+    name: gzip-compress
+    namespace: traefik
+    resourceVersion: "22604796"
+    uid: 81ada2a5-9ea9-4a32-b67e-dcbba2f6ec5a
+  spec:
+    compress:
+      minResponseBodyBytes: 1024
+- apiVersion: traefik.io/v1alpha1
+  kind: Middleware
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"traefik.io/v1alpha1","kind":"Middleware","metadata":{"annotations":{},"name":"https-redirect","namespace":"traefik"},"spec":{"redirectScheme":{"permanent":true,"scheme":"https"}}}
+    creationTimestamp: "2025-10-24T10:44:10Z"
+    generation: 1
+    name: https-redirect
+    namespace: traefik
+    resourceVersion: "52899"
+    uid: ae6dc436-839a-4222-8a86-732a442e1935
+  spec:
+    redirectScheme:
+      permanent: true
+      scheme: https
+kind: List
+metadata:
+  resourceVersion: ""

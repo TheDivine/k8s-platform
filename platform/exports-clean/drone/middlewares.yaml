@@ -1,0 +1,14 @@
+apiVersion: v1
+items:
+  - apiVersion: traefik.io/v1alpha1
+    kind: Middleware
+    metadata:
+      annotations: {}
+      name: https-redirect
+      namespace: drone
+    spec:
+      redirectScheme:
+        permanent: true
+        scheme: https
+kind: List
+metadata: {}

@@ -1,0 +1,525 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  count: 20117
+  eventTime: null
+  firstTimestamp: "2025-10-24T13:58:35Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T19:34:32Z"
+  message: announcing from node "s231226.wholesaleinternet.net" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2025-12-28T17:33:56Z"
+    name: traefik.18717209c335be9a
+    namespace: traefik
+    resourceVersion: "23139917"
+    uid: f22c64be-f9a0-489d-9e8c-18299c14a90a
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 3
+  eventTime: null
+  firstTimestamp: "2026-02-10T18:42:13Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T18:42:13Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T18:42:13Z"
+    name: traefik.1892f6c5d511cb18
+    namespace: traefik
+    resourceVersion: "23131110"
+    uid: 08dbca68-c95f-47ce-980b-b75eea78bc3e
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 3
+  eventTime: null
+  firstTimestamp: "2026-02-10T18:42:54Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T18:42:54Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T18:42:54Z"
+    name: traefik.1892f6cf64b5020a
+    namespace: traefik
+    resourceVersion: "23131228"
+    uid: 5c888544-453b-42cf-a375-a5f22af3e7e4
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 3
+  eventTime: null
+  firstTimestamp: "2026-02-10T18:48:36Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T18:48:37Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T18:48:37Z"
+    name: traefik.1892f71f39061b14
+    namespace: traefik
+    resourceVersion: "23132182"
+    uid: fbcb3f32-83a3-4540-be56-0af0b6b2f1f4
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 4
+  eventTime: null
+  firstTimestamp: "2026-02-10T18:49:14Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T18:49:14Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T18:49:14Z"
+    name: traefik.1892f727dd384932
+    namespace: traefik
+    resourceVersion: "23132299"
+    uid: ff11d3ea-d415-438c-96b3-bdf645e2730a
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 2
+  eventTime: null
+  firstTimestamp: "2026-02-10T18:54:55Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T18:54:56Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T18:54:55Z"
+    name: traefik.1892f7777550b028
+    namespace: traefik
+    resourceVersion: "23133246"
+    uid: ee0cf536-bf15-46ee-93b2-b1722f2fb93e
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 3
+  eventTime: null
+  firstTimestamp: "2026-02-10T18:55:34Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T18:55:34Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T18:55:34Z"
+    name: traefik.1892f78058002898
+    namespace: traefik
+    resourceVersion: "23133360"
+    uid: c966f926-9d3e-459d-8ae6-0b479bbdffd4
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 3
+  eventTime: null
+  firstTimestamp: "2026-02-10T19:01:14Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T19:01:15Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T19:01:15Z"
+    name: traefik.1892f7cfb59f5f01
+    namespace: traefik
+    resourceVersion: "23134311"
+    uid: ea4927a9-6c6a-438b-870d-a3dfa9a6c32b
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 3
+  eventTime: null
+  firstTimestamp: "2026-02-10T19:01:54Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T19:01:54Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T19:01:54Z"
+    name: traefik.1892f7d8d229d9cc
+    namespace: traefik
+    resourceVersion: "23134423"
+    uid: f9bd475d-6343-4d05-997c-ca14beb36e3b
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 3
+  eventTime: null
+  firstTimestamp: "2026-02-10T19:07:34Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T19:07:35Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T19:07:34Z"
+    name: traefik.1892f8282cdc50c5
+    namespace: traefik
+    resourceVersion: "23135376"
+    uid: 502a768a-b318-4322-8b4c-0084148bb9cb
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 3
+  eventTime: null
+  firstTimestamp: "2026-02-10T19:08:14Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T19:08:14Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T19:08:14Z"
+    name: traefik.1892f8314c3b15f6
+    namespace: traefik
+    resourceVersion: "23135492"
+    uid: 6d9c9efa-9916-4577-a8c0-01df93b78e6f
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 3
+  eventTime: null
+  firstTimestamp: "2026-02-10T19:13:55Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T19:13:56Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T19:13:55Z"
+    name: traefik.1892f880e386d285
+    namespace: traefik
+    resourceVersion: "23136442"
+    uid: 93bde4b7-b353-482b-b2e9-67cd54785df0
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 3
+  eventTime: null
+  firstTimestamp: "2026-02-10T19:14:34Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T19:14:34Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T19:14:34Z"
+    name: traefik.1892f889cb7249cf
+    namespace: traefik
+    resourceVersion: "23136557"
+    uid: 608e1191-11ae-46f8-b3be-cb77739d28bc
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 3
+  eventTime: null
+  firstTimestamp: "2026-02-10T19:20:26Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T19:20:27Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T19:20:26Z"
+    name: traefik.1892f8dbec645423
+    namespace: traefik
+    resourceVersion: "23137542"
+    uid: fe533619-c023-49d7-90f3-3e22e2168790
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 4
+  eventTime: null
+  firstTimestamp: "2026-02-10T19:21:04Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T19:21:04Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T19:21:04Z"
+    name: traefik.1892f8e49f45253a
+    namespace: traefik
+    resourceVersion: "23137649"
+    uid: a39c3fa0-1b03-4a2c-bf42-94c85c3125c7
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 4
+  eventTime: null
+  firstTimestamp: "2026-02-10T19:26:52Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T19:26:53Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T19:26:52Z"
+    name: traefik.1892f935cadfe5dd
+    namespace: traefik
+    resourceVersion: "23138621"
+    uid: ff4dcc09-5111-4e7d-9d34-40f259576dcf
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 3
+  eventTime: null
+  firstTimestamp: "2026-02-10T19:27:34Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T19:27:34Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T19:27:34Z"
+    name: traefik.1892f93f6d96501e
+    namespace: traefik
+    resourceVersion: "23138742"
+    uid: 025ddd67-1270-4110-b7b1-1a5bbeff4a2b
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 3
+  eventTime: null
+  firstTimestamp: "2026-02-10T19:33:14Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T19:33:15Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T19:33:14Z"
+    name: traefik.1892f98ebc862887
+    namespace: traefik
+    resourceVersion: "23139692"
+    uid: 3f1cb65e-ba77-40f4-a679-1b8e3b2e6feb
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 3
+  eventTime: null
+  firstTimestamp: "2026-02-10T19:33:54Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T19:33:54Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T19:33:54Z"
+    name: traefik.1892f997dc74b891
+    namespace: traefik
+    resourceVersion: "23139809"
+    uid: 9aa1e06d-c75a-4401-a854-d88d928c0956
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+- apiVersion: v1
+  count: 3
+  eventTime: null
+  firstTimestamp: "2026-02-10T19:39:38Z"
+  involvedObject:
+    apiVersion: v1
+    kind: Service
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  kind: Event
+  lastTimestamp: "2026-02-10T19:39:39Z"
+  message: announcing from node "hcp.kwiki.it.com" with protocol "layer2"
+  metadata:
+    creationTimestamp: "2026-02-10T19:39:38Z"
+    name: traefik.1892f9e824f707bc
+    namespace: traefik
+    resourceVersion: "23140767"
+    uid: ee5c10c4-8121-4f13-acc1-ed30f72d5007
+  reason: nodeAssigned
+  reportingComponent: metallb-speaker
+  reportingInstance: ""
+  source:
+    component: metallb-speaker
+  type: Normal
+kind: List
+metadata:
+  resourceVersion: ""

@@ -1,0 +1,35 @@
+apiVersion: v1
+items:
+- apiVersion: traefik.io/v1alpha1
+  kind: IngressRoute
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"traefik.io/v1alpha1","kind":"IngressRoute","metadata":{"annotations":{},"name":"kubernetes-dashboard","namespace":"kubernetes-dashboard"},"spec":{"entryPoints":["websecure"],"routes":[{"kind":"Rule","match":"Host(`k8s.kwiki.it.com`) \u0026\u0026 PathPrefix(`/api`)","services":[{"name":"kubernetes-dashboard-kong-proxy","port":443,"scheme":"https","serversTransport":"dash-insecure"}]},{"kind":"Rule","match":"Host(`k8s.kwiki.it.com`) \u0026\u0026 PathPrefix(`/`)","services":[{"name":"kubernetes-dashboard-web","port":8000}]}],"tls":{"certResolver":"le"}}}
+    creationTimestamp: "2025-10-27T14:11:03Z"
+    generation: 1
+    name: kubernetes-dashboard
+    namespace: kubernetes-dashboard
+    resourceVersion: "436360"
+    uid: f79ad654-03e1-4308-a4a4-69d8c4c2aab3
+  spec:
+    entryPoints:
+    - websecure
+    routes:
+    - kind: Rule
+      match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/api`)
+      services:
+      - name: kubernetes-dashboard-kong-proxy
+        port: 443
+        scheme: https
+        serversTransport: dash-insecure
+    - kind: Rule
+      match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/`)
+      services:
+      - name: kubernetes-dashboard-web
+        port: 8000
+    tls:
+      certResolver: le
+kind: List
+metadata:
+  resourceVersion: ""

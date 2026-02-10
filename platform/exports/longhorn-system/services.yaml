@@ -1,0 +1,153 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: longhorn
+      meta.helm.sh/release-namespace: longhorn-system
+    creationTimestamp: "2025-11-20T10:29:12Z"
+    labels:
+      app: longhorn-admission-webhook
+      app.kubernetes.io/instance: longhorn
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: longhorn
+      app.kubernetes.io/version: v1.10.1
+      helm.sh/chart: longhorn-1.10.1
+    name: longhorn-admission-webhook
+    namespace: longhorn-system
+    resourceVersion: "3365903"
+    uid: 81b8a03c-e86f-41a3-a96e-963fae3a99c2
+  spec:
+    clusterIP: 10.103.39.162
+    clusterIPs:
+    - 10.103.39.162
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: admission-webhook
+      port: 9502
+      protocol: TCP
+      targetPort: admission-wh
+    selector:
+      longhorn.io/admission-webhook: longhorn-admission-webhook
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: longhorn
+      meta.helm.sh/release-namespace: longhorn-system
+    creationTimestamp: "2025-11-20T10:29:12Z"
+    labels:
+      app: longhorn-manager
+      app.kubernetes.io/instance: longhorn
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: longhorn
+      app.kubernetes.io/version: v1.10.1
+      helm.sh/chart: longhorn-1.10.1
+    name: longhorn-backend
+    namespace: longhorn-system
+    resourceVersion: "3365911"
+    uid: 14a578ee-fcbc-4641-b7fa-b1e5deb0bff8
+  spec:
+    clusterIP: 10.104.105.144
+    clusterIPs:
+    - 10.104.105.144
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: manager
+      port: 9500
+      protocol: TCP
+      targetPort: manager
+    selector:
+      app: longhorn-manager
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: longhorn
+      meta.helm.sh/release-namespace: longhorn-system
+    creationTimestamp: "2025-11-20T10:29:12Z"
+    labels:
+      app: longhorn-ui
+      app.kubernetes.io/instance: longhorn
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: longhorn
+      app.kubernetes.io/version: v1.10.1
+      helm.sh/chart: longhorn-1.10.1
+    name: longhorn-frontend
+    namespace: longhorn-system
+    resourceVersion: "3365895"
+    uid: 8e14a0d4-f6af-4bb0-aee1-d108cceffd23
+  spec:
+    clusterIP: 10.103.32.234
+    clusterIPs:
+    - 10.103.32.234
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+    selector:
+      app: longhorn-ui
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: longhorn
+      meta.helm.sh/release-namespace: longhorn-system
+    creationTimestamp: "2025-11-20T10:29:12Z"
+    labels:
+      app: longhorn-recovery-backend
+      app.kubernetes.io/instance: longhorn
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: longhorn
+      app.kubernetes.io/version: v1.10.1
+      helm.sh/chart: longhorn-1.10.1
+    name: longhorn-recovery-backend
+    namespace: longhorn-system
+    resourceVersion: "3365891"
+    uid: 9368e367-3fa1-4f99-994f-4605c2c9a1d5
+  spec:
+    clusterIP: 10.97.119.212
+    clusterIPs:
+    - 10.97.119.212
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: recovery-backend
+      port: 9503
+      protocol: TCP
+      targetPort: recov-backend
+    selector:
+      longhorn.io/recovery-backend: longhorn-recovery-backend
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+kind: List
+metadata:
+  resourceVersion: ""

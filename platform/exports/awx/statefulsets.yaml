@@ -1,0 +1,141 @@
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: StatefulSet
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"apps/v1","kind":"StatefulSet","metadata":{"labels":{"app.kubernetes.io/component":"database","app.kubernetes.io/instance":"postgres-15-awx-kwiki","app.kubernetes.io/managed-by":"awx-operator","app.kubernetes.io/name":"postgres-15","app.kubernetes.io/operator-version":"2.19.1","app.kubernetes.io/part-of":"awx-kwiki"},"name":"awx-kwiki-postgres-15","namespace":"awx"},"spec":{"replicas":1,"selector":{"matchLabels":{"app.kubernetes.io/component":"database","app.kubernetes.io/instance":"postgres-15-awx-kwiki","app.kubernetes.io/managed-by":"awx-operator","app.kubernetes.io/name":"postgres-15"}},"serviceName":"awx-kwiki","template":{"metadata":{"labels":{"app.kubernetes.io/component":"database","app.kubernetes.io/instance":"postgres-15-awx-kwiki","app.kubernetes.io/managed-by":"awx-operator","app.kubernetes.io/name":"postgres-15","app.kubernetes.io/part-of":"awx-kwiki"}},"spec":{"containers":[{"env":[{"name":"POSTGRESQL_DATABASE","valueFrom":{"secretKeyRef":{"key":"database","name":"awx-kwiki-postgres-configuration"}}},{"name":"POSTGRESQL_USER","valueFrom":{"secretKeyRef":{"key":"username","name":"awx-kwiki-postgres-configuration"}}},{"name":"POSTGRESQL_PASSWORD","valueFrom":{"secretKeyRef":{"key":"password","name":"awx-kwiki-postgres-configuration"}}},{"name":"POSTGRES_DB","valueFrom":{"secretKeyRef":{"key":"database","name":"awx-kwiki-postgres-configuration"}}},{"name":"POSTGRES_USER","valueFrom":{"secretKeyRef":{"key":"username","name":"awx-kwiki-postgres-configuration"}}},{"name":"POSTGRES_PASSWORD","valueFrom":{"secretKeyRef":{"key":"password","name":"awx-kwiki-postgres-configuration"}}},{"name":"PGDATA","value":"/var/lib/pgsql/data/userdata"},{"name":"POSTGRES_INITDB_ARGS","value":"--auth-host=scram-sha-256"},{"name":"POSTGRES_HOST_AUTH_METHOD","value":"scram-sha-256"}],"image":"quay.io/sclorg/postgresql-15-c9s:latest","imagePullPolicy":"IfNotPresent","name":"postgres","ports":[{"containerPort":5432,"name":"postgres-15"}],"resources":{"requests":{"cpu":"10m","memory":"64Mi"}},"volumeMounts":[{"mountPath":"/var/lib/pgsql/data","name":"postgres-15","subPath":"data"}]}],"nodeSelector":{"awx-node":"arm"},"priorityClassName":""}},"updateStrategy":{"type":"RollingUpdate"},"volumeClaimTemplates":[{"metadata":{"name":"postgres-15"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"8Gi"}}}}]}}'
+    creationTimestamp: "2025-11-19T16:08:10Z"
+    generation: 2
+    labels:
+      app.kubernetes.io/component: database
+      app.kubernetes.io/instance: postgres-15-awx-kwiki
+      app.kubernetes.io/managed-by: awx-operator
+      app.kubernetes.io/name: postgres-15
+      app.kubernetes.io/operator-version: 2.19.1
+      app.kubernetes.io/part-of: awx-kwiki
+    name: awx-kwiki-postgres-15
+    namespace: awx
+    ownerReferences:
+    - apiVersion: awx.ansible.com/v1beta1
+      kind: AWX
+      name: awx-kwiki
+      uid: 0c76c8fc-9e96-4ff7-8b6c-9aac9fabce91
+    resourceVersion: "14635608"
+    uid: c9e9f04b-6602-40ba-a7a0-179e73277032
+  spec:
+    persistentVolumeClaimRetentionPolicy:
+      whenDeleted: Retain
+      whenScaled: Retain
+    podManagementPolicy: OrderedReady
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/component: database
+        app.kubernetes.io/instance: postgres-15-awx-kwiki
+        app.kubernetes.io/managed-by: awx-operator
+        app.kubernetes.io/name: postgres-15
+    serviceName: awx-kwiki
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: database
+          app.kubernetes.io/instance: postgres-15-awx-kwiki
+          app.kubernetes.io/managed-by: awx-operator
+          app.kubernetes.io/name: postgres-15
+          app.kubernetes.io/part-of: awx-kwiki
+      spec:
+        containers:
+        - env:
+          - name: POSTGRESQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                key: database
+                name: awx-kwiki-postgres-configuration
+          - name: POSTGRESQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: username
+                name: awx-kwiki-postgres-configuration
+          - name: POSTGRESQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: awx-kwiki-postgres-configuration
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                key: database
+                name: awx-kwiki-postgres-configuration
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                key: username
+                name: awx-kwiki-postgres-configuration
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: awx-kwiki-postgres-configuration
+          - name: PGDATA
+            value: /var/lib/pgsql/data/userdata
+          - name: POSTGRES_INITDB_ARGS
+            value: --auth-host=scram-sha-256
+          - name: POSTGRES_HOST_AUTH_METHOD
+            value: scram-sha-256
+          image: quay.io/sclorg/postgresql-15-c9s:latest
+          imagePullPolicy: IfNotPresent
+          name: postgres
+          ports:
+          - containerPort: 5432
+            name: postgres-15
+            protocol: TCP
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/pgsql/data
+            name: postgres-15
+            subPath: data
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          awx-node: arm
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    updateStrategy:
+      type: RollingUpdate
+    volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        creationTimestamp: null
+        name: postgres-15
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 8Gi
+        volumeMode: Filesystem
+      status:
+        phase: Pending
+  status:
+    availableReplicas: 1
+    collisionCount: 0
+    currentReplicas: 1
+    currentRevision: awx-kwiki-postgres-15-859c68f567
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updateRevision: awx-kwiki-postgres-15-859c68f567
+    updatedReplicas: 1
+kind: List
+metadata:
+  resourceVersion: ""

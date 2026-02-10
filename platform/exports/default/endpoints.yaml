@@ -1,0 +1,119 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-11-30T12:43:04Z"
+    creationTimestamp: "2025-11-30T12:43:04Z"
+    labels:
+      run: check-ip
+    name: check-ip-service
+    namespace: default
+    resourceVersion: "5797574"
+    uid: c62ad151-3814-410e-ad60-20d70449b9d1
+  subsets:
+  - addresses:
+    - ip: 10.244.101.182
+      nodeName: s231226.wholesaleinternet.net
+      targetRef:
+        kind: Pod
+        name: check-ip
+        namespace: default
+        uid: b2ad2906-49ec-498e-bbae-89d5f3668780
+    ports:
+    - port: 80
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-10-24T14:24:26Z"
+    creationTimestamp: "2025-10-24T14:24:26Z"
+    labels:
+      app: drone-server
+    name: droneserver
+    namespace: default
+    resourceVersion: "72823"
+    uid: f3538aac-fe90-437b-a1c2-27ee3e9b9fad
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-12-01T21:39:12Z"
+    creationTimestamp: "2025-12-01T21:39:12Z"
+    labels:
+      app: hello-node
+    name: hello-node
+    namespace: default
+    resourceVersion: "6118468"
+    uid: c85aa979-e82c-46e5-bb0c-2ef529ce7d56
+  subsets:
+  - addresses:
+    - ip: 10.244.101.183
+      nodeName: s231226.wholesaleinternet.net
+      targetRef:
+        kind: Pod
+        name: hello-node-5dfbcb764b-46n7m
+        namespace: default
+        uid: 654a39b3-d4bd-4ad0-9a13-e730b2859f0d
+    ports:
+    - port: 8080
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    creationTimestamp: "2025-10-24T00:53:07Z"
+    labels:
+      endpointslice.kubernetes.io/skip-mirror: "true"
+    name: kubernetes
+    namespace: default
+    resourceVersion: "240"
+    uid: de3b0cc6-d100-4f2f-b8c8-2ccd3aa7d11b
+  subsets:
+  - addresses:
+    - ip: 10.200.0.1
+    ports:
+    - name: https
+      port: 6443
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-10-24T16:06:16Z"
+    creationTimestamp: "2025-10-24T10:56:00Z"
+    name: whoami-service
+    namespace: default
+    resourceVersion: "82269"
+    uid: 35bbe253-a6e1-4724-abd1-de8f3b2cb9ce
+  subsets:
+  - addresses:
+    - ip: 10.244.101.139
+      nodeName: s231226.wholesaleinternet.net
+      targetRef:
+        kind: Pod
+        name: whoami-deployment-85f6bb67d6-xsgx4
+        namespace: default
+        uid: 310d4c7f-7e83-4896-b8ed-ad259fd9f0f1
+    - ip: 10.244.101.150
+      nodeName: s231226.wholesaleinternet.net
+      targetRef:
+        kind: Pod
+        name: whoami-deployment-85f6bb67d6-mdv4z
+        namespace: default
+        uid: d8ba7e6f-0c85-41bd-9034-29c356a9404a
+    - ip: 10.244.101.152
+      nodeName: s231226.wholesaleinternet.net
+      targetRef:
+        kind: Pod
+        name: whoami-deployment-85f6bb67d6-2zjbl
+        namespace: default
+        uid: 8e5008f5-7db1-460b-9f32-2a2d6e865e7f
+    ports:
+    - name: http
+      port: 80
+      protocol: TCP
+kind: List
+metadata:
+  resourceVersion: ""

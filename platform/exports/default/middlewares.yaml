@@ -1,0 +1,22 @@
+apiVersion: v1
+items:
+- apiVersion: traefik.io/v1alpha1
+  kind: Middleware
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"traefik.io/v1alpha1","kind":"Middleware","metadata":{"annotations":{},"name":"redirect-to-https","namespace":"default"},"spec":{"redirectScheme":{"permanent":true,"port":"443","scheme":"https"}}}
+    creationTimestamp: "2025-10-24T10:56:00Z"
+    generation: 1
+    name: redirect-to-https
+    namespace: default
+    resourceVersion: "53931"
+    uid: 9814ff4d-587e-49b0-9e7b-f1017d6391c9
+  spec:
+    redirectScheme:
+      permanent: true
+      port: "443"
+      scheme: https
+kind: List
+metadata:
+  resourceVersion: ""

@@ -1,0 +1,139 @@
+apiVersion: v1
+items:
+  - apiVersion: v1
+    kind: Namespace
+    metadata:
+      annotations: {}
+      labels:
+        control-plane: controller-manager
+        kubernetes.io/metadata.name: awx
+      name: awx
+    spec:
+      finalizers:
+        - kubernetes
+  - apiVersion: v1
+    kind: Namespace
+    metadata:
+      labels:
+        kubernetes.io/metadata.name: default
+      name: default
+    spec:
+      finalizers:
+        - kubernetes
+  - apiVersion: v1
+    kind: Namespace
+    metadata:
+      labels:
+        kubernetes.io/metadata.name: drone
+      name: drone
+    spec:
+      finalizers:
+        - kubernetes
+  - apiVersion: v1
+    kind: Namespace
+    metadata:
+      labels:
+        kubernetes.io/metadata.name: grafana
+      name: grafana
+    spec:
+      finalizers:
+        - kubernetes
+  - apiVersion: v1
+    kind: Namespace
+    metadata:
+      labels:
+        kubernetes.io/metadata.name: kube-node-lease
+      name: kube-node-lease
+    spec:
+      finalizers:
+        - kubernetes
+  - apiVersion: v1
+    kind: Namespace
+    metadata:
+      labels:
+        kubernetes.io/metadata.name: kube-public
+      name: kube-public
+    spec:
+      finalizers:
+        - kubernetes
+  - apiVersion: v1
+    kind: Namespace
+    metadata:
+      labels:
+        kubernetes.io/metadata.name: kube-system
+      name: kube-system
+    spec:
+      finalizers:
+        - kubernetes
+  - apiVersion: v1
+    kind: Namespace
+    metadata:
+      labels:
+        kubernetes.io/metadata.name: kubernetes-dashboard
+        name: kubernetes-dashboard
+      name: kubernetes-dashboard
+    spec:
+      finalizers:
+        - kubernetes
+  - apiVersion: v1
+    kind: Namespace
+    metadata:
+      annotations: {}
+      labels:
+        kubernetes.io/metadata.name: local-path-storage
+      name: local-path-storage
+    spec:
+      finalizers:
+        - kubernetes
+  - apiVersion: v1
+    kind: Namespace
+    metadata:
+      labels:
+        kubernetes.io/metadata.name: longhorn-system
+      name: longhorn-system
+    spec:
+      finalizers:
+        - kubernetes
+  - apiVersion: v1
+    kind: Namespace
+    metadata:
+      annotations: {}
+      labels:
+        kubernetes.io/metadata.name: metallb-system
+        pod-security.kubernetes.io/audit: privileged
+        pod-security.kubernetes.io/enforce: privileged
+        pod-security.kubernetes.io/warn: privileged
+      name: metallb-system
+    spec:
+      finalizers:
+        - kubernetes
+  - apiVersion: v1
+    kind: Namespace
+    metadata:
+      labels:
+        kubernetes.io/metadata.name: monitoring
+      name: monitoring
+    spec:
+      finalizers:
+        - kubernetes
+  - apiVersion: v1
+    kind: Namespace
+    metadata:
+      labels:
+        kubernetes.io/metadata.name: traefik
+        name: traefik
+      name: traefik
+    spec:
+      finalizers:
+        - kubernetes
+  - apiVersion: v1
+    kind: Namespace
+    metadata:
+      labels:
+        kubernetes.io/metadata.name: websites
+      name: websites
+    spec:
+      finalizers:
+        - kubernetes
+kind: List
+metadata: {}

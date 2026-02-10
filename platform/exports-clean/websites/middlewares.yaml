@@ -1,0 +1,50 @@
+apiVersion: v1
+items:
+  - apiVersion: traefik.io/v1alpha1
+    kind: Middleware
+    metadata:
+      annotations: {}
+      name: admin-headers
+      namespace: websites
+    spec:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+  - apiVersion: traefik.io/v1alpha1
+    kind: Middleware
+    metadata:
+      annotations: {}
+      name: admin-rate-limit
+      namespace: websites
+    spec:
+      rateLimit:
+        average: 5
+        burst: 10
+  - apiVersion: traefik.io/v1alpha1
+    kind: Middleware
+    metadata:
+      annotations: {}
+      name: hsts
+      namespace: websites
+    spec:
+      headers:
+        browserXssFilter: true
+        contentSecurityPolicy: 'default-src ''self''; base-uri ''self''; object-src ''none''; frame-ancestors ''none''; form-action ''self''; img-src ''self'' data: https://raw.githubusercontent.com; style-src ''self'' ''unsafe-inline''; script-src ''self'' ''unsafe-inline''; connect-src ''self'';'
+        contentTypeNosniff: true
+        frameDeny: true
+        referrerPolicy: strict-origin-when-cross-origin
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 31536000
+  - apiVersion: traefik.io/v1alpha1
+    kind: Middleware
+    metadata:
+      annotations: {}
+      name: https-redirect
+      namespace: websites
+    spec:
+      redirectScheme:
+        permanent: true
+        scheme: https
+kind: List
+metadata: {}

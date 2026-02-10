@@ -1,0 +1,84 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    creationTimestamp: "2025-11-19T16:08:10Z"
+    labels:
+      app.kubernetes.io/component: database
+      app.kubernetes.io/instance: postgres-15-awx-kwiki
+      app.kubernetes.io/managed-by: awx-operator
+      app.kubernetes.io/name: postgres-15
+      app.kubernetes.io/operator-version: 2.19.1
+      app.kubernetes.io/part-of: awx-kwiki
+      service.kubernetes.io/headless: ""
+    name: awx-kwiki-postgres-15
+    namespace: awx
+    resourceVersion: "14635607"
+    uid: 45753e1a-5676-4e6d-ba8f-1e4997571050
+  subsets:
+  - addresses:
+    - ip: 10.244.91.208
+      nodeName: hcp.kwiki.it.com
+      targetRef:
+        kind: Pod
+        name: awx-kwiki-postgres-15-0
+        namespace: awx
+        uid: b1fa727b-4d7f-4f91-8b34-775d6923e62d
+    ports:
+    - port: 5432
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    creationTimestamp: "2025-11-19T16:23:33Z"
+    labels:
+      app.kubernetes.io/component: awx
+      app.kubernetes.io/managed-by: awx-operator
+      app.kubernetes.io/operator-version: 2.19.1
+      app.kubernetes.io/part-of: awx-kwiki
+    name: awx-kwiki-service
+    namespace: awx
+    resourceVersion: "14635574"
+    uid: 113abddd-2c3a-4879-ad8a-83db90cb3441
+  subsets:
+  - addresses:
+    - ip: 10.244.91.212
+      nodeName: hcp.kwiki.it.com
+      targetRef:
+        kind: Pod
+        name: awx-kwiki-web-564cb9b4b8-wqdxc
+        namespace: awx
+        uid: 20443ad8-953b-4304-bcc9-bc64327b0cce
+    ports:
+    - name: http
+      port: 8052
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2026-02-09T18:18:14Z"
+    creationTimestamp: "2025-11-19T12:17:43Z"
+    labels:
+      control-plane: controller-manager
+    name: awx-operator-controller-manager-metrics-service
+    namespace: awx
+    resourceVersion: "22884824"
+    uid: 5f2c4060-6b9e-4035-8138-72385a28ccd1
+  subsets:
+  - addresses:
+    - ip: 10.244.91.196
+      nodeName: hcp.kwiki.it.com
+      targetRef:
+        kind: Pod
+        name: awx-operator-controller-manager-db4bbd599-thpbh
+        namespace: awx
+        uid: 847ceeaf-6057-4245-af36-7d6d109d6c08
+    ports:
+    - name: https
+      port: 8443
+      protocol: TCP
+kind: List
+metadata:
+  resourceVersion: ""

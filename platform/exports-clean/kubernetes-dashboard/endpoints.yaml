@@ -1,0 +1,132 @@
+apiVersion: v1
+items:
+  - apiVersion: v1
+    kind: Endpoints
+    metadata:
+      labels:
+        app.kubernetes.io/component: api
+        app.kubernetes.io/instance: kubernetes-dashboard
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kubernetes-dashboard-api
+        app.kubernetes.io/part-of: kubernetes-dashboard
+        app.kubernetes.io/version: 1.13.0
+        helm.sh/chart: kubernetes-dashboard-7.13.0
+      name: kubernetes-dashboard-api
+      namespace: kubernetes-dashboard
+    subsets:
+      - addresses:
+          - ip: 10.244.91.214
+            nodeName: hcp.kwiki.it.com
+            targetRef:
+              kind: Pod
+              name: kubernetes-dashboard-api-7ddb6446fb-w9zrq
+              namespace: kubernetes-dashboard
+              uid: 5b5375c3-7c37-404e-adb9-d4e921102ade
+        ports:
+          - name: api
+            port: 8000
+            protocol: TCP
+  - apiVersion: v1
+    kind: Endpoints
+    metadata:
+      labels:
+        app.kubernetes.io/component: auth
+        app.kubernetes.io/instance: kubernetes-dashboard
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kubernetes-dashboard-auth
+        app.kubernetes.io/part-of: kubernetes-dashboard
+        app.kubernetes.io/version: 1.3.0
+        helm.sh/chart: kubernetes-dashboard-7.13.0
+      name: kubernetes-dashboard-auth
+      namespace: kubernetes-dashboard
+    subsets:
+      - addresses:
+          - ip: 10.244.91.211
+            nodeName: hcp.kwiki.it.com
+            targetRef:
+              kind: Pod
+              name: kubernetes-dashboard-auth-7865d8bb5b-hhr6r
+              namespace: kubernetes-dashboard
+              uid: 41adb8b7-9281-41b0-904f-c8b85e24a58d
+        ports:
+          - name: auth
+            port: 8000
+            protocol: TCP
+  - apiVersion: v1
+    kind: Endpoints
+    metadata:
+      labels:
+        app.kubernetes.io/instance: kubernetes-dashboard
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kong
+        app.kubernetes.io/version: "3.8"
+        enable-metrics: "true"
+        helm.sh/chart: kong-2.46.0
+      name: kubernetes-dashboard-kong-proxy
+      namespace: kubernetes-dashboard
+    subsets:
+      - addresses:
+          - ip: 10.244.91.201
+            nodeName: hcp.kwiki.it.com
+            targetRef:
+              kind: Pod
+              name: kubernetes-dashboard-kong-678c76c548-rxmqs
+              namespace: kubernetes-dashboard
+              uid: 96fafbc8-5276-4012-84f1-2377a0a51ef5
+        ports:
+          - name: kong-proxy-tls
+            port: 8443
+            protocol: TCP
+  - apiVersion: v1
+    kind: Endpoints
+    metadata:
+      labels:
+        app.kubernetes.io/component: metrics-scraper
+        app.kubernetes.io/instance: kubernetes-dashboard
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kubernetes-dashboard-metrics-scraper
+        app.kubernetes.io/part-of: kubernetes-dashboard
+        app.kubernetes.io/version: 1.2.2
+        helm.sh/chart: kubernetes-dashboard-7.13.0
+      name: kubernetes-dashboard-metrics-scraper
+      namespace: kubernetes-dashboard
+    subsets:
+      - addresses:
+          - ip: 10.244.91.200
+            nodeName: hcp.kwiki.it.com
+            targetRef:
+              kind: Pod
+              name: kubernetes-dashboard-metrics-scraper-f89cd6b87-pq4vw
+              namespace: kubernetes-dashboard
+              uid: 135ed989-432e-48dc-aee3-be75a974f63d
+        ports:
+          - port: 8000
+            protocol: TCP
+  - apiVersion: v1
+    kind: Endpoints
+    metadata:
+      labels:
+        app.kubernetes.io/component: web
+        app.kubernetes.io/instance: kubernetes-dashboard
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kubernetes-dashboard-web
+        app.kubernetes.io/part-of: kubernetes-dashboard
+        app.kubernetes.io/version: 1.7.0
+        helm.sh/chart: kubernetes-dashboard-7.13.0
+      name: kubernetes-dashboard-web
+      namespace: kubernetes-dashboard
+    subsets:
+      - addresses:
+          - ip: 10.244.91.220
+            nodeName: hcp.kwiki.it.com
+            targetRef:
+              kind: Pod
+              name: kubernetes-dashboard-web-6994d58b9d-m6pqj
+              namespace: kubernetes-dashboard
+              uid: 8db301c9-0e68-40bc-b082-34836d75f82f
+        ports:
+          - name: web
+            port: 8000
+            protocol: TCP
+kind: List
+metadata: {}

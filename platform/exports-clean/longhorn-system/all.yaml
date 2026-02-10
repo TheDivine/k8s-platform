@@ -1,0 +1,5051 @@
+apiVersion: v1
+items:
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: d2fd4bc21f997a412d5fd3a380bd84521fa4bcd04c790049d96535023b204da4
+        cni.projectcalico.org/podIP: 10.244.101.163/32
+        cni.projectcalico.org/podIPs: 10.244.101.163/32
+      generateName: csi-attacher-669bb4b589-
+      labels:
+        app: csi-attacher
+        pod-template-hash: 669bb4b589
+      name: csi-attacher-669bb4b589-cckn4
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: csi-attacher-669bb4b589
+          uid: d136d263-c7cf-4882-9df8-6b0693156c5a
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - csi-attacher
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      containers:
+        - args:
+            - --v=2
+            - --csi-address=$(ADDRESS)
+            - --timeout=1m50s
+            - --leader-election
+            - --leader-election-namespace=$(POD_NAMESPACE)
+            - --kube-api-qps=50
+            - --kube-api-burst=100
+            - --http-endpoint=:8000
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          image: longhornio/csi-attacher:v4.10.0-20251030
+          imagePullPolicy: IfNotPresent
+          name: csi-attacher
+          ports:
+            - containerPort: 8000
+              name: csi-attacher
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-zzzfw
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/driver.longhorn.io
+            type: DirectoryOrCreate
+          name: socket-dir
+        - name: kube-api-access-zzzfw
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: b198f3d6714fda13ed66b20693972ec67a697f30f66e6183662581562d7ba9d2
+        cni.projectcalico.org/podIP: 10.244.91.221/32
+        cni.projectcalico.org/podIPs: 10.244.91.221/32
+      generateName: csi-attacher-669bb4b589-
+      labels:
+        app: csi-attacher
+        pod-template-hash: 669bb4b589
+      name: csi-attacher-669bb4b589-m55w2
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: csi-attacher-669bb4b589
+          uid: d136d263-c7cf-4882-9df8-6b0693156c5a
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - csi-attacher
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      containers:
+        - args:
+            - --v=2
+            - --csi-address=$(ADDRESS)
+            - --timeout=1m50s
+            - --leader-election
+            - --leader-election-namespace=$(POD_NAMESPACE)
+            - --kube-api-qps=50
+            - --kube-api-burst=100
+            - --http-endpoint=:8000
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          image: longhornio/csi-attacher:v4.10.0-20251030
+          imagePullPolicy: IfNotPresent
+          name: csi-attacher
+          ports:
+            - containerPort: 8000
+              name: csi-attacher
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-cn4vx
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: hcp.kwiki.it.com
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/driver.longhorn.io
+            type: DirectoryOrCreate
+          name: socket-dir
+        - name: kube-api-access-cn4vx
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: da2971785d71380e089e55b780e074a841cfeab5ffdedbc35943f5cd862c91f3
+        cni.projectcalico.org/podIP: 10.244.101.166/32
+        cni.projectcalico.org/podIPs: 10.244.101.166/32
+      generateName: csi-attacher-669bb4b589-
+      labels:
+        app: csi-attacher
+        pod-template-hash: 669bb4b589
+      name: csi-attacher-669bb4b589-rg8kc
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: csi-attacher-669bb4b589
+          uid: d136d263-c7cf-4882-9df8-6b0693156c5a
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - csi-attacher
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      containers:
+        - args:
+            - --v=2
+            - --csi-address=$(ADDRESS)
+            - --timeout=1m50s
+            - --leader-election
+            - --leader-election-namespace=$(POD_NAMESPACE)
+            - --kube-api-qps=50
+            - --kube-api-burst=100
+            - --http-endpoint=:8000
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          image: longhornio/csi-attacher:v4.10.0-20251030
+          imagePullPolicy: IfNotPresent
+          name: csi-attacher
+          ports:
+            - containerPort: 8000
+              name: csi-attacher
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-c2b4q
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/driver.longhorn.io
+            type: DirectoryOrCreate
+          name: socket-dir
+        - name: kube-api-access-c2b4q
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 5fda339276c9dd635803b8557f21554a17059ddb9cc318a0584ea9554f4f45a7
+        cni.projectcalico.org/podIP: 10.244.101.164/32
+        cni.projectcalico.org/podIPs: 10.244.101.164/32
+      generateName: csi-provisioner-7b88844f9b-
+      labels:
+        app: csi-provisioner
+        pod-template-hash: 7b88844f9b
+      name: csi-provisioner-7b88844f9b-gf6gs
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: csi-provisioner-7b88844f9b
+          uid: bf1c4b34-e114-4e2a-a6f7-edc9c62c455e
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - csi-provisioner
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      containers:
+        - args:
+            - --v=2
+            - --csi-address=$(ADDRESS)
+            - --timeout=1m50s
+            - --leader-election
+            - --leader-election-namespace=$(POD_NAMESPACE)
+            - --default-fstype=ext4
+            - --enable-capacity
+            - --capacity-ownerref-level=2
+            - --kube-api-qps=50
+            - --kube-api-burst=100
+            - --http-endpoint=:8000
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          image: longhornio/csi-provisioner:v5.3.0-20251030
+          imagePullPolicy: IfNotPresent
+          name: csi-provisioner
+          ports:
+            - containerPort: 8000
+              name: csi-provisioner
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-lwcvl
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/driver.longhorn.io
+            type: DirectoryOrCreate
+          name: socket-dir
+        - name: kube-api-access-lwcvl
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: ea77ca0abcc136a1c62a05e55e3acd92b1386416ce05a17a3147fbfe8c95b428
+        cni.projectcalico.org/podIP: 10.244.101.165/32
+        cni.projectcalico.org/podIPs: 10.244.101.165/32
+      generateName: csi-provisioner-7b88844f9b-
+      labels:
+        app: csi-provisioner
+        pod-template-hash: 7b88844f9b
+      name: csi-provisioner-7b88844f9b-j6wd4
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: csi-provisioner-7b88844f9b
+          uid: bf1c4b34-e114-4e2a-a6f7-edc9c62c455e
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - csi-provisioner
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      containers:
+        - args:
+            - --v=2
+            - --csi-address=$(ADDRESS)
+            - --timeout=1m50s
+            - --leader-election
+            - --leader-election-namespace=$(POD_NAMESPACE)
+            - --default-fstype=ext4
+            - --enable-capacity
+            - --capacity-ownerref-level=2
+            - --kube-api-qps=50
+            - --kube-api-burst=100
+            - --http-endpoint=:8000
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          image: longhornio/csi-provisioner:v5.3.0-20251030
+          imagePullPolicy: IfNotPresent
+          name: csi-provisioner
+          ports:
+            - containerPort: 8000
+              name: csi-provisioner
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-rcc2t
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/driver.longhorn.io
+            type: DirectoryOrCreate
+          name: socket-dir
+        - name: kube-api-access-rcc2t
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 7c979c0becd05baf71be4ab8f0f4cd8e968aa40ed787b630bb091cf1624e4eaf
+        cni.projectcalico.org/podIP: 10.244.91.209/32
+        cni.projectcalico.org/podIPs: 10.244.91.209/32
+      generateName: csi-provisioner-7b88844f9b-
+      labels:
+        app: csi-provisioner
+        pod-template-hash: 7b88844f9b
+      name: csi-provisioner-7b88844f9b-lf6c2
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: csi-provisioner-7b88844f9b
+          uid: bf1c4b34-e114-4e2a-a6f7-edc9c62c455e
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - csi-provisioner
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      containers:
+        - args:
+            - --v=2
+            - --csi-address=$(ADDRESS)
+            - --timeout=1m50s
+            - --leader-election
+            - --leader-election-namespace=$(POD_NAMESPACE)
+            - --default-fstype=ext4
+            - --enable-capacity
+            - --capacity-ownerref-level=2
+            - --kube-api-qps=50
+            - --kube-api-burst=100
+            - --http-endpoint=:8000
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          image: longhornio/csi-provisioner:v5.3.0-20251030
+          imagePullPolicy: IfNotPresent
+          name: csi-provisioner
+          ports:
+            - containerPort: 8000
+              name: csi-provisioner
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-67dp2
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: hcp.kwiki.it.com
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/driver.longhorn.io
+            type: DirectoryOrCreate
+          name: socket-dir
+        - name: kube-api-access-67dp2
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 9936ec66896e508c89a5a3af74dbc17d5392106e434e446aea32c139ef357b8e
+        cni.projectcalico.org/podIP: 10.244.101.167/32
+        cni.projectcalico.org/podIPs: 10.244.101.167/32
+      generateName: csi-resizer-689c8c44c4-
+      labels:
+        app: csi-resizer
+        pod-template-hash: 689c8c44c4
+      name: csi-resizer-689c8c44c4-ltdq9
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: csi-resizer-689c8c44c4
+          uid: ca720ee2-0d78-4a9d-bd63-5ab215839ca2
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - csi-resizer
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      containers:
+        - args:
+            - --v=2
+            - --csi-address=$(ADDRESS)
+            - --timeout=1m50s
+            - --leader-election
+            - --leader-election-namespace=$(POD_NAMESPACE)
+            - --leader-election-namespace=$(POD_NAMESPACE)
+            - --kube-api-qps=50
+            - --kube-api-burst=100
+            - --http-endpoint=:8000
+            - --handle-volume-inuse-error=false
+            - --feature-gates=RecoverVolumeExpansionFailure=false
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          image: longhornio/csi-resizer:v1.14.0-20251030
+          imagePullPolicy: IfNotPresent
+          name: csi-resizer
+          ports:
+            - containerPort: 8000
+              name: csi-resizer
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-kkxvk
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/driver.longhorn.io
+            type: DirectoryOrCreate
+          name: socket-dir
+        - name: kube-api-access-kkxvk
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 5510602ec170401ae17905c09f258aa6f98d00e281a0a705988e05270ba7da6f
+        cni.projectcalico.org/podIP: 10.244.91.213/32
+        cni.projectcalico.org/podIPs: 10.244.91.213/32
+      generateName: csi-resizer-689c8c44c4-
+      labels:
+        app: csi-resizer
+        pod-template-hash: 689c8c44c4
+      name: csi-resizer-689c8c44c4-r8tph
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: csi-resizer-689c8c44c4
+          uid: ca720ee2-0d78-4a9d-bd63-5ab215839ca2
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - csi-resizer
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      containers:
+        - args:
+            - --v=2
+            - --csi-address=$(ADDRESS)
+            - --timeout=1m50s
+            - --leader-election
+            - --leader-election-namespace=$(POD_NAMESPACE)
+            - --leader-election-namespace=$(POD_NAMESPACE)
+            - --kube-api-qps=50
+            - --kube-api-burst=100
+            - --http-endpoint=:8000
+            - --handle-volume-inuse-error=false
+            - --feature-gates=RecoverVolumeExpansionFailure=false
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          image: longhornio/csi-resizer:v1.14.0-20251030
+          imagePullPolicy: IfNotPresent
+          name: csi-resizer
+          ports:
+            - containerPort: 8000
+              name: csi-resizer
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-dld8h
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: hcp.kwiki.it.com
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/driver.longhorn.io
+            type: DirectoryOrCreate
+          name: socket-dir
+        - name: kube-api-access-dld8h
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: aeedc05eb3991241f4570b1afc8c1ae6b2a31dbb5a2bd87268b2e73ed2d273a2
+        cni.projectcalico.org/podIP: 10.244.101.171/32
+        cni.projectcalico.org/podIPs: 10.244.101.171/32
+      generateName: csi-resizer-689c8c44c4-
+      labels:
+        app: csi-resizer
+        pod-template-hash: 689c8c44c4
+      name: csi-resizer-689c8c44c4-rlkv4
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: csi-resizer-689c8c44c4
+          uid: ca720ee2-0d78-4a9d-bd63-5ab215839ca2
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - csi-resizer
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      containers:
+        - args:
+            - --v=2
+            - --csi-address=$(ADDRESS)
+            - --timeout=1m50s
+            - --leader-election
+            - --leader-election-namespace=$(POD_NAMESPACE)
+            - --leader-election-namespace=$(POD_NAMESPACE)
+            - --kube-api-qps=50
+            - --kube-api-burst=100
+            - --http-endpoint=:8000
+            - --handle-volume-inuse-error=false
+            - --feature-gates=RecoverVolumeExpansionFailure=false
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          image: longhornio/csi-resizer:v1.14.0-20251030
+          imagePullPolicy: IfNotPresent
+          name: csi-resizer
+          ports:
+            - containerPort: 8000
+              name: csi-resizer
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-wj2fv
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/driver.longhorn.io
+            type: DirectoryOrCreate
+          name: socket-dir
+        - name: kube-api-access-wj2fv
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 1a34a4de203089cfcef074ffb2a4f02b9e7ec5b87ad5b50a58a4a853ec587323
+        cni.projectcalico.org/podIP: 10.244.101.169/32
+        cni.projectcalico.org/podIPs: 10.244.101.169/32
+      generateName: csi-snapshotter-97674b9f-
+      labels:
+        app: csi-snapshotter
+        pod-template-hash: 97674b9f
+      name: csi-snapshotter-97674b9f-9khn5
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: csi-snapshotter-97674b9f
+          uid: 11c57708-e84b-495c-98c5-c7db7b2a9d4a
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - csi-snapshotter
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      containers:
+        - args:
+            - --v=2
+            - --csi-address=$(ADDRESS)
+            - --timeout=1m50s
+            - --leader-election
+            - --leader-election-namespace=$(POD_NAMESPACE)
+            - --kube-api-qps=50
+            - --kube-api-burst=100
+            - --http-endpoint=:8000
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          image: longhornio/csi-snapshotter:v8.4.0-20251030
+          imagePullPolicy: IfNotPresent
+          name: csi-snapshotter
+          ports:
+            - containerPort: 8000
+              name: csi-snapshotter
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-px5v6
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/driver.longhorn.io
+            type: DirectoryOrCreate
+          name: socket-dir
+        - name: kube-api-access-px5v6
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: d023a993dffa2568731e2b6f0267abc36572f5d3c603a80f9bd5cb4897289217
+        cni.projectcalico.org/podIP: 10.244.101.168/32
+        cni.projectcalico.org/podIPs: 10.244.101.168/32
+      generateName: csi-snapshotter-97674b9f-
+      labels:
+        app: csi-snapshotter
+        pod-template-hash: 97674b9f
+      name: csi-snapshotter-97674b9f-rs97k
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: csi-snapshotter-97674b9f
+          uid: 11c57708-e84b-495c-98c5-c7db7b2a9d4a
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - csi-snapshotter
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      containers:
+        - args:
+            - --v=2
+            - --csi-address=$(ADDRESS)
+            - --timeout=1m50s
+            - --leader-election
+            - --leader-election-namespace=$(POD_NAMESPACE)
+            - --kube-api-qps=50
+            - --kube-api-burst=100
+            - --http-endpoint=:8000
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          image: longhornio/csi-snapshotter:v8.4.0-20251030
+          imagePullPolicy: IfNotPresent
+          name: csi-snapshotter
+          ports:
+            - containerPort: 8000
+              name: csi-snapshotter
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-xctgn
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/driver.longhorn.io
+            type: DirectoryOrCreate
+          name: socket-dir
+        - name: kube-api-access-xctgn
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: d2651047eefe03bed8f1bb3c7be209fc89a907114faa9ac8f022b0a003615c03
+        cni.projectcalico.org/podIP: 10.244.91.206/32
+        cni.projectcalico.org/podIPs: 10.244.91.206/32
+      generateName: csi-snapshotter-97674b9f-
+      labels:
+        app: csi-snapshotter
+        pod-template-hash: 97674b9f
+      name: csi-snapshotter-97674b9f-tvsz8
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: csi-snapshotter-97674b9f
+          uid: 11c57708-e84b-495c-98c5-c7db7b2a9d4a
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - csi-snapshotter
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      containers:
+        - args:
+            - --v=2
+            - --csi-address=$(ADDRESS)
+            - --timeout=1m50s
+            - --leader-election
+            - --leader-election-namespace=$(POD_NAMESPACE)
+            - --kube-api-qps=50
+            - --kube-api-burst=100
+            - --http-endpoint=:8000
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          image: longhornio/csi-snapshotter:v8.4.0-20251030
+          imagePullPolicy: IfNotPresent
+          name: csi-snapshotter
+          ports:
+            - containerPort: 8000
+              name: csi-snapshotter
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-bpnhw
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: hcp.kwiki.it.com
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/driver.longhorn.io
+            type: DirectoryOrCreate
+          name: socket-dir
+        - name: kube-api-access-bpnhw
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 18b046739e668c5115f563a9982c9134d72553c855acc42c1a1465b15f3ad00d
+        cni.projectcalico.org/podIP: 10.244.91.198/32
+        cni.projectcalico.org/podIPs: 10.244.91.198/32
+      generateName: engine-image-ei-3154f3aa-
+      labels:
+        controller-revision-hash: 5f5c6d6b8c
+        longhorn.io/component: engine-image
+        longhorn.io/engine-image: ei-3154f3aa
+        pod-template-generation: "1"
+      name: engine-image-ei-3154f3aa-5mhkn
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: DaemonSet
+          name: engine-image-ei-3154f3aa
+          uid: 41d5edd3-7d35-4a7a-b0e1-d526d4033a78
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchFields:
+                  - key: metadata.name
+                    operator: In
+                    values:
+                      - hcp.kwiki.it.com
+      containers:
+        - args:
+            - -c
+            - diff /usr/local/bin/longhorn /data/longhorn > /dev/null 2>&1; if [ $? -ne 0 ]; then cp -p /usr/local/bin/longhorn /data/ && echo installed; fi && trap 'rm /data/longhorn* && echo cleaned up' EXIT && sleep infinity
+          command:
+            - /bin/bash
+          image: longhornio/longhorn-engine:v1.10.1
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - /data/longhorn version --client-only
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 4
+          name: engine-image-ei-3154f3aa
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - ls /data/longhorn && /data/longhorn version --client-only
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 4
+          resources: {}
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /data/
+              name: data
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-6knvl
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: hcp.kwiki.it.com
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/disk-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/memory-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/pid-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/unschedulable
+          operator: Exists
+      volumes:
+        - hostPath:
+            path: /var/lib/longhorn/engine-binaries/longhornio-longhorn-engine-v1.10.1
+            type: ""
+          name: data
+        - name: kube-api-access-6knvl
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: fb4aa6b192186445c9a40aa981b9834a064c2b2dfc3f89010dd69dc1ed00813d
+        cni.projectcalico.org/podIP: 10.244.101.160/32
+        cni.projectcalico.org/podIPs: 10.244.101.160/32
+      generateName: engine-image-ei-3154f3aa-
+      labels:
+        controller-revision-hash: 5f5c6d6b8c
+        longhorn.io/component: engine-image
+        longhorn.io/engine-image: ei-3154f3aa
+        pod-template-generation: "1"
+      name: engine-image-ei-3154f3aa-xrvvd
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: DaemonSet
+          name: engine-image-ei-3154f3aa
+          uid: 41d5edd3-7d35-4a7a-b0e1-d526d4033a78
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchFields:
+                  - key: metadata.name
+                    operator: In
+                    values:
+                      - s231226.wholesaleinternet.net
+      containers:
+        - args:
+            - -c
+            - diff /usr/local/bin/longhorn /data/longhorn > /dev/null 2>&1; if [ $? -ne 0 ]; then cp -p /usr/local/bin/longhorn /data/ && echo installed; fi && trap 'rm /data/longhorn* && echo cleaned up' EXIT && sleep infinity
+          command:
+            - /bin/bash
+          image: longhornio/longhorn-engine:v1.10.1
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - /data/longhorn version --client-only
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 4
+          name: engine-image-ei-3154f3aa
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - ls /data/longhorn && /data/longhorn version --client-only
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 4
+          resources: {}
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /data/
+              name: data
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-85wzb
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/disk-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/memory-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/pid-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/unschedulable
+          operator: Exists
+      volumes:
+        - hostPath:
+            path: /var/lib/longhorn/engine-binaries/longhornio-longhorn-engine-v1.10.1
+            type: ""
+          name: data
+        - name: kube-api-access-85wzb
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 4d7ba533567112e78d45315e17d03b5fd5d99568d9959d5ed5d430cd21d673e9
+        cni.projectcalico.org/podIP: 10.244.91.205/32
+        cni.projectcalico.org/podIPs: 10.244.91.205/32
+        longhorn.io/last-applied-tolerations: '[]'
+      labels:
+        longhorn.io/component: instance-manager
+        longhorn.io/data-engine: v1
+        longhorn.io/instance-manager-image: imi-9fecca02
+        longhorn.io/instance-manager-type: aio
+        longhorn.io/managed-by: longhorn-manager
+        longhorn.io/node: hcp.kwiki.it.com
+      name: instance-manager-2d3d95b56f4b45f5d5ed53608658827c
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: longhorn.io/v1beta2
+          blockOwnerDeletion: true
+          controller: true
+          kind: InstanceManager
+          name: instance-manager-2d3d95b56f4b45f5d5ed53608658827c
+          uid: b89f1771-a704-4ef7-8682-26db8f45f770
+    spec:
+      containers:
+        - args:
+            - instance-manager
+            - --debug
+            - daemon
+            - --listen
+            - :8500
+          env:
+            - name: TLS_DIR
+              value: /tls-files/
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
+            - name: DATA_ENGINE
+              value: v1
+          image: longhornio/longhorn-instance-manager:v1.10.1
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - test $(nc -zv localhost 8500 > /dev/null 2>&1 && nc -zv localhost 8501 > /dev/null 2>&1 && nc -zv localhost 8502 > /dev/null 2>&1 && nc -zv localhost 8503 > /dev/null 2>&1; echo $?) -eq 0
+            failureThreshold: 6
+            initialDelaySeconds: 3
+            periodSeconds: 11
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: instance-manager
+          resources:
+            requests:
+              cpu: 480m
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /host
+              mountPropagation: HostToContainer
+              name: host
+            - mountPath: /engine-binaries/
+              mountPropagation: HostToContainer
+              name: engine-binaries
+            - mountPath: /host/var/lib/longhorn/unix-domain-socket/
+              name: unix-domain-socket
+            - mountPath: /tls-files/
+              name: longhorn-grpc-tls
+            - mountPath: /log
+              mountPropagation: HostToContainer
+              name: log
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-wgcxl
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: hcp.kwiki.it.com
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - hostPath:
+            path: /
+            type: ""
+          name: host
+        - hostPath:
+            path: /var/lib/longhorn/engine-binaries/
+            type: ""
+          name: engine-binaries
+        - hostPath:
+            path: /var/lib/longhorn/unix-domain-socket/
+            type: ""
+          name: unix-domain-socket
+        - name: longhorn-grpc-tls
+          secret:
+            defaultMode: 420
+            optional: true
+            secretName: longhorn-grpc-tls
+        - hostPath:
+            path: /var/lib/longhorn/logs
+            type: DirectoryOrCreate
+          name: log
+        - name: kube-api-access-wgcxl
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 92e53ecb4a0b63b0a29fae62c53674804b1265d53c541dff5777f08adec7efd9
+        cni.projectcalico.org/podIP: 10.244.101.161/32
+        cni.projectcalico.org/podIPs: 10.244.101.161/32
+        longhorn.io/last-applied-tolerations: '[]'
+      labels:
+        longhorn.io/component: instance-manager
+        longhorn.io/data-engine: v1
+        longhorn.io/instance-manager-image: imi-9fecca02
+        longhorn.io/instance-manager-type: aio
+        longhorn.io/managed-by: longhorn-manager
+        longhorn.io/node: s231226.wholesaleinternet.net
+      name: instance-manager-c1f5d2159fe6bd69ddea82a3ecbf228e
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: longhorn.io/v1beta2
+          blockOwnerDeletion: true
+          controller: true
+          kind: InstanceManager
+          name: instance-manager-c1f5d2159fe6bd69ddea82a3ecbf228e
+          uid: 6c8cbd96-e4db-4d30-bfa2-23d7856d5042
+    spec:
+      containers:
+        - args:
+            - instance-manager
+            - --debug
+            - daemon
+            - --listen
+            - :8500
+          env:
+            - name: TLS_DIR
+              value: /tls-files/
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
+            - name: DATA_ENGINE
+              value: v1
+          image: longhornio/longhorn-instance-manager:v1.10.1
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - test $(nc -zv localhost 8500 > /dev/null 2>&1 && nc -zv localhost 8501 > /dev/null 2>&1 && nc -zv localhost 8502 > /dev/null 2>&1 && nc -zv localhost 8503 > /dev/null 2>&1; echo $?) -eq 0
+            failureThreshold: 6
+            initialDelaySeconds: 3
+            periodSeconds: 11
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: instance-manager
+          resources:
+            requests:
+              cpu: 960m
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /host
+              mountPropagation: HostToContainer
+              name: host
+            - mountPath: /engine-binaries/
+              mountPropagation: HostToContainer
+              name: engine-binaries
+            - mountPath: /host/var/lib/longhorn/unix-domain-socket/
+              name: unix-domain-socket
+            - mountPath: /tls-files/
+              name: longhorn-grpc-tls
+            - mountPath: /log
+              mountPropagation: HostToContainer
+              name: log
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-dl69c
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - hostPath:
+            path: /
+            type: ""
+          name: host
+        - hostPath:
+            path: /var/lib/longhorn/engine-binaries/
+            type: ""
+          name: engine-binaries
+        - hostPath:
+            path: /var/lib/longhorn/unix-domain-socket/
+            type: ""
+          name: unix-domain-socket
+        - name: longhorn-grpc-tls
+          secret:
+            defaultMode: 420
+            optional: true
+            secretName: longhorn-grpc-tls
+        - hostPath:
+            path: /var/lib/longhorn/logs
+            type: DirectoryOrCreate
+          name: log
+        - name: kube-api-access-dl69c
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 724cc48d103dca3c2aadf2821438409be50411c5a6b2a0934d668718819781de
+        cni.projectcalico.org/podIP: 10.244.91.203/32
+        cni.projectcalico.org/podIPs: 10.244.91.203/32
+      generateName: longhorn-csi-plugin-
+      labels:
+        app: longhorn-csi-plugin
+        controller-revision-hash: f6d67bc85
+        pod-template-generation: "1"
+      name: longhorn-csi-plugin-2svvf
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: DaemonSet
+          name: longhorn-csi-plugin
+          uid: 03ac3096-c4d7-40b2-ab54-41460a432efe
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchFields:
+                  - key: metadata.name
+                    operator: In
+                    values:
+                      - hcp.kwiki.it.com
+      containers:
+        - args:
+            - --v=2
+            - --csi-address=$(ADDRESS)
+            - --kubelet-registration-path=/var/lib/kubelet/plugins/driver.longhorn.io/csi.sock
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+          image: longhornio/csi-node-driver-registrar:v2.15.0-20251030
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - rm -rf /registration/driver.longhorn.io /registration/driver.longhorn.io-reg.sock /csi//*
+          name: node-driver-registrar
+          resources: {}
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /registration
+              name: registration-dir
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-jjlfz
+              readOnly: true
+        - args:
+            - --v=4
+            - --csi-address=/csi/csi.sock
+          image: longhornio/livenessprobe:v2.17.0-20251030
+          imagePullPolicy: IfNotPresent
+          name: longhorn-liveness-probe
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-jjlfz
+              readOnly: true
+        - args:
+            - longhorn-manager
+            - -d
+            - csi
+            - --nodeid=$(NODE_ID)
+            - --endpoint=$(CSI_ENDPOINT)
+            - --drivername=driver.longhorn.io
+            - --manager-url=http://longhorn-backend:9500/v1
+          env:
+            - name: NODE_ID
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+            - name: CSI_ENDPOINT
+              value: unix:///csi/csi.sock
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+          image: longhornio/longhorn-manager:v1.10.1
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - rm -f /csi//*
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 9808
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 4
+          name: longhorn-csi-plugin
+          ports:
+            - containerPort: 9808
+              protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            capabilities:
+              add:
+                - SYS_ADMIN
+            privileged: true
+          startupProbe:
+            failureThreshold: 36
+            httpGet:
+              path: /healthz
+              port: 9808
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 4
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /var/lib/kubelet/plugins/kubernetes.io/csi
+              mountPropagation: Bidirectional
+              name: kubernetes-csi-dir
+            - mountPath: /var/lib/kubelet/pods
+              mountPropagation: Bidirectional
+              name: pods-mount-dir
+            - mountPath: /dev
+              name: host-dev
+            - mountPath: /host/proc
+              name: host-proc
+            - mountPath: /sys
+              name: host-sys
+            - mountPath: /lib/modules
+              name: lib-modules
+              readOnly: true
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-jjlfz
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: hcp.kwiki.it.com
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/disk-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/memory-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/pid-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/unschedulable
+          operator: Exists
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/kubernetes.io/csi
+            type: DirectoryOrCreate
+          name: kubernetes-csi-dir
+        - hostPath:
+            path: /var/lib/kubelet/plugins_registry
+            type: DirectoryOrCreate
+          name: registration-dir
+        - hostPath:
+            path: /var/lib/kubelet/plugins/driver.longhorn.io
+            type: DirectoryOrCreate
+          name: socket-dir
+        - hostPath:
+            path: /var/lib/kubelet/pods
+            type: DirectoryOrCreate
+          name: pods-mount-dir
+        - hostPath:
+            path: /dev
+            type: ""
+          name: host-dev
+        - hostPath:
+            path: /proc
+            type: ""
+          name: host-proc
+        - hostPath:
+            path: /sys
+            type: ""
+          name: host-sys
+        - hostPath:
+            path: /lib/modules
+            type: ""
+          name: lib-modules
+        - name: kube-api-access-jjlfz
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 6702f1bcf2d796ba0c851a0c71e31aa4b307042c1df9b01133b21cff305667a8
+        cni.projectcalico.org/podIP: 10.244.101.170/32
+        cni.projectcalico.org/podIPs: 10.244.101.170/32
+      generateName: longhorn-csi-plugin-
+      labels:
+        app: longhorn-csi-plugin
+        controller-revision-hash: f6d67bc85
+        pod-template-generation: "1"
+      name: longhorn-csi-plugin-464mp
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: DaemonSet
+          name: longhorn-csi-plugin
+          uid: 03ac3096-c4d7-40b2-ab54-41460a432efe
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchFields:
+                  - key: metadata.name
+                    operator: In
+                    values:
+                      - s231226.wholesaleinternet.net
+      containers:
+        - args:
+            - --v=2
+            - --csi-address=$(ADDRESS)
+            - --kubelet-registration-path=/var/lib/kubelet/plugins/driver.longhorn.io/csi.sock
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+          image: longhornio/csi-node-driver-registrar:v2.15.0-20251030
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - rm -rf /registration/driver.longhorn.io /registration/driver.longhorn.io-reg.sock /csi//*
+          name: node-driver-registrar
+          resources: {}
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /registration
+              name: registration-dir
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-ht258
+              readOnly: true
+        - args:
+            - --v=4
+            - --csi-address=/csi/csi.sock
+          image: longhornio/livenessprobe:v2.17.0-20251030
+          imagePullPolicy: IfNotPresent
+          name: longhorn-liveness-probe
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-ht258
+              readOnly: true
+        - args:
+            - longhorn-manager
+            - -d
+            - csi
+            - --nodeid=$(NODE_ID)
+            - --endpoint=$(CSI_ENDPOINT)
+            - --drivername=driver.longhorn.io
+            - --manager-url=http://longhorn-backend:9500/v1
+          env:
+            - name: NODE_ID
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+            - name: CSI_ENDPOINT
+              value: unix:///csi/csi.sock
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+          image: longhornio/longhorn-manager:v1.10.1
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - rm -f /csi//*
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 9808
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 4
+          name: longhorn-csi-plugin
+          ports:
+            - containerPort: 9808
+              protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            capabilities:
+              add:
+                - SYS_ADMIN
+            privileged: true
+          startupProbe:
+            failureThreshold: 36
+            httpGet:
+              path: /healthz
+              port: 9808
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 4
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /csi/
+              name: socket-dir
+            - mountPath: /var/lib/kubelet/plugins/kubernetes.io/csi
+              mountPropagation: Bidirectional
+              name: kubernetes-csi-dir
+            - mountPath: /var/lib/kubelet/pods
+              mountPropagation: Bidirectional
+              name: pods-mount-dir
+            - mountPath: /dev
+              name: host-dev
+            - mountPath: /host/proc
+              name: host-proc
+            - mountPath: /sys
+              name: host-sys
+            - mountPath: /lib/modules
+              name: lib-modules
+              readOnly: true
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-ht258
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/disk-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/memory-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/pid-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/unschedulable
+          operator: Exists
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/kubernetes.io/csi
+            type: DirectoryOrCreate
+          name: kubernetes-csi-dir
+        - hostPath:
+            path: /var/lib/kubelet/plugins_registry
+            type: DirectoryOrCreate
+          name: registration-dir
+        - hostPath:
+            path: /var/lib/kubelet/plugins/driver.longhorn.io
+            type: DirectoryOrCreate
+          name: socket-dir
+        - hostPath:
+            path: /var/lib/kubelet/pods
+            type: DirectoryOrCreate
+          name: pods-mount-dir
+        - hostPath:
+            path: /dev
+            type: ""
+          name: host-dev
+        - hostPath:
+            path: /proc
+            type: ""
+          name: host-proc
+        - hostPath:
+            path: /sys
+            type: ""
+          name: host-sys
+        - hostPath:
+            path: /lib/modules
+            type: ""
+          name: lib-modules
+        - name: kube-api-access-ht258
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 1d51d36607a2d5fc8d70d6e65471ad34d245464dda695b72a4ea9fed90e80f04
+        cni.projectcalico.org/podIP: 10.244.101.159/32
+        cni.projectcalico.org/podIPs: 10.244.101.159/32
+      generateName: longhorn-driver-deployer-5c69c6c4d6-
+      labels:
+        app: longhorn-driver-deployer
+        app.kubernetes.io/instance: longhorn
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: longhorn
+        app.kubernetes.io/version: v1.10.1
+        helm.sh/chart: longhorn-1.10.1
+        pod-template-hash: 5c69c6c4d6
+      name: longhorn-driver-deployer-5c69c6c4d6-vfczd
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: longhorn-driver-deployer-5c69c6c4d6
+          uid: 7ceb1b7f-73b1-4e1b-b8c4-b552b39030e2
+    spec:
+      containers:
+        - command:
+            - longhorn-manager
+            - -d
+            - deploy-driver
+            - --manager-image
+            - longhornio/longhorn-manager:v1.10.1
+            - --manager-url
+            - http://longhorn-backend:9500/v1
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+            - name: SERVICE_ACCOUNT
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.serviceAccountName
+            - name: CSI_ATTACHER_IMAGE
+              value: longhornio/csi-attacher:v4.10.0-20251030
+            - name: CSI_PROVISIONER_IMAGE
+              value: longhornio/csi-provisioner:v5.3.0-20251030
+            - name: CSI_NODE_DRIVER_REGISTRAR_IMAGE
+              value: longhornio/csi-node-driver-registrar:v2.15.0-20251030
+            - name: CSI_RESIZER_IMAGE
+              value: longhornio/csi-resizer:v1.14.0-20251030
+            - name: CSI_SNAPSHOTTER_IMAGE
+              value: longhornio/csi-snapshotter:v8.4.0-20251030
+            - name: CSI_LIVENESS_PROBE_IMAGE
+              value: longhornio/livenessprobe:v2.17.0-20251030
+          image: longhornio/longhorn-manager:v1.10.1
+          imagePullPolicy: IfNotPresent
+          name: longhorn-driver-deployer
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-8tv68
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      initContainers:
+        - command:
+            - sh
+            - -c
+            - while [ $(curl -m 1 -s -o /dev/null -w "%{http_code}" http://longhorn-backend:9500/v1) != "200" ]; do echo waiting; sleep 2; done
+          image: longhornio/longhorn-manager:v1.10.1
+          imagePullPolicy: IfNotPresent
+          name: wait-longhorn-manager
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-8tv68
+              readOnly: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        runAsUser: 0
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - name: kube-api-access-8tv68
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 0e412d668f18fef6e4f43e10f50adb49aee6122e7825a62617254262b5aa562d
+        cni.projectcalico.org/podIP: 10.244.91.199/32
+        cni.projectcalico.org/podIPs: 10.244.91.199/32
+      generateName: longhorn-manager-
+      labels:
+        app: longhorn-manager
+        app.kubernetes.io/instance: longhorn
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: longhorn
+        app.kubernetes.io/version: v1.10.1
+        controller-revision-hash: 58896dc95d
+        helm.sh/chart: longhorn-1.10.1
+        longhorn.io/admission-webhook: longhorn-admission-webhook
+        longhorn.io/recovery-backend: longhorn-recovery-backend
+        pod-template-generation: "1"
+      name: longhorn-manager-jhltn
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: DaemonSet
+          name: longhorn-manager
+          uid: f9af7913-5617-497f-b3e1-5b5996a92ad3
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchFields:
+                  - key: metadata.name
+                    operator: In
+                    values:
+                      - hcp.kwiki.it.com
+      containers:
+        - command:
+            - longhorn-manager
+            - -d
+            - daemon
+            - --engine-image
+            - longhornio/longhorn-engine:v1.10.1
+            - --instance-manager-image
+            - longhornio/longhorn-instance-manager:v1.10.1
+            - --share-manager-image
+            - longhornio/longhorn-share-manager:v1.10.1
+            - --backing-image-manager-image
+            - longhornio/backing-image-manager:v1.10.1
+            - --support-bundle-manager-image
+            - longhornio/support-bundle-kit:v0.0.71
+            - --manager-image
+            - longhornio/longhorn-manager:v1.10.1
+            - --service-account
+            - longhorn-service-account
+            - --upgrade-version-check
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+          image: longhornio/longhorn-manager:v1.10.1
+          imagePullPolicy: IfNotPresent
+          name: longhorn-manager
+          ports:
+            - containerPort: 9500
+              name: manager
+              protocol: TCP
+            - containerPort: 9502
+              name: admission-wh
+              protocol: TCP
+            - containerPort: 9503
+              name: recov-backend
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /v1/healthz
+              port: 9502
+              scheme: HTTPS
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /host/boot/
+              name: boot
+              readOnly: true
+            - mountPath: /host/dev/
+              name: dev
+            - mountPath: /host/proc/
+              name: proc
+              readOnly: true
+            - mountPath: /host/etc/
+              name: etc
+              readOnly: true
+            - mountPath: /var/lib/longhorn/
+              mountPropagation: Bidirectional
+              name: longhorn
+            - mountPath: /tls-files/
+              name: longhorn-grpc-tls
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-v6x2g
+              readOnly: true
+        - command:
+            - sh
+            - -c
+            - echo share-manager image pulled && sleep infinity
+          image: longhornio/longhorn-share-manager:v1.10.1
+          imagePullPolicy: IfNotPresent
+          name: pre-pull-share-manager-image
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-v6x2g
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: hcp.kwiki.it.com
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/disk-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/memory-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/pid-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/unschedulable
+          operator: Exists
+      volumes:
+        - hostPath:
+            path: /boot/
+            type: ""
+          name: boot
+        - hostPath:
+            path: /dev/
+            type: ""
+          name: dev
+        - hostPath:
+            path: /proc/
+            type: ""
+          name: proc
+        - hostPath:
+            path: /etc/
+            type: ""
+          name: etc
+        - hostPath:
+            path: /var/lib/longhorn/
+            type: ""
+          name: longhorn
+        - name: longhorn-grpc-tls
+          secret:
+            defaultMode: 420
+            optional: true
+            secretName: longhorn-grpc-tls
+        - name: kube-api-access-v6x2g
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: de01ac944fc2d5af8e7589481235403125f4e71c3076676a836097639e9f0ece
+        cni.projectcalico.org/podIP: 10.244.101.157/32
+        cni.projectcalico.org/podIPs: 10.244.101.157/32
+      generateName: longhorn-manager-
+      labels:
+        app: longhorn-manager
+        app.kubernetes.io/instance: longhorn
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: longhorn
+        app.kubernetes.io/version: v1.10.1
+        controller-revision-hash: 58896dc95d
+        helm.sh/chart: longhorn-1.10.1
+        longhorn.io/admission-webhook: longhorn-admission-webhook
+        longhorn.io/recovery-backend: longhorn-recovery-backend
+        pod-template-generation: "1"
+      name: longhorn-manager-vbvps
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: DaemonSet
+          name: longhorn-manager
+          uid: f9af7913-5617-497f-b3e1-5b5996a92ad3
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchFields:
+                  - key: metadata.name
+                    operator: In
+                    values:
+                      - s231226.wholesaleinternet.net
+      containers:
+        - command:
+            - longhorn-manager
+            - -d
+            - daemon
+            - --engine-image
+            - longhornio/longhorn-engine:v1.10.1
+            - --instance-manager-image
+            - longhornio/longhorn-instance-manager:v1.10.1
+            - --share-manager-image
+            - longhornio/longhorn-share-manager:v1.10.1
+            - --backing-image-manager-image
+            - longhornio/backing-image-manager:v1.10.1
+            - --support-bundle-manager-image
+            - longhornio/support-bundle-kit:v0.0.71
+            - --manager-image
+            - longhornio/longhorn-manager:v1.10.1
+            - --service-account
+            - longhorn-service-account
+            - --upgrade-version-check
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+          image: longhornio/longhorn-manager:v1.10.1
+          imagePullPolicy: IfNotPresent
+          name: longhorn-manager
+          ports:
+            - containerPort: 9500
+              name: manager
+              protocol: TCP
+            - containerPort: 9502
+              name: admission-wh
+              protocol: TCP
+            - containerPort: 9503
+              name: recov-backend
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /v1/healthz
+              port: 9502
+              scheme: HTTPS
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /host/boot/
+              name: boot
+              readOnly: true
+            - mountPath: /host/dev/
+              name: dev
+            - mountPath: /host/proc/
+              name: proc
+              readOnly: true
+            - mountPath: /host/etc/
+              name: etc
+              readOnly: true
+            - mountPath: /var/lib/longhorn/
+              mountPropagation: Bidirectional
+              name: longhorn
+            - mountPath: /tls-files/
+              name: longhorn-grpc-tls
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-kl4lm
+              readOnly: true
+        - command:
+            - sh
+            - -c
+            - echo share-manager image pulled && sleep infinity
+          image: longhornio/longhorn-share-manager:v1.10.1
+          imagePullPolicy: IfNotPresent
+          name: pre-pull-share-manager-image
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-kl4lm
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-service-account
+      serviceAccountName: longhorn-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/disk-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/memory-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/pid-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/unschedulable
+          operator: Exists
+      volumes:
+        - hostPath:
+            path: /boot/
+            type: ""
+          name: boot
+        - hostPath:
+            path: /dev/
+            type: ""
+          name: dev
+        - hostPath:
+            path: /proc/
+            type: ""
+          name: proc
+        - hostPath:
+            path: /etc/
+            type: ""
+          name: etc
+        - hostPath:
+            path: /var/lib/longhorn/
+            type: ""
+          name: longhorn
+        - name: longhorn-grpc-tls
+          secret:
+            defaultMode: 420
+            optional: true
+            secretName: longhorn-grpc-tls
+        - name: kube-api-access-kl4lm
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 6d2fc0e273918004b5907bc1b4420e4bb6497da2f028b724e26d09c386b8d1bd
+        cni.projectcalico.org/podIP: 10.244.91.204/32
+        cni.projectcalico.org/podIPs: 10.244.91.204/32
+      generateName: longhorn-ui-84d97876df-
+      labels:
+        app: longhorn-ui
+        app.kubernetes.io/instance: longhorn
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: longhorn
+        app.kubernetes.io/version: v1.10.1
+        helm.sh/chart: longhorn-1.10.1
+        pod-template-hash: 84d97876df
+      name: longhorn-ui-84d97876df-47vtn
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: longhorn-ui-84d97876df
+          uid: 93582dcb-31d6-4833-b654-7f503f77853c
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - longhorn-ui
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      containers:
+        - env:
+            - name: LONGHORN_MANAGER_IP
+              value: http://longhorn-backend:9500
+            - name: LONGHORN_UI_PORT
+              value: "8000"
+          image: longhornio/longhorn-ui:v1.10.1
+          imagePullPolicy: IfNotPresent
+          name: longhorn-ui
+          ports:
+            - containerPort: 8000
+              name: http
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/cache/nginx/
+              name: nginx-cache
+            - mountPath: /var/config/nginx/
+              name: nginx-config
+            - mountPath: /var/run/
+              name: var-run
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-9rxwq
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: hcp.kwiki.it.com
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-ui-service-account
+      serviceAccountName: longhorn-ui-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - emptyDir: {}
+          name: nginx-cache
+        - emptyDir: {}
+          name: nginx-config
+        - emptyDir: {}
+          name: var-run
+        - name: kube-api-access-9rxwq
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 9cc8ef94bae8ad70a8a8b61fe68db13fb05f23eb3ba0687df682d855c80a0a46
+        cni.projectcalico.org/podIP: 10.244.101.158/32
+        cni.projectcalico.org/podIPs: 10.244.101.158/32
+      generateName: longhorn-ui-84d97876df-
+      labels:
+        app: longhorn-ui
+        app.kubernetes.io/instance: longhorn
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: longhorn
+        app.kubernetes.io/version: v1.10.1
+        helm.sh/chart: longhorn-1.10.1
+        pod-template-hash: 84d97876df
+      name: longhorn-ui-84d97876df-fnxkb
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: longhorn-ui-84d97876df
+          uid: 93582dcb-31d6-4833-b654-7f503f77853c
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - longhorn-ui
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      containers:
+        - env:
+            - name: LONGHORN_MANAGER_IP
+              value: http://longhorn-backend:9500
+            - name: LONGHORN_UI_PORT
+              value: "8000"
+          image: longhornio/longhorn-ui:v1.10.1
+          imagePullPolicy: IfNotPresent
+          name: longhorn-ui
+          ports:
+            - containerPort: 8000
+              name: http
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/cache/nginx/
+              name: nginx-cache
+            - mountPath: /var/config/nginx/
+              name: nginx-config
+            - mountPath: /var/run/
+              name: var-run
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-kj69q
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 1000000000
+      priorityClassName: longhorn-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: longhorn-ui-service-account
+      serviceAccountName: longhorn-ui-service-account
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - emptyDir: {}
+          name: nginx-cache
+        - emptyDir: {}
+          name: nginx-config
+        - emptyDir: {}
+          name: var-run
+        - name: kube-api-access-kj69q
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        meta.helm.sh/release-name: longhorn
+        meta.helm.sh/release-namespace: longhorn-system
+      labels:
+        app: longhorn-admission-webhook
+        app.kubernetes.io/instance: longhorn
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: longhorn
+        app.kubernetes.io/version: v1.10.1
+        helm.sh/chart: longhorn-1.10.1
+      name: longhorn-admission-webhook
+      namespace: longhorn-system
+    spec:
+      clusterIP: 10.103.39.162
+      clusterIPs:
+        - 10.103.39.162
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - name: admission-webhook
+          port: 9502
+          protocol: TCP
+          targetPort: admission-wh
+      selector:
+        longhorn.io/admission-webhook: longhorn-admission-webhook
+      sessionAffinity: None
+      type: ClusterIP
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        meta.helm.sh/release-name: longhorn
+        meta.helm.sh/release-namespace: longhorn-system
+      labels:
+        app: longhorn-manager
+        app.kubernetes.io/instance: longhorn
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: longhorn
+        app.kubernetes.io/version: v1.10.1
+        helm.sh/chart: longhorn-1.10.1
+      name: longhorn-backend
+      namespace: longhorn-system
+    spec:
+      clusterIP: 10.104.105.144
+      clusterIPs:
+        - 10.104.105.144
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - name: manager
+          port: 9500
+          protocol: TCP
+          targetPort: manager
+      selector:
+        app: longhorn-manager
+      sessionAffinity: None
+      type: ClusterIP
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        meta.helm.sh/release-name: longhorn
+        meta.helm.sh/release-namespace: longhorn-system
+      labels:
+        app: longhorn-ui
+        app.kubernetes.io/instance: longhorn
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: longhorn
+        app.kubernetes.io/version: v1.10.1
+        helm.sh/chart: longhorn-1.10.1
+      name: longhorn-frontend
+      namespace: longhorn-system
+    spec:
+      clusterIP: 10.103.32.234
+      clusterIPs:
+        - 10.103.32.234
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - name: http
+          port: 80
+          protocol: TCP
+          targetPort: http
+      selector:
+        app: longhorn-ui
+      sessionAffinity: None
+      type: ClusterIP
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        meta.helm.sh/release-name: longhorn
+        meta.helm.sh/release-namespace: longhorn-system
+      labels:
+        app: longhorn-recovery-backend
+        app.kubernetes.io/instance: longhorn
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: longhorn
+        app.kubernetes.io/version: v1.10.1
+        helm.sh/chart: longhorn-1.10.1
+      name: longhorn-recovery-backend
+      namespace: longhorn-system
+    spec:
+      clusterIP: 10.97.119.212
+      clusterIPs:
+        - 10.97.119.212
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - name: recovery-backend
+          port: 9503
+          protocol: TCP
+          targetPort: recov-backend
+      selector:
+        longhorn.io/recovery-backend: longhorn-recovery-backend
+      sessionAffinity: None
+      type: ClusterIP
+  - apiVersion: apps/v1
+    kind: DaemonSet
+    metadata:
+      annotations:
+        deprecated.daemonset.template.generation: "1"
+        longhorn.io/last-applied-tolerations: '[]'
+      labels:
+        longhorn.io/component: engine-image
+        longhorn.io/engine-image: ei-3154f3aa
+        longhorn.io/managed-by: longhorn-manager
+      name: engine-image-ei-3154f3aa
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: longhorn.io/v1beta2
+          blockOwnerDeletion: true
+          kind: EngineImage
+          name: ei-3154f3aa
+          uid: 9e9924df-5d78-4527-8adc-ec2adbb211e5
+    spec:
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          longhorn.io/component: engine-image
+          longhorn.io/engine-image: ei-3154f3aa
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            longhorn.io/component: engine-image
+            longhorn.io/engine-image: ei-3154f3aa
+          name: engine-image-ei-3154f3aa
+          ownerReferences:
+            - apiVersion: longhorn.io/v1beta2
+              blockOwnerDeletion: true
+              kind: EngineImage
+              name: ei-3154f3aa
+              uid: 9e9924df-5d78-4527-8adc-ec2adbb211e5
+        spec:
+          containers:
+            - args:
+                - -c
+                - diff /usr/local/bin/longhorn /data/longhorn > /dev/null 2>&1; if [ $? -ne 0 ]; then cp -p /usr/local/bin/longhorn /data/ && echo installed; fi && trap 'rm /data/longhorn* && echo cleaned up' EXIT && sleep infinity
+              command:
+                - /bin/bash
+              image: longhornio/longhorn-engine:v1.10.1
+              imagePullPolicy: IfNotPresent
+              livenessProbe:
+                exec:
+                  command:
+                    - sh
+                    - -c
+                    - /data/longhorn version --client-only
+                failureThreshold: 3
+                initialDelaySeconds: 3
+                periodSeconds: 5
+                successThreshold: 1
+                timeoutSeconds: 4
+              name: engine-image-ei-3154f3aa
+              readinessProbe:
+                exec:
+                  command:
+                    - sh
+                    - -c
+                    - ls /data/longhorn && /data/longhorn version --client-only
+                failureThreshold: 3
+                initialDelaySeconds: 3
+                periodSeconds: 5
+                successThreshold: 1
+                timeoutSeconds: 4
+              resources: {}
+              securityContext:
+                privileged: true
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /data/
+                  name: data
+          dnsPolicy: ClusterFirst
+          priorityClassName: longhorn-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: longhorn-service-account
+          serviceAccountName: longhorn-service-account
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - hostPath:
+                path: /var/lib/longhorn/engine-binaries/longhornio-longhorn-engine-v1.10.1
+                type: ""
+              name: data
+      updateStrategy:
+        rollingUpdate:
+          maxSurge: 0
+          maxUnavailable: 100%
+        type: RollingUpdate
+  - apiVersion: apps/v1
+    kind: DaemonSet
+    metadata:
+      annotations:
+        deprecated.daemonset.template.generation: "1"
+        driver.longhorn.io/git-commit: 29b7fda2692c8df5b1aa18c477f77863c7acc1e7
+        driver.longhorn.io/version: v1.10.1
+        longhorn.io/last-applied-tolerations: '[]'
+      labels:
+        longhorn.io/managed-by: longhorn-manager
+      name: longhorn-csi-plugin
+      namespace: longhorn-system
+    spec:
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: longhorn-csi-plugin
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: longhorn-csi-plugin
+        spec:
+          containers:
+            - args:
+                - --v=2
+                - --csi-address=$(ADDRESS)
+                - --kubelet-registration-path=/var/lib/kubelet/plugins/driver.longhorn.io/csi.sock
+              env:
+                - name: ADDRESS
+                  value: /csi/csi.sock
+              image: longhornio/csi-node-driver-registrar:v2.15.0-20251030
+              imagePullPolicy: IfNotPresent
+              lifecycle:
+                preStop:
+                  exec:
+                    command:
+                      - /bin/sh
+                      - -c
+                      - rm -rf /registration/driver.longhorn.io /registration/driver.longhorn.io-reg.sock /csi//*
+              name: node-driver-registrar
+              resources: {}
+              securityContext:
+                privileged: true
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /csi/
+                  name: socket-dir
+                - mountPath: /registration
+                  name: registration-dir
+            - args:
+                - --v=4
+                - --csi-address=/csi/csi.sock
+              image: longhornio/livenessprobe:v2.17.0-20251030
+              imagePullPolicy: IfNotPresent
+              name: longhorn-liveness-probe
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /csi/
+                  name: socket-dir
+            - args:
+                - longhorn-manager
+                - -d
+                - csi
+                - --nodeid=$(NODE_ID)
+                - --endpoint=$(CSI_ENDPOINT)
+                - --drivername=driver.longhorn.io
+                - --manager-url=http://longhorn-backend:9500/v1
+              env:
+                - name: NODE_ID
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: spec.nodeName
+                - name: CSI_ENDPOINT
+                  value: unix:///csi/csi.sock
+                - name: POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+              image: longhornio/longhorn-manager:v1.10.1
+              imagePullPolicy: IfNotPresent
+              lifecycle:
+                preStop:
+                  exec:
+                    command:
+                      - /bin/sh
+                      - -c
+                      - rm -f /csi//*
+              livenessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthz
+                  port: 9808
+                  scheme: HTTP
+                initialDelaySeconds: 3
+                periodSeconds: 5
+                successThreshold: 1
+                timeoutSeconds: 4
+              name: longhorn-csi-plugin
+              ports:
+                - containerPort: 9808
+                  protocol: TCP
+              resources: {}
+              securityContext:
+                allowPrivilegeEscalation: true
+                capabilities:
+                  add:
+                    - SYS_ADMIN
+                privileged: true
+              startupProbe:
+                failureThreshold: 36
+                httpGet:
+                  path: /healthz
+                  port: 9808
+                  scheme: HTTP
+                initialDelaySeconds: 3
+                periodSeconds: 5
+                successThreshold: 1
+                timeoutSeconds: 4
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /csi/
+                  name: socket-dir
+                - mountPath: /var/lib/kubelet/plugins/kubernetes.io/csi
+                  mountPropagation: Bidirectional
+                  name: kubernetes-csi-dir
+                - mountPath: /var/lib/kubelet/pods
+                  mountPropagation: Bidirectional
+                  name: pods-mount-dir
+                - mountPath: /dev
+                  name: host-dev
+                - mountPath: /host/proc
+                  name: host-proc
+                - mountPath: /sys
+                  name: host-sys
+                - mountPath: /lib/modules
+                  name: lib-modules
+                  readOnly: true
+          dnsPolicy: ClusterFirst
+          priorityClassName: longhorn-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: longhorn-service-account
+          serviceAccountName: longhorn-service-account
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - hostPath:
+                path: /var/lib/kubelet/plugins/kubernetes.io/csi
+                type: DirectoryOrCreate
+              name: kubernetes-csi-dir
+            - hostPath:
+                path: /var/lib/kubelet/plugins_registry
+                type: DirectoryOrCreate
+              name: registration-dir
+            - hostPath:
+                path: /var/lib/kubelet/plugins/driver.longhorn.io
+                type: DirectoryOrCreate
+              name: socket-dir
+            - hostPath:
+                path: /var/lib/kubelet/pods
+                type: DirectoryOrCreate
+              name: pods-mount-dir
+            - hostPath:
+                path: /dev
+                type: ""
+              name: host-dev
+            - hostPath:
+                path: /proc
+                type: ""
+              name: host-proc
+            - hostPath:
+                path: /sys
+                type: ""
+              name: host-sys
+            - hostPath:
+                path: /lib/modules
+                type: ""
+              name: lib-modules
+      updateStrategy:
+        rollingUpdate:
+          maxSurge: 0
+          maxUnavailable: 1
+        type: RollingUpdate
+  - apiVersion: apps/v1
+    kind: DaemonSet
+    metadata:
+      annotations:
+        deprecated.daemonset.template.generation: "1"
+        meta.helm.sh/release-name: longhorn
+        meta.helm.sh/release-namespace: longhorn-system
+      labels:
+        app: longhorn-manager
+        app.kubernetes.io/instance: longhorn
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: longhorn
+        app.kubernetes.io/version: v1.10.1
+        helm.sh/chart: longhorn-1.10.1
+      name: longhorn-manager
+      namespace: longhorn-system
+    spec:
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: longhorn-manager
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: longhorn-manager
+            app.kubernetes.io/instance: longhorn
+            app.kubernetes.io/managed-by: Helm
+            app.kubernetes.io/name: longhorn
+            app.kubernetes.io/version: v1.10.1
+            helm.sh/chart: longhorn-1.10.1
+        spec:
+          containers:
+            - command:
+                - longhorn-manager
+                - -d
+                - daemon
+                - --engine-image
+                - longhornio/longhorn-engine:v1.10.1
+                - --instance-manager-image
+                - longhornio/longhorn-instance-manager:v1.10.1
+                - --share-manager-image
+                - longhornio/longhorn-share-manager:v1.10.1
+                - --backing-image-manager-image
+                - longhornio/backing-image-manager:v1.10.1
+                - --support-bundle-manager-image
+                - longhornio/support-bundle-kit:v0.0.71
+                - --manager-image
+                - longhornio/longhorn-manager:v1.10.1
+                - --service-account
+                - longhorn-service-account
+                - --upgrade-version-check
+              env:
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.name
+                - name: POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: POD_IP
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: status.podIP
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: spec.nodeName
+              image: longhornio/longhorn-manager:v1.10.1
+              imagePullPolicy: IfNotPresent
+              name: longhorn-manager
+              ports:
+                - containerPort: 9500
+                  name: manager
+                  protocol: TCP
+                - containerPort: 9502
+                  name: admission-wh
+                  protocol: TCP
+                - containerPort: 9503
+                  name: recov-backend
+                  protocol: TCP
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /v1/healthz
+                  port: 9502
+                  scheme: HTTPS
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 1
+              resources: {}
+              securityContext:
+                privileged: true
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /host/boot/
+                  name: boot
+                  readOnly: true
+                - mountPath: /host/dev/
+                  name: dev
+                - mountPath: /host/proc/
+                  name: proc
+                  readOnly: true
+                - mountPath: /host/etc/
+                  name: etc
+                  readOnly: true
+                - mountPath: /var/lib/longhorn/
+                  mountPropagation: Bidirectional
+                  name: longhorn
+                - mountPath: /tls-files/
+                  name: longhorn-grpc-tls
+            - command:
+                - sh
+                - -c
+                - echo share-manager image pulled && sleep infinity
+              image: longhornio/longhorn-share-manager:v1.10.1
+              imagePullPolicy: IfNotPresent
+              name: pre-pull-share-manager-image
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          priorityClassName: longhorn-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: longhorn-service-account
+          serviceAccountName: longhorn-service-account
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - hostPath:
+                path: /boot/
+                type: ""
+              name: boot
+            - hostPath:
+                path: /dev/
+                type: ""
+              name: dev
+            - hostPath:
+                path: /proc/
+                type: ""
+              name: proc
+            - hostPath:
+                path: /etc/
+                type: ""
+              name: etc
+            - hostPath:
+                path: /var/lib/longhorn/
+                type: ""
+              name: longhorn
+            - name: longhorn-grpc-tls
+              secret:
+                defaultMode: 420
+                optional: true
+                secretName: longhorn-grpc-tls
+      updateStrategy:
+        rollingUpdate:
+          maxSurge: 0
+          maxUnavailable: 100%
+        type: RollingUpdate
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: "1"
+        driver.longhorn.io/git-commit: 29b7fda2692c8df5b1aa18c477f77863c7acc1e7
+        driver.longhorn.io/version: v1.10.1
+        longhorn.io/last-applied-tolerations: '[]'
+      labels:
+        app: csi-attacher
+        longhorn.io/managed-by: longhorn-manager
+      name: csi-attacher
+      namespace: longhorn-system
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 3
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: csi-attacher
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: csi-attacher
+        spec:
+          affinity:
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                        - key: app
+                          operator: In
+                          values:
+                            - csi-attacher
+                    topologyKey: kubernetes.io/hostname
+                  weight: 1
+          containers:
+            - args:
+                - --v=2
+                - --csi-address=$(ADDRESS)
+                - --timeout=1m50s
+                - --leader-election
+                - --leader-election-namespace=$(POD_NAMESPACE)
+                - --kube-api-qps=50
+                - --kube-api-burst=100
+                - --http-endpoint=:8000
+              env:
+                - name: ADDRESS
+                  value: /csi/csi.sock
+                - name: POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.name
+              image: longhornio/csi-attacher:v4.10.0-20251030
+              imagePullPolicy: IfNotPresent
+              name: csi-attacher
+              ports:
+                - containerPort: 8000
+                  name: csi-attacher
+                  protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /csi/
+                  name: socket-dir
+          dnsPolicy: ClusterFirst
+          priorityClassName: longhorn-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: longhorn-service-account
+          serviceAccountName: longhorn-service-account
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - hostPath:
+                path: /var/lib/kubelet/plugins/driver.longhorn.io
+                type: DirectoryOrCreate
+              name: socket-dir
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: "1"
+        driver.longhorn.io/git-commit: 29b7fda2692c8df5b1aa18c477f77863c7acc1e7
+        driver.longhorn.io/version: v1.10.1
+        longhorn.io/last-applied-tolerations: '[]'
+      labels:
+        app: csi-provisioner
+        longhorn.io/managed-by: longhorn-manager
+      name: csi-provisioner
+      namespace: longhorn-system
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 3
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: csi-provisioner
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: csi-provisioner
+        spec:
+          affinity:
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                        - key: app
+                          operator: In
+                          values:
+                            - csi-provisioner
+                    topologyKey: kubernetes.io/hostname
+                  weight: 1
+          containers:
+            - args:
+                - --v=2
+                - --csi-address=$(ADDRESS)
+                - --timeout=1m50s
+                - --leader-election
+                - --leader-election-namespace=$(POD_NAMESPACE)
+                - --default-fstype=ext4
+                - --enable-capacity
+                - --capacity-ownerref-level=2
+                - --kube-api-qps=50
+                - --kube-api-burst=100
+                - --http-endpoint=:8000
+              env:
+                - name: ADDRESS
+                  value: /csi/csi.sock
+                - name: POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.name
+              image: longhornio/csi-provisioner:v5.3.0-20251030
+              imagePullPolicy: IfNotPresent
+              name: csi-provisioner
+              ports:
+                - containerPort: 8000
+                  name: csi-provisioner
+                  protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /csi/
+                  name: socket-dir
+          dnsPolicy: ClusterFirst
+          priorityClassName: longhorn-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: longhorn-service-account
+          serviceAccountName: longhorn-service-account
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - hostPath:
+                path: /var/lib/kubelet/plugins/driver.longhorn.io
+                type: DirectoryOrCreate
+              name: socket-dir
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: "1"
+        driver.longhorn.io/git-commit: 29b7fda2692c8df5b1aa18c477f77863c7acc1e7
+        driver.longhorn.io/version: v1.10.1
+        longhorn.io/last-applied-tolerations: '[]'
+      labels:
+        app: csi-resizer
+        longhorn.io/managed-by: longhorn-manager
+      name: csi-resizer
+      namespace: longhorn-system
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 3
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: csi-resizer
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: csi-resizer
+        spec:
+          affinity:
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                        - key: app
+                          operator: In
+                          values:
+                            - csi-resizer
+                    topologyKey: kubernetes.io/hostname
+                  weight: 1
+          containers:
+            - args:
+                - --v=2
+                - --csi-address=$(ADDRESS)
+                - --timeout=1m50s
+                - --leader-election
+                - --leader-election-namespace=$(POD_NAMESPACE)
+                - --leader-election-namespace=$(POD_NAMESPACE)
+                - --kube-api-qps=50
+                - --kube-api-burst=100
+                - --http-endpoint=:8000
+                - --handle-volume-inuse-error=false
+                - --feature-gates=RecoverVolumeExpansionFailure=false
+              env:
+                - name: ADDRESS
+                  value: /csi/csi.sock
+                - name: POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.name
+              image: longhornio/csi-resizer:v1.14.0-20251030
+              imagePullPolicy: IfNotPresent
+              name: csi-resizer
+              ports:
+                - containerPort: 8000
+                  name: csi-resizer
+                  protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /csi/
+                  name: socket-dir
+          dnsPolicy: ClusterFirst
+          priorityClassName: longhorn-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: longhorn-service-account
+          serviceAccountName: longhorn-service-account
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - hostPath:
+                path: /var/lib/kubelet/plugins/driver.longhorn.io
+                type: DirectoryOrCreate
+              name: socket-dir
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: "1"
+        driver.longhorn.io/git-commit: 29b7fda2692c8df5b1aa18c477f77863c7acc1e7
+        driver.longhorn.io/version: v1.10.1
+        longhorn.io/last-applied-tolerations: '[]'
+      labels:
+        app: csi-snapshotter
+        longhorn.io/managed-by: longhorn-manager
+      name: csi-snapshotter
+      namespace: longhorn-system
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 3
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: csi-snapshotter
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: csi-snapshotter
+        spec:
+          affinity:
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                        - key: app
+                          operator: In
+                          values:
+                            - csi-snapshotter
+                    topologyKey: kubernetes.io/hostname
+                  weight: 1
+          containers:
+            - args:
+                - --v=2
+                - --csi-address=$(ADDRESS)
+                - --timeout=1m50s
+                - --leader-election
+                - --leader-election-namespace=$(POD_NAMESPACE)
+                - --kube-api-qps=50
+                - --kube-api-burst=100
+                - --http-endpoint=:8000
+              env:
+                - name: ADDRESS
+                  value: /csi/csi.sock
+                - name: POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.name
+              image: longhornio/csi-snapshotter:v8.4.0-20251030
+              imagePullPolicy: IfNotPresent
+              name: csi-snapshotter
+              ports:
+                - containerPort: 8000
+                  name: csi-snapshotter
+                  protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /csi/
+                  name: socket-dir
+          dnsPolicy: ClusterFirst
+          priorityClassName: longhorn-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: longhorn-service-account
+          serviceAccountName: longhorn-service-account
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - hostPath:
+                path: /var/lib/kubelet/plugins/driver.longhorn.io
+                type: DirectoryOrCreate
+              name: socket-dir
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: "1"
+        meta.helm.sh/release-name: longhorn
+        meta.helm.sh/release-namespace: longhorn-system
+      labels:
+        app.kubernetes.io/instance: longhorn
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: longhorn
+        app.kubernetes.io/version: v1.10.1
+        helm.sh/chart: longhorn-1.10.1
+      name: longhorn-driver-deployer
+      namespace: longhorn-system
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: longhorn-driver-deployer
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: longhorn-driver-deployer
+            app.kubernetes.io/instance: longhorn
+            app.kubernetes.io/managed-by: Helm
+            app.kubernetes.io/name: longhorn
+            app.kubernetes.io/version: v1.10.1
+            helm.sh/chart: longhorn-1.10.1
+        spec:
+          containers:
+            - command:
+                - longhorn-manager
+                - -d
+                - deploy-driver
+                - --manager-image
+                - longhornio/longhorn-manager:v1.10.1
+                - --manager-url
+                - http://longhorn-backend:9500/v1
+              env:
+                - name: POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: spec.nodeName
+                - name: SERVICE_ACCOUNT
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: spec.serviceAccountName
+                - name: CSI_ATTACHER_IMAGE
+                  value: longhornio/csi-attacher:v4.10.0-20251030
+                - name: CSI_PROVISIONER_IMAGE
+                  value: longhornio/csi-provisioner:v5.3.0-20251030
+                - name: CSI_NODE_DRIVER_REGISTRAR_IMAGE
+                  value: longhornio/csi-node-driver-registrar:v2.15.0-20251030
+                - name: CSI_RESIZER_IMAGE
+                  value: longhornio/csi-resizer:v1.14.0-20251030
+                - name: CSI_SNAPSHOTTER_IMAGE
+                  value: longhornio/csi-snapshotter:v8.4.0-20251030
+                - name: CSI_LIVENESS_PROBE_IMAGE
+                  value: longhornio/livenessprobe:v2.17.0-20251030
+              image: longhornio/longhorn-manager:v1.10.1
+              imagePullPolicy: IfNotPresent
+              name: longhorn-driver-deployer
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          initContainers:
+            - command:
+                - sh
+                - -c
+                - while [ $(curl -m 1 -s -o /dev/null -w "%{http_code}" http://longhorn-backend:9500/v1) != "200" ]; do echo waiting; sleep 2; done
+              image: longhornio/longhorn-manager:v1.10.1
+              imagePullPolicy: IfNotPresent
+              name: wait-longhorn-manager
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          priorityClassName: longhorn-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext:
+            runAsUser: 0
+          serviceAccount: longhorn-service-account
+          serviceAccountName: longhorn-service-account
+          terminationGracePeriodSeconds: 30
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: "1"
+        meta.helm.sh/release-name: longhorn
+        meta.helm.sh/release-namespace: longhorn-system
+      labels:
+        app: longhorn-ui
+        app.kubernetes.io/instance: longhorn
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: longhorn
+        app.kubernetes.io/version: v1.10.1
+        helm.sh/chart: longhorn-1.10.1
+      name: longhorn-ui
+      namespace: longhorn-system
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 2
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: longhorn-ui
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: longhorn-ui
+            app.kubernetes.io/instance: longhorn
+            app.kubernetes.io/managed-by: Helm
+            app.kubernetes.io/name: longhorn
+            app.kubernetes.io/version: v1.10.1
+            helm.sh/chart: longhorn-1.10.1
+        spec:
+          affinity:
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                        - key: app
+                          operator: In
+                          values:
+                            - longhorn-ui
+                    topologyKey: kubernetes.io/hostname
+                  weight: 1
+          containers:
+            - env:
+                - name: LONGHORN_MANAGER_IP
+                  value: http://longhorn-backend:9500
+                - name: LONGHORN_UI_PORT
+                  value: "8000"
+              image: longhornio/longhorn-ui:v1.10.1
+              imagePullPolicy: IfNotPresent
+              name: longhorn-ui
+              ports:
+                - containerPort: 8000
+                  name: http
+                  protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /var/cache/nginx/
+                  name: nginx-cache
+                - mountPath: /var/config/nginx/
+                  name: nginx-config
+                - mountPath: /var/run/
+                  name: var-run
+          dnsPolicy: ClusterFirst
+          priorityClassName: longhorn-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: longhorn-ui-service-account
+          serviceAccountName: longhorn-ui-service-account
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - emptyDir: {}
+              name: nginx-cache
+            - emptyDir: {}
+              name: nginx-config
+            - emptyDir: {}
+              name: var-run
+  - apiVersion: apps/v1
+    kind: ReplicaSet
+    metadata:
+      annotations:
+        deployment.kubernetes.io/desired-replicas: "3"
+        deployment.kubernetes.io/max-replicas: "4"
+        deployment.kubernetes.io/revision: "1"
+        driver.longhorn.io/git-commit: 29b7fda2692c8df5b1aa18c477f77863c7acc1e7
+        driver.longhorn.io/version: v1.10.1
+        longhorn.io/last-applied-tolerations: '[]'
+      labels:
+        app: csi-attacher
+        pod-template-hash: 669bb4b589
+      name: csi-attacher-669bb4b589
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: Deployment
+          name: csi-attacher
+          uid: 1fc273ee-255f-4f97-a3da-ca09a3080849
+    spec:
+      replicas: 3
+      selector:
+        matchLabels:
+          app: csi-attacher
+          pod-template-hash: 669bb4b589
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: csi-attacher
+            pod-template-hash: 669bb4b589
+        spec:
+          affinity:
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                        - key: app
+                          operator: In
+                          values:
+                            - csi-attacher
+                    topologyKey: kubernetes.io/hostname
+                  weight: 1
+          containers:
+            - args:
+                - --v=2
+                - --csi-address=$(ADDRESS)
+                - --timeout=1m50s
+                - --leader-election
+                - --leader-election-namespace=$(POD_NAMESPACE)
+                - --kube-api-qps=50
+                - --kube-api-burst=100
+                - --http-endpoint=:8000
+              env:
+                - name: ADDRESS
+                  value: /csi/csi.sock
+                - name: POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.name
+              image: longhornio/csi-attacher:v4.10.0-20251030
+              imagePullPolicy: IfNotPresent
+              name: csi-attacher
+              ports:
+                - containerPort: 8000
+                  name: csi-attacher
+                  protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /csi/
+                  name: socket-dir
+          dnsPolicy: ClusterFirst
+          priorityClassName: longhorn-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: longhorn-service-account
+          serviceAccountName: longhorn-service-account
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - hostPath:
+                path: /var/lib/kubelet/plugins/driver.longhorn.io
+                type: DirectoryOrCreate
+              name: socket-dir
+  - apiVersion: apps/v1
+    kind: ReplicaSet
+    metadata:
+      annotations:
+        deployment.kubernetes.io/desired-replicas: "3"
+        deployment.kubernetes.io/max-replicas: "4"
+        deployment.kubernetes.io/revision: "1"
+        driver.longhorn.io/git-commit: 29b7fda2692c8df5b1aa18c477f77863c7acc1e7
+        driver.longhorn.io/version: v1.10.1
+        longhorn.io/last-applied-tolerations: '[]'
+      labels:
+        app: csi-provisioner
+        pod-template-hash: 7b88844f9b
+      name: csi-provisioner-7b88844f9b
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: Deployment
+          name: csi-provisioner
+          uid: 5e46dac8-c931-464d-bd5b-edbd2c73f597
+    spec:
+      replicas: 3
+      selector:
+        matchLabels:
+          app: csi-provisioner
+          pod-template-hash: 7b88844f9b
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: csi-provisioner
+            pod-template-hash: 7b88844f9b
+        spec:
+          affinity:
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                        - key: app
+                          operator: In
+                          values:
+                            - csi-provisioner
+                    topologyKey: kubernetes.io/hostname
+                  weight: 1
+          containers:
+            - args:
+                - --v=2
+                - --csi-address=$(ADDRESS)
+                - --timeout=1m50s
+                - --leader-election
+                - --leader-election-namespace=$(POD_NAMESPACE)
+                - --default-fstype=ext4
+                - --enable-capacity
+                - --capacity-ownerref-level=2
+                - --kube-api-qps=50
+                - --kube-api-burst=100
+                - --http-endpoint=:8000
+              env:
+                - name: ADDRESS
+                  value: /csi/csi.sock
+                - name: POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.name
+              image: longhornio/csi-provisioner:v5.3.0-20251030
+              imagePullPolicy: IfNotPresent
+              name: csi-provisioner
+              ports:
+                - containerPort: 8000
+                  name: csi-provisioner
+                  protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /csi/
+                  name: socket-dir
+          dnsPolicy: ClusterFirst
+          priorityClassName: longhorn-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: longhorn-service-account
+          serviceAccountName: longhorn-service-account
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - hostPath:
+                path: /var/lib/kubelet/plugins/driver.longhorn.io
+                type: DirectoryOrCreate
+              name: socket-dir
+  - apiVersion: apps/v1
+    kind: ReplicaSet
+    metadata:
+      annotations:
+        deployment.kubernetes.io/desired-replicas: "3"
+        deployment.kubernetes.io/max-replicas: "4"
+        deployment.kubernetes.io/revision: "1"
+        driver.longhorn.io/git-commit: 29b7fda2692c8df5b1aa18c477f77863c7acc1e7
+        driver.longhorn.io/version: v1.10.1
+        longhorn.io/last-applied-tolerations: '[]'
+      labels:
+        app: csi-resizer
+        pod-template-hash: 689c8c44c4
+      name: csi-resizer-689c8c44c4
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: Deployment
+          name: csi-resizer
+          uid: 77bceeab-64fb-4612-9f9d-1940dc682e72
+    spec:
+      replicas: 3
+      selector:
+        matchLabels:
+          app: csi-resizer
+          pod-template-hash: 689c8c44c4
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: csi-resizer
+            pod-template-hash: 689c8c44c4
+        spec:
+          affinity:
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                        - key: app
+                          operator: In
+                          values:
+                            - csi-resizer
+                    topologyKey: kubernetes.io/hostname
+                  weight: 1
+          containers:
+            - args:
+                - --v=2
+                - --csi-address=$(ADDRESS)
+                - --timeout=1m50s
+                - --leader-election
+                - --leader-election-namespace=$(POD_NAMESPACE)
+                - --leader-election-namespace=$(POD_NAMESPACE)
+                - --kube-api-qps=50
+                - --kube-api-burst=100
+                - --http-endpoint=:8000
+                - --handle-volume-inuse-error=false
+                - --feature-gates=RecoverVolumeExpansionFailure=false
+              env:
+                - name: ADDRESS
+                  value: /csi/csi.sock
+                - name: POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.name
+              image: longhornio/csi-resizer:v1.14.0-20251030
+              imagePullPolicy: IfNotPresent
+              name: csi-resizer
+              ports:
+                - containerPort: 8000
+                  name: csi-resizer
+                  protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /csi/
+                  name: socket-dir
+          dnsPolicy: ClusterFirst
+          priorityClassName: longhorn-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: longhorn-service-account
+          serviceAccountName: longhorn-service-account
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - hostPath:
+                path: /var/lib/kubelet/plugins/driver.longhorn.io
+                type: DirectoryOrCreate
+              name: socket-dir
+  - apiVersion: apps/v1
+    kind: ReplicaSet
+    metadata:
+      annotations:
+        deployment.kubernetes.io/desired-replicas: "3"
+        deployment.kubernetes.io/max-replicas: "4"
+        deployment.kubernetes.io/revision: "1"
+        driver.longhorn.io/git-commit: 29b7fda2692c8df5b1aa18c477f77863c7acc1e7
+        driver.longhorn.io/version: v1.10.1
+        longhorn.io/last-applied-tolerations: '[]'
+      labels:
+        app: csi-snapshotter
+        pod-template-hash: 97674b9f
+      name: csi-snapshotter-97674b9f
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: Deployment
+          name: csi-snapshotter
+          uid: 657cb508-ec9f-41f9-8d63-840707cf8639
+    spec:
+      replicas: 3
+      selector:
+        matchLabels:
+          app: csi-snapshotter
+          pod-template-hash: 97674b9f
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: csi-snapshotter
+            pod-template-hash: 97674b9f
+        spec:
+          affinity:
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                        - key: app
+                          operator: In
+                          values:
+                            - csi-snapshotter
+                    topologyKey: kubernetes.io/hostname
+                  weight: 1
+          containers:
+            - args:
+                - --v=2
+                - --csi-address=$(ADDRESS)
+                - --timeout=1m50s
+                - --leader-election
+                - --leader-election-namespace=$(POD_NAMESPACE)
+                - --kube-api-qps=50
+                - --kube-api-burst=100
+                - --http-endpoint=:8000
+              env:
+                - name: ADDRESS
+                  value: /csi/csi.sock
+                - name: POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.name
+              image: longhornio/csi-snapshotter:v8.4.0-20251030
+              imagePullPolicy: IfNotPresent
+              name: csi-snapshotter
+              ports:
+                - containerPort: 8000
+                  name: csi-snapshotter
+                  protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /csi/
+                  name: socket-dir
+          dnsPolicy: ClusterFirst
+          priorityClassName: longhorn-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: longhorn-service-account
+          serviceAccountName: longhorn-service-account
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - hostPath:
+                path: /var/lib/kubelet/plugins/driver.longhorn.io
+                type: DirectoryOrCreate
+              name: socket-dir
+  - apiVersion: apps/v1
+    kind: ReplicaSet
+    metadata:
+      annotations:
+        deployment.kubernetes.io/desired-replicas: "1"
+        deployment.kubernetes.io/max-replicas: "2"
+        deployment.kubernetes.io/revision: "1"
+        meta.helm.sh/release-name: longhorn
+        meta.helm.sh/release-namespace: longhorn-system
+      labels:
+        app: longhorn-driver-deployer
+        app.kubernetes.io/instance: longhorn
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: longhorn
+        app.kubernetes.io/version: v1.10.1
+        helm.sh/chart: longhorn-1.10.1
+        pod-template-hash: 5c69c6c4d6
+      name: longhorn-driver-deployer-5c69c6c4d6
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: Deployment
+          name: longhorn-driver-deployer
+          uid: 91697f39-1ea0-4351-a0c1-41fd12103052
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: longhorn-driver-deployer
+          pod-template-hash: 5c69c6c4d6
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: longhorn-driver-deployer
+            app.kubernetes.io/instance: longhorn
+            app.kubernetes.io/managed-by: Helm
+            app.kubernetes.io/name: longhorn
+            app.kubernetes.io/version: v1.10.1
+            helm.sh/chart: longhorn-1.10.1
+            pod-template-hash: 5c69c6c4d6
+        spec:
+          containers:
+            - command:
+                - longhorn-manager
+                - -d
+                - deploy-driver
+                - --manager-image
+                - longhornio/longhorn-manager:v1.10.1
+                - --manager-url
+                - http://longhorn-backend:9500/v1
+              env:
+                - name: POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: metadata.namespace
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: spec.nodeName
+                - name: SERVICE_ACCOUNT
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: spec.serviceAccountName
+                - name: CSI_ATTACHER_IMAGE
+                  value: longhornio/csi-attacher:v4.10.0-20251030
+                - name: CSI_PROVISIONER_IMAGE
+                  value: longhornio/csi-provisioner:v5.3.0-20251030
+                - name: CSI_NODE_DRIVER_REGISTRAR_IMAGE
+                  value: longhornio/csi-node-driver-registrar:v2.15.0-20251030
+                - name: CSI_RESIZER_IMAGE
+                  value: longhornio/csi-resizer:v1.14.0-20251030
+                - name: CSI_SNAPSHOTTER_IMAGE
+                  value: longhornio/csi-snapshotter:v8.4.0-20251030
+                - name: CSI_LIVENESS_PROBE_IMAGE
+                  value: longhornio/livenessprobe:v2.17.0-20251030
+              image: longhornio/longhorn-manager:v1.10.1
+              imagePullPolicy: IfNotPresent
+              name: longhorn-driver-deployer
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          initContainers:
+            - command:
+                - sh
+                - -c
+                - while [ $(curl -m 1 -s -o /dev/null -w "%{http_code}" http://longhorn-backend:9500/v1) != "200" ]; do echo waiting; sleep 2; done
+              image: longhornio/longhorn-manager:v1.10.1
+              imagePullPolicy: IfNotPresent
+              name: wait-longhorn-manager
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          priorityClassName: longhorn-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext:
+            runAsUser: 0
+          serviceAccount: longhorn-service-account
+          serviceAccountName: longhorn-service-account
+          terminationGracePeriodSeconds: 30
+  - apiVersion: apps/v1
+    kind: ReplicaSet
+    metadata:
+      annotations:
+        deployment.kubernetes.io/desired-replicas: "2"
+        deployment.kubernetes.io/max-replicas: "3"
+        deployment.kubernetes.io/revision: "1"
+        meta.helm.sh/release-name: longhorn
+        meta.helm.sh/release-namespace: longhorn-system
+      labels:
+        app: longhorn-ui
+        app.kubernetes.io/instance: longhorn
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: longhorn
+        app.kubernetes.io/version: v1.10.1
+        helm.sh/chart: longhorn-1.10.1
+        pod-template-hash: 84d97876df
+      name: longhorn-ui-84d97876df
+      namespace: longhorn-system
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: Deployment
+          name: longhorn-ui
+          uid: ba4b234d-7a2e-42c6-998d-dd07c127db67
+    spec:
+      replicas: 2
+      selector:
+        matchLabels:
+          app: longhorn-ui
+          pod-template-hash: 84d97876df
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: longhorn-ui
+            app.kubernetes.io/instance: longhorn
+            app.kubernetes.io/managed-by: Helm
+            app.kubernetes.io/name: longhorn
+            app.kubernetes.io/version: v1.10.1
+            helm.sh/chart: longhorn-1.10.1
+            pod-template-hash: 84d97876df
+        spec:
+          affinity:
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                        - key: app
+                          operator: In
+                          values:
+                            - longhorn-ui
+                    topologyKey: kubernetes.io/hostname
+                  weight: 1
+          containers:
+            - env:
+                - name: LONGHORN_MANAGER_IP
+                  value: http://longhorn-backend:9500
+                - name: LONGHORN_UI_PORT
+                  value: "8000"
+              image: longhornio/longhorn-ui:v1.10.1
+              imagePullPolicy: IfNotPresent
+              name: longhorn-ui
+              ports:
+                - containerPort: 8000
+                  name: http
+                  protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /var/cache/nginx/
+                  name: nginx-cache
+                - mountPath: /var/config/nginx/
+                  name: nginx-config
+                - mountPath: /var/run/
+                  name: var-run
+          dnsPolicy: ClusterFirst
+          priorityClassName: longhorn-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: longhorn-ui-service-account
+          serviceAccountName: longhorn-ui-service-account
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - emptyDir: {}
+              name: nginx-cache
+            - emptyDir: {}
+              name: nginx-config
+            - emptyDir: {}
+              name: var-run
+kind: List
+metadata: {}

@@ -1,0 +1,54 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    creationTimestamp: "2025-10-24T15:49:06Z"
+    labels:
+      app: drone-server
+    name: droneserver
+    namespace: drone
+    resourceVersion: "22604304"
+    uid: a08c80b2-0562-4827-afe2-5b250136e9e3
+  subsets:
+  - addresses:
+    - ip: 10.244.101.148
+      nodeName: s231226.wholesaleinternet.net
+      targetRef:
+        kind: Pod
+        name: drone-server-7cd8d6dd98-lg5kn
+        namespace: drone
+        uid: 06092470-34a7-4ba1-8963-a1d5b0d902f0
+    ports:
+    - name: http
+      port: 80
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2025-10-24T16:46:33Z"
+    creationTimestamp: "2025-10-24T14:26:18Z"
+    labels:
+      app: postgres
+    name: postgres
+    namespace: drone
+    resourceVersion: "85638"
+    uid: 4d46dd44-0e03-40cd-be38-cb2a50a9ca32
+  subsets:
+  - addresses:
+    - hostname: postgres-0
+      ip: 10.244.101.153
+      nodeName: s231226.wholesaleinternet.net
+      targetRef:
+        kind: Pod
+        name: postgres-0
+        namespace: drone
+        uid: f612a613-6d79-4cc2-9964-ee9c70287e1a
+    ports:
+    - name: http
+      port: 5432
+      protocol: TCP
+kind: List
+metadata:
+  resourceVersion: ""

@@ -1,0 +1,724 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: 2db70a11068f10d652b88fbe40f0c38226ead0d7acb11f9a25bbf072e4606817
+      cni.projectcalico.org/podIP: 10.244.101.137/32
+      cni.projectcalico.org/podIPs: 10.244.101.137/32
+      kubectl.kubernetes.io/restartedAt: "2026-02-08T15:16:25Z"
+    creationTimestamp: "2026-02-08T16:45:57Z"
+    generateName: cyberlynx-blog-659dc45d4f-
+    labels:
+      app.kubernetes.io/name: cyberlynx-blog
+      pod-template-hash: 659dc45d4f
+    name: cyberlynx-blog-659dc45d4f-bvqh4
+    namespace: websites
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: cyberlynx-blog-659dc45d4f
+      uid: affaac0f-f30e-45d5-9c78-4eafe4fb7525
+    resourceVersion: "22629895"
+    uid: 75bbabe3-622c-4b78-aab3-0c6883aa5d01
+  spec:
+    containers:
+    - env:
+      - name: NODE_ENV
+        value: production
+      - name: PORT
+        value: "8080"
+      envFrom:
+      - secretRef:
+          name: cyberlynx-blog-env
+      image: cyberlynxx/cyberlynx-blog:e2c3b81
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /
+          port: http
+          scheme: HTTP
+        initialDelaySeconds: 15
+        periodSeconds: 20
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: web
+      ports:
+      - containerPort: 8080
+        name: http
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /
+          port: http
+          scheme: HTTP
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 250m
+          memory: 256Mi
+        requests:
+          cpu: 50m
+          memory: 64Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        runAsGroup: 1001
+        runAsUser: 1001
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-c9vch
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: dockerhub-creds
+    nodeName: s231226.wholesaleinternet.net
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 2000
+      runAsNonRoot: true
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-c9vch
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-02-08T16:46:11Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-02-08T16:45:57Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-02-08T16:46:18Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-02-08T16:46:18Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-02-08T16:45:57Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://61601588ce99610c6e925c8ffb1e3c49ba2c6c02c01199c1ce0dcc6639238ee9
+      image: docker.io/cyberlynxx/cyberlynx-blog:e2c3b81
+      imageID: docker.io/cyberlynxx/cyberlynx-blog@sha256:d0969e6d46e4d56c0d0c75ff180dadd557d78ffded93be056610d93e74065d53
+      lastState: {}
+      name: web
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-02-08T16:46:10Z"
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-c9vch
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 10.200.0.1
+    hostIPs:
+    - ip: 10.200.0.1
+    phase: Running
+    podIP: 10.244.101.137
+    podIPs:
+    - ip: 10.244.101.137
+    qosClass: Burstable
+    startTime: "2026-02-08T16:45:57Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app.kubernetes.io/name":"cyberlynx-blog"},"name":"cyberlynx-blog","namespace":"websites"},"spec":{"ports":[{"name":"http","port":80,"targetPort":8080}],"selector":{"app.kubernetes.io/name":"cyberlynx-blog"},"type":"ClusterIP"}}
+    creationTimestamp: "2026-02-08T14:00:24Z"
+    labels:
+      app.kubernetes.io/name: cyberlynx-blog
+    name: cyberlynx-blog
+    namespace: websites
+    resourceVersion: "22601541"
+    uid: aa6aa800-ab4f-4159-a26d-f71c857670fe
+  spec:
+    clusterIP: 10.96.149.201
+    clusterIPs:
+    - 10.96.149.201
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app.kubernetes.io/name: cyberlynx-blog
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "10"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app.kubernetes.io/name":"cyberlynx-blog","app.kubernetes.io/part-of":"cyberlynx"},"name":"cyberlynx-blog","namespace":"websites"},"spec":{"replicas":1,"revisionHistoryLimit":3,"selector":{"matchLabels":{"app.kubernetes.io/name":"cyberlynx-blog"}},"strategy":{"rollingUpdate":{"maxSurge":1,"maxUnavailable":0},"type":"RollingUpdate"},"template":{"metadata":{"labels":{"app.kubernetes.io/name":"cyberlynx-blog"}},"spec":{"containers":[{"env":[{"name":"NODE_ENV","value":"production"},{"name":"PORT","value":"8080"}],"envFrom":[{"secretRef":{"name":"cyberlynx-blog-env"}}],"image":"cyberlynxx/cyberlynx-blog:e4b31ef","imagePullPolicy":"IfNotPresent","livenessProbe":{"httpGet":{"path":"/","port":"http"},"initialDelaySeconds":15,"periodSeconds":20},"name":"web","ports":[{"containerPort":8080,"name":"http"}],"readinessProbe":{"httpGet":{"path":"/","port":"http"},"initialDelaySeconds":5,"periodSeconds":10},"resources":{"limits":{"cpu":"250m","memory":"256Mi"},"requests":{"cpu":"50m","memory":"64Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"readOnlyRootFilesystem":true,"runAsGroup":1001,"runAsUser":1001}}],"securityContext":{"fsGroup":2000,"runAsNonRoot":true}}}}}
+    creationTimestamp: "2026-02-08T14:00:24Z"
+    generation: 11
+    labels:
+      app.kubernetes.io/name: cyberlynx-blog
+      app.kubernetes.io/part-of: cyberlynx
+    name: cyberlynx-blog
+    namespace: websites
+    resourceVersion: "22629912"
+    uid: 031bd32f-d9bf-440f-8c0f-0dafb8352220
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 3
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: cyberlynx-blog
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2026-02-08T15:16:25Z"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/name: cyberlynx-blog
+      spec:
+        containers:
+        - env:
+          - name: NODE_ENV
+            value: production
+          - name: PORT
+            value: "8080"
+          envFrom:
+          - secretRef:
+              name: cyberlynx-blog-env
+          image: cyberlynxx/cyberlynx-blog:e2c3b81
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: web
+          ports:
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 250m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsGroup: 1001
+            runAsUser: 1001
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: dockerhub-creds
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 2000
+          runAsNonRoot: true
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-02-08T14:15:02Z"
+      lastUpdateTime: "2026-02-08T14:15:02Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-02-08T14:00:24Z"
+      lastUpdateTime: "2026-02-08T16:46:18Z"
+      message: ReplicaSet "cyberlynx-blog-659dc45d4f" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 11
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "10"
+    creationTimestamp: "2026-02-08T16:45:57Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/name: cyberlynx-blog
+      pod-template-hash: 659dc45d4f
+    name: cyberlynx-blog-659dc45d4f
+    namespace: websites
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cyberlynx-blog
+      uid: 031bd32f-d9bf-440f-8c0f-0dafb8352220
+    resourceVersion: "22629896"
+    uid: affaac0f-f30e-45d5-9c78-4eafe4fb7525
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: cyberlynx-blog
+        pod-template-hash: 659dc45d4f
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2026-02-08T15:16:25Z"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/name: cyberlynx-blog
+          pod-template-hash: 659dc45d4f
+      spec:
+        containers:
+        - env:
+          - name: NODE_ENV
+            value: production
+          - name: PORT
+            value: "8080"
+          envFrom:
+          - secretRef:
+              name: cyberlynx-blog-env
+          image: cyberlynxx/cyberlynx-blog:e2c3b81
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: web
+          ports:
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 250m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsGroup: 1001
+            runAsUser: 1001
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: dockerhub-creds
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 2000
+          runAsNonRoot: true
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "7"
+    creationTimestamp: "2026-02-08T15:13:12Z"
+    generation: 2
+    labels:
+      app.kubernetes.io/name: cyberlynx-blog
+      pod-template-hash: 65cb8cbc44
+    name: cyberlynx-blog-65cb8cbc44
+    namespace: websites
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cyberlynx-blog
+      uid: 031bd32f-d9bf-440f-8c0f-0dafb8352220
+    resourceVersion: "22614905"
+    uid: 6aab06dd-0d97-4e09-9378-2e05fa1784a9
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: cyberlynx-blog
+        pod-template-hash: 65cb8cbc44
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2026-02-08T15:13:12Z"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/name: cyberlynx-blog
+          pod-template-hash: 65cb8cbc44
+      spec:
+        containers:
+        - env:
+          - name: NODE_ENV
+            value: production
+          - name: PORT
+            value: "8080"
+          envFrom:
+          - secretRef:
+              name: cyberlynx-blog-env
+          image: cyberlynxx/cyberlynx-blog:e4b31ef
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: web
+          ports:
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 250m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsGroup: 1001
+            runAsUser: 1001
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: dockerhub-creds
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 2000
+          runAsNonRoot: true
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "9"
+    creationTimestamp: "2026-02-08T15:46:02Z"
+    generation: 2
+    labels:
+      app.kubernetes.io/name: cyberlynx-blog
+      pod-template-hash: 76b4f9447
+    name: cyberlynx-blog-76b4f9447
+    namespace: websites
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cyberlynx-blog
+      uid: 031bd32f-d9bf-440f-8c0f-0dafb8352220
+    resourceVersion: "22629911"
+    uid: dc220180-8747-411e-ad31-b4077bd20fd6
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: cyberlynx-blog
+        pod-template-hash: 76b4f9447
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2026-02-08T15:16:25Z"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/name: cyberlynx-blog
+          pod-template-hash: 76b4f9447
+      spec:
+        containers:
+        - env:
+          - name: NODE_ENV
+            value: production
+          - name: PORT
+            value: "8080"
+          envFrom:
+          - secretRef:
+              name: cyberlynx-blog-env
+          image: cyberlynxx/cyberlynx-blog:7c538ea
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: web
+          ports:
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 250m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsGroup: 1001
+            runAsUser: 1001
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: dockerhub-creds
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 2000
+          runAsNonRoot: true
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "8"
+    creationTimestamp: "2026-02-08T15:16:25Z"
+    generation: 2
+    labels:
+      app.kubernetes.io/name: cyberlynx-blog
+      pod-template-hash: b85c5d96f
+    name: cyberlynx-blog-b85c5d96f
+    namespace: websites
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cyberlynx-blog
+      uid: 031bd32f-d9bf-440f-8c0f-0dafb8352220
+    resourceVersion: "22619922"
+    uid: 3481a08b-f81e-4177-855c-9c58003f3a33
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: cyberlynx-blog
+        pod-template-hash: b85c5d96f
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2026-02-08T15:16:25Z"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/name: cyberlynx-blog
+          pod-template-hash: b85c5d96f
+      spec:
+        containers:
+        - env:
+          - name: NODE_ENV
+            value: production
+          - name: PORT
+            value: "8080"
+          envFrom:
+          - secretRef:
+              name: cyberlynx-blog-env
+          image: cyberlynxx/cyberlynx-blog:e4b31ef
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: web
+          ports:
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 250m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsGroup: 1001
+            runAsUser: 1001
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: dockerhub-creds
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 2000
+          runAsNonRoot: true
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 2
+    replicas: 0
+kind: List
+metadata:
+  resourceVersion: ""

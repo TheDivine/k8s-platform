@@ -1,0 +1,119 @@
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "10"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app.kubernetes.io/name":"cyberlynx-blog","app.kubernetes.io/part-of":"cyberlynx"},"name":"cyberlynx-blog","namespace":"websites"},"spec":{"replicas":1,"revisionHistoryLimit":3,"selector":{"matchLabels":{"app.kubernetes.io/name":"cyberlynx-blog"}},"strategy":{"rollingUpdate":{"maxSurge":1,"maxUnavailable":0},"type":"RollingUpdate"},"template":{"metadata":{"labels":{"app.kubernetes.io/name":"cyberlynx-blog"}},"spec":{"containers":[{"env":[{"name":"NODE_ENV","value":"production"},{"name":"PORT","value":"8080"}],"envFrom":[{"secretRef":{"name":"cyberlynx-blog-env"}}],"image":"cyberlynxx/cyberlynx-blog:e4b31ef","imagePullPolicy":"IfNotPresent","livenessProbe":{"httpGet":{"path":"/","port":"http"},"initialDelaySeconds":15,"periodSeconds":20},"name":"web","ports":[{"containerPort":8080,"name":"http"}],"readinessProbe":{"httpGet":{"path":"/","port":"http"},"initialDelaySeconds":5,"periodSeconds":10},"resources":{"limits":{"cpu":"250m","memory":"256Mi"},"requests":{"cpu":"50m","memory":"64Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"readOnlyRootFilesystem":true,"runAsGroup":1001,"runAsUser":1001}}],"securityContext":{"fsGroup":2000,"runAsNonRoot":true}}}}}
+    creationTimestamp: "2026-02-08T14:00:24Z"
+    generation: 11
+    labels:
+      app.kubernetes.io/name: cyberlynx-blog
+      app.kubernetes.io/part-of: cyberlynx
+    name: cyberlynx-blog
+    namespace: websites
+    resourceVersion: "22629912"
+    uid: 031bd32f-d9bf-440f-8c0f-0dafb8352220
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 3
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: cyberlynx-blog
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2026-02-08T15:16:25Z"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/name: cyberlynx-blog
+      spec:
+        containers:
+        - env:
+          - name: NODE_ENV
+            value: production
+          - name: PORT
+            value: "8080"
+          envFrom:
+          - secretRef:
+              name: cyberlynx-blog-env
+          image: cyberlynxx/cyberlynx-blog:e2c3b81
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: web
+          ports:
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 250m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsGroup: 1001
+            runAsUser: 1001
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: dockerhub-creds
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 2000
+          runAsNonRoot: true
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-02-08T14:15:02Z"
+      lastUpdateTime: "2026-02-08T14:15:02Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-02-08T14:00:24Z"
+      lastUpdateTime: "2026-02-08T16:46:18Z"
+      message: ReplicaSet "cyberlynx-blog-659dc45d4f" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 11
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+kind: List
+metadata:
+  resourceVersion: ""

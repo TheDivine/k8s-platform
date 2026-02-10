@@ -1,0 +1,24 @@
+apiVersion: v1
+items:
+  - apiVersion: v1
+    kind: Endpoints
+    metadata:
+      labels:
+        app.kubernetes.io/name: cyberlynx-blog
+      name: cyberlynx-blog
+      namespace: websites
+    subsets:
+      - addresses:
+          - ip: 10.244.101.137
+            nodeName: s231226.wholesaleinternet.net
+            targetRef:
+              kind: Pod
+              name: cyberlynx-blog-659dc45d4f-bvqh4
+              namespace: websites
+              uid: 75bbabe3-622c-4b78-aab3-0c6883aa5d01
+        ports:
+          - name: http
+            port: 8080
+            protocol: TCP
+kind: List
+metadata: {}

@@ -1,0 +1,192 @@
+apiVersion: v1
+items:
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{},"labels":{"app":"metallb"},"name":"controller","namespace":"metallb-system"},"rules":[{"apiGroups":[""],"resources":["secrets"],"verbs":["create","delete","get","list","patch","update","watch"]},{"apiGroups":[""],"resourceNames":["memberlist"],"resources":["secrets"],"verbs":["list"]},{"apiGroups":["apps"],"resourceNames":["controller"],"resources":["deployments"],"verbs":["get"]},{"apiGroups":["metallb.io"],"resources":["bgppeers"],"verbs":["get","list"]},{"apiGroups":["metallb.io"],"resources":["bfdprofiles"],"verbs":["get","list","watch"]},{"apiGroups":["metallb.io"],"resources":["ipaddresspools"],"verbs":["get","list","watch"]},{"apiGroups":["metallb.io"],"resources":["ipaddresspools/status"],"verbs":["update"]},{"apiGroups":["metallb.io"],"resources":["bgpadvertisements"],"verbs":["get","list","watch"]},{"apiGroups":["metallb.io"],"resources":["l2advertisements"],"verbs":["get","list","watch"]},{"apiGroups":["metallb.io"],"resources":["communities"],"verbs":["get","list","watch"]}]}
+    creationTimestamp: "2025-10-24T09:08:41Z"
+    labels:
+      app: metallb
+    name: controller
+    namespace: metallb-system
+    resourceVersion: "44084"
+    uid: e1320936-f1f6-431d-a497-7bf9999c0625
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - secrets
+    verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - ""
+    resourceNames:
+    - memberlist
+    resources:
+    - secrets
+    verbs:
+    - list
+  - apiGroups:
+    - apps
+    resourceNames:
+    - controller
+    resources:
+    - deployments
+    verbs:
+    - get
+  - apiGroups:
+    - metallb.io
+    resources:
+    - bgppeers
+    verbs:
+    - get
+    - list
+  - apiGroups:
+    - metallb.io
+    resources:
+    - bfdprofiles
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - metallb.io
+    resources:
+    - ipaddresspools
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - metallb.io
+    resources:
+    - ipaddresspools/status
+    verbs:
+    - update
+  - apiGroups:
+    - metallb.io
+    resources:
+    - bgpadvertisements
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - metallb.io
+    resources:
+    - l2advertisements
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - metallb.io
+    resources:
+    - communities
+    verbs:
+    - get
+    - list
+    - watch
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{},"labels":{"app":"metallb"},"name":"pod-lister","namespace":"metallb-system"},"rules":[{"apiGroups":[""],"resources":["pods"],"verbs":["list","get"]},{"apiGroups":[""],"resources":["secrets"],"verbs":["get","list","watch"]},{"apiGroups":[""],"resources":["configmaps"],"verbs":["get","list","watch"]},{"apiGroups":["metallb.io"],"resources":["bfdprofiles"],"verbs":["get","list","watch"]},{"apiGroups":["metallb.io"],"resources":["bgppeers"],"verbs":["get","list","watch"]},{"apiGroups":["metallb.io"],"resources":["l2advertisements"],"verbs":["get","list","watch"]},{"apiGroups":["metallb.io"],"resources":["bgpadvertisements"],"verbs":["get","list","watch"]},{"apiGroups":["metallb.io"],"resources":["ipaddresspools"],"verbs":["get","list","watch"]},{"apiGroups":["metallb.io"],"resources":["communities"],"verbs":["get","list","watch"]},{"apiGroups":["metallb.io"],"resources":["servicebgpstatuses","servicebgpstatuses/status"],"verbs":["*"]}]}
+    creationTimestamp: "2025-10-24T09:08:41Z"
+    labels:
+      app: metallb
+    name: pod-lister
+    namespace: metallb-system
+    resourceVersion: "44085"
+    uid: 6b1aa3e9-8209-42c1-aa0e-038ce877139c
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - pods
+    verbs:
+    - list
+    - get
+  - apiGroups:
+    - ""
+    resources:
+    - secrets
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - configmaps
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - metallb.io
+    resources:
+    - bfdprofiles
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - metallb.io
+    resources:
+    - bgppeers
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - metallb.io
+    resources:
+    - l2advertisements
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - metallb.io
+    resources:
+    - bgpadvertisements
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - metallb.io
+    resources:
+    - ipaddresspools
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - metallb.io
+    resources:
+    - communities
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - metallb.io
+    resources:
+    - servicebgpstatuses
+    - servicebgpstatuses/status
+    verbs:
+    - '*'
+kind: List
+metadata:
+  resourceVersion: ""

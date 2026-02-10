@@ -1,0 +1,123 @@
+apiVersion: v1
+items:
+- apiVersion: policy/v1
+  kind: PodDisruptionBudget
+  metadata:
+    creationTimestamp: "2025-11-20T12:46:31Z"
+    generation: 1
+    name: csi-attacher
+    namespace: longhorn-system
+    resourceVersion: "14635464"
+    uid: e094d289-8db3-412e-ab9e-664d9c834dca
+  spec:
+    minAvailable: 1
+    selector:
+      matchLabels:
+        app: csi-attacher
+  status:
+    conditions:
+    - lastTransitionTime: "2025-11-20T12:46:31Z"
+      message: ""
+      observedGeneration: 1
+      reason: SufficientPods
+      status: "True"
+      type: DisruptionAllowed
+    currentHealthy: 3
+    desiredHealthy: 1
+    disruptionsAllowed: 2
+    expectedPods: 3
+    observedGeneration: 1
+- apiVersion: policy/v1
+  kind: PodDisruptionBudget
+  metadata:
+    creationTimestamp: "2025-11-20T12:46:31Z"
+    generation: 1
+    name: csi-provisioner
+    namespace: longhorn-system
+    resourceVersion: "20144471"
+    uid: 3feefb5f-0504-4ecd-8919-3546eb7c4a0f
+  spec:
+    minAvailable: 1
+    selector:
+      matchLabels:
+        app: csi-provisioner
+  status:
+    conditions:
+    - lastTransitionTime: "2025-11-20T12:46:31Z"
+      message: ""
+      observedGeneration: 1
+      reason: SufficientPods
+      status: "True"
+      type: DisruptionAllowed
+    currentHealthy: 3
+    desiredHealthy: 1
+    disruptionsAllowed: 2
+    expectedPods: 3
+    observedGeneration: 1
+- apiVersion: policy/v1
+  kind: PodDisruptionBudget
+  metadata:
+    creationTimestamp: "2025-11-20T10:30:29Z"
+    generation: 1
+    name: instance-manager-2d3d95b56f4b45f5d5ed53608658827c
+    namespace: longhorn-system
+    resourceVersion: "14635629"
+    uid: c563e289-d717-4bbf-9f72-143d6d30c157
+  spec:
+    minAvailable: 1
+    selector:
+      matchLabels:
+        longhorn.io/component: instance-manager
+        longhorn.io/data-engine: v1
+        longhorn.io/instance-manager-image: imi-9fecca02
+        longhorn.io/instance-manager-type: aio
+        longhorn.io/managed-by: longhorn-manager
+        longhorn.io/node: hcp.kwiki.it.com
+  status:
+    conditions:
+    - lastTransitionTime: "2025-11-20T10:30:29Z"
+      message: ""
+      observedGeneration: 1
+      reason: InsufficientPods
+      status: "False"
+      type: DisruptionAllowed
+    currentHealthy: 1
+    desiredHealthy: 1
+    disruptionsAllowed: 0
+    expectedPods: 1
+    observedGeneration: 1
+- apiVersion: policy/v1
+  kind: PodDisruptionBudget
+  metadata:
+    creationTimestamp: "2025-11-20T10:30:47Z"
+    generation: 1
+    name: instance-manager-c1f5d2159fe6bd69ddea82a3ecbf228e
+    namespace: longhorn-system
+    resourceVersion: "3366807"
+    uid: ffbd2bc6-256b-4739-915d-b30bb022ec14
+  spec:
+    minAvailable: 1
+    selector:
+      matchLabels:
+        longhorn.io/component: instance-manager
+        longhorn.io/data-engine: v1
+        longhorn.io/instance-manager-image: imi-9fecca02
+        longhorn.io/instance-manager-type: aio
+        longhorn.io/managed-by: longhorn-manager
+        longhorn.io/node: s231226.wholesaleinternet.net
+  status:
+    conditions:
+    - lastTransitionTime: "2025-11-20T10:30:47Z"
+      message: ""
+      observedGeneration: 1
+      reason: InsufficientPods
+      status: "False"
+      type: DisruptionAllowed
+    currentHealthy: 1
+    desiredHealthy: 1
+    disruptionsAllowed: 0
+    expectedPods: 1
+    observedGeneration: 1
+kind: List
+metadata:
+  resourceVersion: ""

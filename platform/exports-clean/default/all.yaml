@@ -1,0 +1,800 @@
+apiVersion: v1
+items:
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: f9bf9f9842055dbf1ad4b88569ffd7b431d954e365d8c1905a0eabdeaca28881
+        cni.projectcalico.org/podIP: 10.244.101.182/32
+        cni.projectcalico.org/podIPs: 10.244.101.182/32
+      labels:
+        run: check-ip
+      name: check-ip
+      namespace: default
+    spec:
+      containers:
+        - image: httpd:2-alpine
+          imagePullPolicy: IfNotPresent
+          name: check-ip
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-2c975
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 0
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: default
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - name: kube-api-access-2c975
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 8f9add741b4760710f0b76801a08f5309050c662a0a18a0a3c404f8371efa88e
+        cni.projectcalico.org/podIP: 10.244.101.183/32
+        cni.projectcalico.org/podIPs: 10.244.101.183/32
+      generateName: hello-node-5dfbcb764b-
+      labels:
+        app: hello-node
+        pod-template-hash: 5dfbcb764b
+      name: hello-node-5dfbcb764b-46n7m
+      namespace: default
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: hello-node-5dfbcb764b
+          uid: 68a70fe5-e94b-41b4-ae1f-e3290cf002d2
+    spec:
+      containers:
+        - command:
+            - /agnhost
+            - netexec
+            - --http-port=8080
+          image: registry.k8s.io/e2e-test-images/agnhost:2.53
+          imagePullPolicy: IfNotPresent
+          name: agnhost
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-8282q
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 0
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: default
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - name: kube-api-access-8282q
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: c70cd4acedf32a26be9f66be6cc1ada00a08a68c612c747776e167c613ba06c4
+        cni.projectcalico.org/podIP: ""
+        cni.projectcalico.org/podIPs: ""
+      name: iperf-client-control
+      namespace: default
+    spec:
+      containers:
+        - command:
+            - iperf3
+            - -c
+            - 10.244.91.215
+            - -t
+            - "20"
+          image: networkstatic/iperf3
+          imagePullPolicy: Always
+          name: iperf-client
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-vmqts
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      nodeSelector:
+        kubernetes.io/hostname: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 0
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: default
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - name: kube-api-access-vmqts
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 50f1a5a5eb4dedb6ad3d09b59028b2ac148dbf46e725fdf3d98d43ad0c2ba1a9
+        cni.projectcalico.org/podIP: 10.244.101.136/32
+        cni.projectcalico.org/podIPs: 10.244.101.136/32
+      labels:
+        app: iperf
+      name: iperf-server
+      namespace: default
+    spec:
+      containers:
+        - command:
+            - iperf3
+            - -s
+          image: networkstatic/iperf3
+          imagePullPolicy: Always
+          name: iperf-server
+          ports:
+            - containerPort: 5201
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-kmlnn
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      nodeSelector:
+        kubernetes.io/hostname: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 0
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: default
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - name: kube-api-access-kmlnn
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: 8b4eaf83e90ace3c36dd5a96c39d85b86ffa4e7655e20eb8360e25685a20138e
+        cni.projectcalico.org/podIP: 10.244.101.152/32
+        cni.projectcalico.org/podIPs: 10.244.101.152/32
+      generateName: whoami-deployment-85f6bb67d6-
+      labels:
+        app: whoami
+        pod-template-hash: 85f6bb67d6
+      name: whoami-deployment-85f6bb67d6-2zjbl
+      namespace: default
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: whoami-deployment-85f6bb67d6
+          uid: 55bfe6f0-4441-4f45-bf21-5f0789a097bd
+    spec:
+      containers:
+        - image: traefik/whoami:v1.10
+          imagePullPolicy: IfNotPresent
+          name: whoami
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-jvhsd
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 0
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: default
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - name: kube-api-access-jvhsd
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: bbf7e1b8cfc467210b0e637e753b784014210a09c67b7bd265c95783eae00c4e
+        cni.projectcalico.org/podIP: 10.244.101.150/32
+        cni.projectcalico.org/podIPs: 10.244.101.150/32
+      generateName: whoami-deployment-85f6bb67d6-
+      labels:
+        app: whoami
+        pod-template-hash: 85f6bb67d6
+      name: whoami-deployment-85f6bb67d6-mdv4z
+      namespace: default
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: whoami-deployment-85f6bb67d6
+          uid: 55bfe6f0-4441-4f45-bf21-5f0789a097bd
+    spec:
+      containers:
+        - image: traefik/whoami:v1.10
+          imagePullPolicy: IfNotPresent
+          name: whoami
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-grjhj
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 0
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: default
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - name: kube-api-access-grjhj
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        cni.projectcalico.org/containerID: c13c83b42a59a36b027e29c6a9af5a18f92bd0ab9e40569a0b0990e2d72a2eee
+        cni.projectcalico.org/podIP: 10.244.101.139/32
+        cni.projectcalico.org/podIPs: 10.244.101.139/32
+      generateName: whoami-deployment-85f6bb67d6-
+      labels:
+        app: whoami
+        pod-template-hash: 85f6bb67d6
+      name: whoami-deployment-85f6bb67d6-xsgx4
+      namespace: default
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: whoami-deployment-85f6bb67d6
+          uid: 55bfe6f0-4441-4f45-bf21-5f0789a097bd
+    spec:
+      containers:
+        - image: traefik/whoami:v1.10
+          imagePullPolicy: IfNotPresent
+          name: whoami
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-fn2sn
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: s231226.wholesaleinternet.net
+      preemptionPolicy: PreemptLowerPriority
+      priority: 0
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: default
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - name: kube-api-access-fn2sn
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        run: check-ip
+      name: check-ip-service
+      namespace: default
+    spec:
+      clusterIP: 10.99.192.183
+      clusterIPs:
+        - 10.99.192.183
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - port: 80
+          protocol: TCP
+          targetPort: 80
+      selector:
+        run: check-ip
+      sessionAffinity: None
+      type: ClusterIP
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations: {}
+      labels:
+        app: drone-server
+      name: droneserver
+      namespace: default
+    spec:
+      clusterIP: 10.98.84.175
+      clusterIPs:
+        - 10.98.84.175
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - name: http
+          port: 80
+          protocol: TCP
+          targetPort: 80
+        - name: https
+          port: 443
+          protocol: TCP
+          targetPort: 443
+      selector:
+        app: drone-server
+      sessionAffinity: None
+      type: ClusterIP
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: hello-node
+      name: hello-node
+      namespace: default
+    spec:
+      clusterIP: 10.105.120.249
+      clusterIPs:
+        - 10.105.120.249
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - port: 8080
+          protocol: TCP
+          targetPort: 8080
+      selector:
+        app: hello-node
+      sessionAffinity: None
+      type: ClusterIP
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        component: apiserver
+        provider: kubernetes
+      name: kubernetes
+      namespace: default
+    spec:
+      clusterIP: 10.96.0.1
+      clusterIPs:
+        - 10.96.0.1
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - name: https
+          port: 443
+          protocol: TCP
+          targetPort: 6443
+      sessionAffinity: None
+      type: ClusterIP
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations: {}
+      name: whoami-service
+      namespace: default
+    spec:
+      clusterIP: 10.105.125.48
+      clusterIPs:
+        - 10.105.125.48
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - name: http
+          port: 80
+          protocol: TCP
+          targetPort: 80
+      selector:
+        app: whoami
+      sessionAffinity: None
+      type: ClusterIP
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: "1"
+      labels:
+        app: hello-node
+      name: hello-node
+      namespace: default
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: hello-node
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: hello-node
+        spec:
+          containers:
+            - command:
+                - /agnhost
+                - netexec
+                - --http-port=8080
+              image: registry.k8s.io/e2e-test-images/agnhost:2.53
+              imagePullPolicy: IfNotPresent
+              name: agnhost
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: "1"
+      name: whoami-deployment
+      namespace: default
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 3
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: whoami
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: whoami
+        spec:
+          containers:
+            - image: traefik/whoami:v1.10
+              imagePullPolicy: IfNotPresent
+              name: whoami
+              ports:
+                - containerPort: 80
+                  protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+  - apiVersion: apps/v1
+    kind: ReplicaSet
+    metadata:
+      annotations:
+        deployment.kubernetes.io/desired-replicas: "1"
+        deployment.kubernetes.io/max-replicas: "2"
+        deployment.kubernetes.io/revision: "1"
+      labels:
+        app: hello-node
+        pod-template-hash: 5dfbcb764b
+      name: hello-node-5dfbcb764b
+      namespace: default
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: Deployment
+          name: hello-node
+          uid: cda06028-b134-4afc-b6c3-350189650967
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: hello-node
+          pod-template-hash: 5dfbcb764b
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: hello-node
+            pod-template-hash: 5dfbcb764b
+        spec:
+          containers:
+            - command:
+                - /agnhost
+                - netexec
+                - --http-port=8080
+              image: registry.k8s.io/e2e-test-images/agnhost:2.53
+              imagePullPolicy: IfNotPresent
+              name: agnhost
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+  - apiVersion: apps/v1
+    kind: ReplicaSet
+    metadata:
+      annotations:
+        deployment.kubernetes.io/desired-replicas: "3"
+        deployment.kubernetes.io/max-replicas: "4"
+        deployment.kubernetes.io/revision: "1"
+      labels:
+        app: whoami
+        pod-template-hash: 85f6bb67d6
+      name: whoami-deployment-85f6bb67d6
+      namespace: default
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: Deployment
+          name: whoami-deployment
+          uid: d361f58b-acc8-4240-bba3-0bf8d39c7c20
+    spec:
+      replicas: 3
+      selector:
+        matchLabels:
+          app: whoami
+          pod-template-hash: 85f6bb67d6
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: whoami
+            pod-template-hash: 85f6bb67d6
+        spec:
+          containers:
+            - image: traefik/whoami:v1.10
+              imagePullPolicy: IfNotPresent
+              name: whoami
+              ports:
+                - containerPort: 80
+                  protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+kind: List
+metadata: {}

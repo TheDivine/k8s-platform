@@ -1,0 +1,42 @@
+apiVersion: v1
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"kubernetes.io/ingress.class":"traefik","traefik.ingress.kubernetes.io/router.entrypoints":"websecure","traefik.ingress.kubernetes.io/router.middlewares":"traefik-dashboard-basicauth@kubernetescrd","traefik.ingress.kubernetes.io/router.tls":"true","traefik.ingress.kubernetes.io/router.tls.certresolver":"le"},"name":"longhorn-ui","namespace":"longhorn-system"},"spec":{"ingressClassName":"traefik","rules":[{"host":"longhorn.kwiki.it.com","http":{"paths":[{"backend":{"service":{"name":"longhorn-frontend","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}}],"tls":[{"hosts":["longhorn.kwiki.it.com"]}]}}
+      kubernetes.io/ingress.class: traefik
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-dashboard-basicauth@kubernetescrd
+      traefik.ingress.kubernetes.io/router.tls: "true"
+      traefik.ingress.kubernetes.io/router.tls.certresolver: le
+    creationTimestamp: "2025-11-20T12:52:17Z"
+    generation: 2
+    name: longhorn-ui
+    namespace: longhorn-system
+    resourceVersion: "3452462"
+    uid: 1e2ac233-f1eb-4643-925f-22ad003f0e94
+  spec:
+    ingressClassName: traefik
+    rules:
+    - host: longhorn.kwiki.it.com
+      http:
+        paths:
+        - backend:
+            service:
+              name: longhorn-frontend
+              port:
+                number: 80
+          path: /
+          pathType: Prefix
+    tls:
+    - hosts:
+      - longhorn.kwiki.it.com
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 69.30.233.178
+kind: List
+metadata:
+  resourceVersion: ""

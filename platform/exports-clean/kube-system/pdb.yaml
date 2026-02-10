@@ -1,0 +1,17 @@
+apiVersion: v1
+items:
+  - apiVersion: policy/v1
+    kind: PodDisruptionBudget
+    metadata:
+      annotations: {}
+      labels:
+        k8s-app: calico-kube-controllers
+      name: calico-kube-controllers
+      namespace: kube-system
+    spec:
+      maxUnavailable: 1
+      selector:
+        matchLabels:
+          k8s-app: calico-kube-controllers
+kind: List
+metadata: {}

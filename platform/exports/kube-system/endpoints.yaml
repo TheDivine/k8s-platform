@@ -1,0 +1,269 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    creationTimestamp: "2025-10-24T00:53:13Z"
+    labels:
+      k8s-app: kube-dns
+      kubernetes.io/cluster-service: "true"
+      kubernetes.io/name: CoreDNS
+    name: kube-dns
+    namespace: kube-system
+    resourceVersion: "22604288"
+    uid: 801c75a2-4c7b-4191-99b2-0fcc8861bcaa
+  subsets:
+  - addresses:
+    - ip: 10.244.101.132
+      nodeName: s231226.wholesaleinternet.net
+      targetRef:
+        kind: Pod
+        name: coredns-7c65d6cfc9-lcczf
+        namespace: kube-system
+        uid: aefff250-964a-4ea0-861d-f18956dddd2e
+    - ip: 10.244.101.133
+      nodeName: s231226.wholesaleinternet.net
+      targetRef:
+        kind: Pod
+        name: coredns-7c65d6cfc9-8ghtw
+        namespace: kube-system
+        uid: 56f3b363-2a19-4bdb-b436-a7ae293febe8
+    ports:
+    - name: dns-tcp
+      port: 53
+      protocol: TCP
+    - name: dns
+      port: 53
+      protocol: UDP
+    - name: metrics
+      port: 9153
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    creationTimestamp: "2025-10-24T13:21:58Z"
+    labels:
+      k8s-app: metrics-server
+    name: metrics-server
+    namespace: kube-system
+    resourceVersion: "3240239"
+    uid: 484ba7db-ab8c-4485-a56d-3fa1ea6b1ac3
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    creationTimestamp: "2025-11-20T12:46:25Z"
+    labels:
+      app: kube-prometheus-stack-coredns
+      app.kubernetes.io/instance: monitoring
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/part-of: kube-prometheus-stack
+      app.kubernetes.io/version: 79.6.1
+      chart: kube-prometheus-stack-79.6.1
+      heritage: Helm
+      jobLabel: coredns
+      release: monitoring
+      service.kubernetes.io/headless: ""
+    name: monitoring-kube-prometheus-coredns
+    namespace: kube-system
+    resourceVersion: "22604290"
+    uid: 9e49061b-9612-4f54-9037-9b639a14cd33
+  subsets:
+  - addresses:
+    - ip: 10.244.101.132
+      nodeName: s231226.wholesaleinternet.net
+      targetRef:
+        kind: Pod
+        name: coredns-7c65d6cfc9-lcczf
+        namespace: kube-system
+        uid: aefff250-964a-4ea0-861d-f18956dddd2e
+    - ip: 10.244.101.133
+      nodeName: s231226.wholesaleinternet.net
+      targetRef:
+        kind: Pod
+        name: coredns-7c65d6cfc9-8ghtw
+        namespace: kube-system
+        uid: 56f3b363-2a19-4bdb-b436-a7ae293febe8
+    ports:
+    - name: http-metrics
+      port: 9153
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2026-02-08T14:15:04Z"
+    creationTimestamp: "2025-11-20T12:46:25Z"
+    labels:
+      app: kube-prometheus-stack-kube-controller-manager
+      app.kubernetes.io/instance: monitoring
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/part-of: kube-prometheus-stack
+      app.kubernetes.io/version: 79.6.1
+      chart: kube-prometheus-stack-79.6.1
+      heritage: Helm
+      jobLabel: kube-controller-manager
+      release: monitoring
+      service.kubernetes.io/headless: ""
+    name: monitoring-kube-prometheus-kube-controller-manager
+    namespace: kube-system
+    resourceVersion: "22604231"
+    uid: e2f0d4e6-58c1-444d-8afc-50cd83b433ff
+  subsets:
+  - addresses:
+    - ip: 10.200.0.1
+      nodeName: s231226.wholesaleinternet.net
+      targetRef:
+        kind: Pod
+        name: kube-controller-manager-s231226.wholesaleinternet.net
+        namespace: kube-system
+        uid: 477e8ae5-bc9c-422d-9a9b-c855a8c75985
+    ports:
+    - name: http-metrics
+      port: 10257
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2026-02-08T14:15:02Z"
+    creationTimestamp: "2025-11-20T12:46:25Z"
+    labels:
+      app: kube-prometheus-stack-kube-etcd
+      app.kubernetes.io/instance: monitoring
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/part-of: kube-prometheus-stack
+      app.kubernetes.io/version: 79.6.1
+      chart: kube-prometheus-stack-79.6.1
+      heritage: Helm
+      jobLabel: kube-etcd
+      release: monitoring
+      service.kubernetes.io/headless: ""
+    name: monitoring-kube-prometheus-kube-etcd
+    namespace: kube-system
+    resourceVersion: "22604164"
+    uid: fa4c1581-74ca-4034-b32c-3e3de291e47e
+  subsets:
+  - addresses:
+    - ip: 10.200.0.1
+      nodeName: s231226.wholesaleinternet.net
+      targetRef:
+        kind: Pod
+        name: etcd-s231226.wholesaleinternet.net
+        namespace: kube-system
+        uid: 78d13da9-4578-4922-9ca4-7d39fd8f0ed4
+    ports:
+    - name: http-metrics
+      port: 2381
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    creationTimestamp: "2025-11-20T12:46:25Z"
+    labels:
+      app: kube-prometheus-stack-kube-proxy
+      app.kubernetes.io/instance: monitoring
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/part-of: kube-prometheus-stack
+      app.kubernetes.io/version: 79.6.1
+      chart: kube-prometheus-stack-79.6.1
+      heritage: Helm
+      jobLabel: kube-proxy
+      release: monitoring
+      service.kubernetes.io/headless: ""
+    name: monitoring-kube-prometheus-kube-proxy
+    namespace: kube-system
+    resourceVersion: "14635598"
+    uid: 066116bb-dacc-4b2f-a382-04655709afc6
+  subsets:
+  - addresses:
+    - ip: 10.200.0.1
+      nodeName: s231226.wholesaleinternet.net
+      targetRef:
+        kind: Pod
+        name: kube-proxy-bt5zq
+        namespace: kube-system
+        uid: 7c02f11d-602a-4cc8-8212-e747918cf2fb
+    - ip: 10.200.0.2
+      nodeName: hcp.kwiki.it.com
+      targetRef:
+        kind: Pod
+        name: kube-proxy-7zfx5
+        namespace: kube-system
+        uid: a838f656-4c2c-43ea-b04d-0b55f625c27a
+    ports:
+    - name: http-metrics
+      port: 10249
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2026-02-09T18:15:20Z"
+    creationTimestamp: "2025-11-20T12:46:25Z"
+    labels:
+      app: kube-prometheus-stack-kube-scheduler
+      app.kubernetes.io/instance: monitoring
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/part-of: kube-prometheus-stack
+      app.kubernetes.io/version: 79.6.1
+      chart: kube-prometheus-stack-79.6.1
+      heritage: Helm
+      jobLabel: kube-scheduler
+      release: monitoring
+      service.kubernetes.io/headless: ""
+    name: monitoring-kube-prometheus-kube-scheduler
+    namespace: kube-system
+    resourceVersion: "22884295"
+    uid: 7a9b7ff9-b446-4ce9-a1f0-cbf0052420a1
+  subsets:
+  - addresses:
+    - ip: 10.200.0.1
+      nodeName: s231226.wholesaleinternet.net
+      targetRef:
+        kind: Pod
+        name: kube-scheduler-s231226.wholesaleinternet.net
+        namespace: kube-system
+        uid: 33065447-6182-4a80-99e5-b6dc6b302a0e
+    ports:
+    - name: http-metrics
+      port: 10259
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    creationTimestamp: "2025-11-20T12:46:37Z"
+    labels:
+      app.kubernetes.io/managed-by: prometheus-operator
+      app.kubernetes.io/name: kubelet
+      k8s-app: kubelet
+    name: monitoring-kube-prometheus-kubelet
+    namespace: kube-system
+    resourceVersion: "3389144"
+    uid: 02d375e1-13df-47d1-8315-af42968a40d3
+  subsets:
+  - addresses:
+    - ip: 10.200.0.2
+      nodeName: hcp.kwiki.it.com
+      targetRef:
+        kind: Node
+        name: hcp.kwiki.it.com
+        uid: 005e6d97-6334-4be6-be27-5e205a4f44a4
+    - ip: 10.200.0.1
+      nodeName: s231226.wholesaleinternet.net
+      targetRef:
+        kind: Node
+        name: s231226.wholesaleinternet.net
+        uid: 8da2146d-30cc-4aed-9505-867da4296d8c
+    ports:
+    - name: https-metrics
+      port: 10250
+      protocol: TCP
+    - name: http-metrics
+      port: 10255
+      protocol: TCP
+    - name: cadvisor
+      port: 4194
+      protocol: TCP
+kind: List
+metadata:
+  resourceVersion: ""

@@ -1,0 +1,23 @@
+apiVersion: v1
+items:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      annotations:
+        pv.kubernetes.io/bind-completed: "yes"
+        pv.kubernetes.io/bound-by-controller: "yes"
+      finalizers:
+        - kubernetes.io/pvc-protection
+      name: acme-pvc
+      namespace: traefik
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 256Mi
+      storageClassName: local-path
+      volumeMode: Filesystem
+      volumeName: traefik-pv
+kind: List
+metadata: {}

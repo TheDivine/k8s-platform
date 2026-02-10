@@ -1,0 +1,78 @@
+apiVersion: v1
+items:
+- apiVersion: traefik.io/v1alpha1
+  kind: Middleware
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"traefik.io/v1alpha1","kind":"Middleware","metadata":{"annotations":{},"name":"admin-headers","namespace":"websites"},"spec":{"headers":{"customRequestHeaders":{"X-Forwarded-Proto":"https"}}}}
+    creationTimestamp: "2026-02-08T15:01:17Z"
+    generation: 1
+    name: admin-headers
+    namespace: websites
+    resourceVersion: "22612244"
+    uid: 3e426b39-bad9-4a28-9a6d-357625c144c1
+  spec:
+    headers:
+      customRequestHeaders:
+        X-Forwarded-Proto: https
+- apiVersion: traefik.io/v1alpha1
+  kind: Middleware
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"traefik.io/v1alpha1","kind":"Middleware","metadata":{"annotations":{},"name":"admin-rate-limit","namespace":"websites"},"spec":{"rateLimit":{"average":5,"burst":10}}}
+    creationTimestamp: "2026-02-08T15:01:17Z"
+    generation: 1
+    name: admin-rate-limit
+    namespace: websites
+    resourceVersion: "22612245"
+    uid: c3431527-b4cd-41bd-9acd-7e3218425037
+  spec:
+    rateLimit:
+      average: 5
+      burst: 10
+- apiVersion: traefik.io/v1alpha1
+  kind: Middleware
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"traefik.io/v1alpha1","kind":"Middleware","metadata":{"annotations":{},"name":"hsts","namespace":"websites"},"spec":{"headers":{"browserXssFilter":true,"contentSecurityPolicy":"default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: https://raw.githubusercontent.com; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self';","contentTypeNosniff":true,"frameDeny":true,"referrerPolicy":"strict-origin-when-cross-origin","stsIncludeSubdomains":true,"stsPreload":true,"stsSeconds":31536000}}}
+    creationTimestamp: "2026-02-08T15:01:17Z"
+    generation: 1
+    name: hsts
+    namespace: websites
+    resourceVersion: "22612246"
+    uid: 81d75b6c-d416-4dbe-bd98-64352bb410c5
+  spec:
+    headers:
+      browserXssFilter: true
+      contentSecurityPolicy: 'default-src ''self''; base-uri ''self''; object-src
+        ''none''; frame-ancestors ''none''; form-action ''self''; img-src ''self''
+        data: https://raw.githubusercontent.com; style-src ''self'' ''unsafe-inline'';
+        script-src ''self'' ''unsafe-inline''; connect-src ''self'';'
+      contentTypeNosniff: true
+      frameDeny: true
+      referrerPolicy: strict-origin-when-cross-origin
+      stsIncludeSubdomains: true
+      stsPreload: true
+      stsSeconds: 31536000
+- apiVersion: traefik.io/v1alpha1
+  kind: Middleware
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"traefik.io/v1alpha1","kind":"Middleware","metadata":{"annotations":{},"name":"https-redirect","namespace":"websites"},"spec":{"redirectScheme":{"permanent":true,"scheme":"https"}}}
+    creationTimestamp: "2026-02-08T14:32:27Z"
+    generation: 1
+    name: https-redirect
+    namespace: websites
+    resourceVersion: "22607323"
+    uid: d96f9a04-9e42-4644-ad4c-7475fe1bd91b
+  spec:
+    redirectScheme:
+      permanent: true
+      scheme: https
+kind: List
+metadata:
+  resourceVersion: ""

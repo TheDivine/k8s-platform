@@ -1,0 +1,87 @@
+apiVersion: v1
+items:
+- apiVersion: traefik.io/v1alpha1
+  kind: IngressRoute
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"traefik.io/v1alpha1","kind":"IngressRoute","metadata":{"annotations":{},"name":"cyberlynx-blog","namespace":"websites"},"spec":{"entryPoints":["websecure"],"routes":[{"kind":"Rule","match":"Host(`xn--cyberlnx-ykb.com`) \u0026\u0026 !PathPrefix(`/admin`)","middlewares":[{"name":"gzip-compress","namespace":"traefik"},{"name":"hsts","namespace":"websites"}],"services":[{"name":"cyberlynx-blog","port":80}]}],"tls":{"certResolver":"le"}}}
+    creationTimestamp: "2026-02-08T14:00:24Z"
+    generation: 3
+    name: cyberlynx-blog
+    namespace: websites
+    resourceVersion: "22612241"
+    uid: 3c1782f7-88a7-4460-bdc0-1da8a1af5bfe
+  spec:
+    entryPoints:
+    - websecure
+    routes:
+    - kind: Rule
+      match: Host(`xn--cyberlnx-ykb.com`) && !PathPrefix(`/admin`)
+      middlewares:
+      - name: gzip-compress
+        namespace: traefik
+      - name: hsts
+        namespace: websites
+      services:
+      - name: cyberlynx-blog
+        port: 80
+    tls:
+      certResolver: le
+- apiVersion: traefik.io/v1alpha1
+  kind: IngressRoute
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"traefik.io/v1alpha1","kind":"IngressRoute","metadata":{"annotations":{},"name":"cyberlynx-blog-admin","namespace":"websites"},"spec":{"entryPoints":["websecure"],"routes":[{"kind":"Rule","match":"Host(`xn--cyberlnx-ykb.com`) \u0026\u0026 PathPrefix(`/admin`)","middlewares":[{"name":"gzip-compress","namespace":"traefik"},{"name":"hsts","namespace":"websites"},{"name":"admin-rate-limit","namespace":"websites"}],"services":[{"name":"cyberlynx-blog","port":80}]}],"tls":{"certResolver":"le"}}}
+    creationTimestamp: "2026-02-08T15:01:17Z"
+    generation: 1
+    name: cyberlynx-blog-admin
+    namespace: websites
+    resourceVersion: "22612242"
+    uid: c7a6fa31-1c51-4b88-afa5-59c264f0ca9f
+  spec:
+    entryPoints:
+    - websecure
+    routes:
+    - kind: Rule
+      match: Host(`xn--cyberlnx-ykb.com`) && PathPrefix(`/admin`)
+      middlewares:
+      - name: gzip-compress
+        namespace: traefik
+      - name: hsts
+        namespace: websites
+      - name: admin-rate-limit
+        namespace: websites
+      services:
+      - name: cyberlynx-blog
+        port: 80
+    tls:
+      certResolver: le
+- apiVersion: traefik.io/v1alpha1
+  kind: IngressRoute
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"traefik.io/v1alpha1","kind":"IngressRoute","metadata":{"annotations":{},"name":"cyberlynx-blog-http","namespace":"websites"},"spec":{"entryPoints":["web"],"routes":[{"kind":"Rule","match":"Host(`xn--cyberlnx-ykb.com`)","middlewares":[{"name":"https-redirect"},{"name":"hsts"}],"services":[{"name":"cyberlynx-blog","port":80}]}]}}
+    creationTimestamp: "2026-02-08T14:32:27Z"
+    generation: 2
+    name: cyberlynx-blog-http
+    namespace: websites
+    resourceVersion: "22612243"
+    uid: 395a9438-cb4c-4ba7-9991-34455c86984d
+  spec:
+    entryPoints:
+    - web
+    routes:
+    - kind: Rule
+      match: Host(`xn--cyberlnx-ykb.com`)
+      middlewares:
+      - name: https-redirect
+      - name: hsts
+      services:
+      - name: cyberlynx-blog
+        port: 80
+kind: List
+metadata:
+  resourceVersion: ""

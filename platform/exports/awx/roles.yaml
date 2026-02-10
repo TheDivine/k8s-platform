@@ -1,0 +1,257 @@
+apiVersion: v1
+items:
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"labels":{"app.kubernetes.io/component":"awx","app.kubernetes.io/managed-by":"awx-operator","app.kubernetes.io/operator-version":"2.19.1","app.kubernetes.io/part-of":"awx-kwiki"},"name":"awx-kwiki","namespace":"awx"},"rules":[{"apiGroups":[""],"resources":["pods"],"verbs":["get","list","watch","create","update","patch","delete"]},{"apiGroups":[""],"resources":["pods/log"],"verbs":["get"]},{"apiGroups":[""],"resources":["pods/attach"],"verbs":["create"]},{"apiGroups":[""],"resources":["secrets"],"verbs":["get","create","delete"]}]}'
+    creationTimestamp: "2025-11-19T16:23:31Z"
+    labels:
+      app.kubernetes.io/component: awx
+      app.kubernetes.io/managed-by: awx-operator
+      app.kubernetes.io/operator-version: 2.19.1
+      app.kubernetes.io/part-of: awx-kwiki
+    name: awx-kwiki
+    namespace: awx
+    ownerReferences:
+    - apiVersion: awx.ansible.com/v1beta1
+      kind: AWX
+      name: awx-kwiki
+      uid: 0c76c8fc-9e96-4ff7-8b6c-9aac9fabce91
+    resourceVersion: "3242279"
+    uid: 35e363a0-6589-4c9b-a04e-d128332114bd
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - pods
+    verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - patch
+    - delete
+  - apiGroups:
+    - ""
+    resources:
+    - pods/log
+    verbs:
+    - get
+  - apiGroups:
+    - ""
+    resources:
+    - pods/attach
+    verbs:
+    - create
+  - apiGroups:
+    - ""
+    resources:
+    - secrets
+    verbs:
+    - get
+    - create
+    - delete
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{},"creationTimestamp":null,"name":"awx-operator-awx-manager-role","namespace":"awx"},"rules":[{"apiGroups":["route.openshift.io"],"resources":["routes","routes/custom-host"],"verbs":["get","list","create","delete","patch","update","watch"]},{"apiGroups":[""],"resources":["pods","services","services/finalizers","serviceaccounts","endpoints","persistentvolumeclaims","events","configmaps","secrets"],"verbs":["get","list","create","delete","patch","update","watch"]},{"apiGroups":["rbac.authorization.k8s.io"],"resources":["roles","rolebindings"],"verbs":["get","list","create","delete","patch","update","watch"]},{"apiGroups":["apps"],"resources":["deployments","daemonsets","replicasets","statefulsets"],"verbs":["get","list","create","delete","patch","update","watch"]},{"apiGroups":["networking.k8s.io"],"resources":["ingresses"],"verbs":["get","list","create","delete","patch","update","watch"]},{"apiGroups":["batch"],"resources":["cronjobs","jobs"],"verbs":["get","list","create","patch","update","watch"]},{"apiGroups":["monitoring.coreos.com"],"resources":["servicemonitors"],"verbs":["get","create"]},{"apiGroups":["apps"],"resourceNames":["awx-operator"],"resources":["deployments/finalizers"],"verbs":["update"]},{"apiGroups":["apps"],"resources":["deployments/scale","statefulsets/scale"],"verbs":["patch"]},{"apiGroups":[""],"resources":["pods/exec","pods/attach","pods/log"],"verbs":["create","get"]},{"apiGroups":["apps"],"resources":["replicasets"],"verbs":["get","create"]},{"apiGroups":["awx.ansible.com"],"resources":["*","awxbackups","awxrestores"],"verbs":["*"]},{"apiGroups":["traefik.containo.us","traefik.io"],"resources":["ingressroutetcps"],"verbs":["get","list","create","delete","patch","update","watch"]}]}
+    creationTimestamp: "2025-11-19T12:17:43Z"
+    name: awx-operator-awx-manager-role
+    namespace: awx
+    resourceVersion: "3214141"
+    uid: 4ecf5b0e-0566-4a75-bbb3-2613e77d1d61
+  rules:
+  - apiGroups:
+    - route.openshift.io
+    resources:
+    - routes
+    - routes/custom-host
+    verbs:
+    - get
+    - list
+    - create
+    - delete
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - pods
+    - services
+    - services/finalizers
+    - serviceaccounts
+    - endpoints
+    - persistentvolumeclaims
+    - events
+    - configmaps
+    - secrets
+    verbs:
+    - get
+    - list
+    - create
+    - delete
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - rbac.authorization.k8s.io
+    resources:
+    - roles
+    - rolebindings
+    verbs:
+    - get
+    - list
+    - create
+    - delete
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - apps
+    resources:
+    - deployments
+    - daemonsets
+    - replicasets
+    - statefulsets
+    verbs:
+    - get
+    - list
+    - create
+    - delete
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - networking.k8s.io
+    resources:
+    - ingresses
+    verbs:
+    - get
+    - list
+    - create
+    - delete
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - batch
+    resources:
+    - cronjobs
+    - jobs
+    verbs:
+    - get
+    - list
+    - create
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - monitoring.coreos.com
+    resources:
+    - servicemonitors
+    verbs:
+    - get
+    - create
+  - apiGroups:
+    - apps
+    resourceNames:
+    - awx-operator
+    resources:
+    - deployments/finalizers
+    verbs:
+    - update
+  - apiGroups:
+    - apps
+    resources:
+    - deployments/scale
+    - statefulsets/scale
+    verbs:
+    - patch
+  - apiGroups:
+    - ""
+    resources:
+    - pods/exec
+    - pods/attach
+    - pods/log
+    verbs:
+    - create
+    - get
+  - apiGroups:
+    - apps
+    resources:
+    - replicasets
+    verbs:
+    - get
+    - create
+  - apiGroups:
+    - awx.ansible.com
+    resources:
+    - '*'
+    - awxbackups
+    - awxrestores
+    verbs:
+    - '*'
+  - apiGroups:
+    - traefik.containo.us
+    - traefik.io
+    resources:
+    - ingressroutetcps
+    verbs:
+    - get
+    - list
+    - create
+    - delete
+    - patch
+    - update
+    - watch
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{},"name":"awx-operator-leader-election-role","namespace":"awx"},"rules":[{"apiGroups":[""],"resources":["configmaps"],"verbs":["get","list","watch","create","update","patch","delete"]},{"apiGroups":["coordination.k8s.io"],"resources":["leases"],"verbs":["get","list","watch","create","update","patch","delete"]},{"apiGroups":[""],"resources":["events"],"verbs":["create","patch"]}]}
+    creationTimestamp: "2025-11-19T12:17:43Z"
+    name: awx-operator-leader-election-role
+    namespace: awx
+    resourceVersion: "3214142"
+    uid: f8ad9948-9702-4fa7-8da4-978f11a904ae
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - configmaps
+    verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - patch
+    - delete
+  - apiGroups:
+    - coordination.k8s.io
+    resources:
+    - leases
+    verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - patch
+    - delete
+  - apiGroups:
+    - ""
+    resources:
+    - events
+    verbs:
+    - create
+    - patch
+kind: List
+metadata:
+  resourceVersion: ""

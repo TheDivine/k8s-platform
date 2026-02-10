@@ -1,0 +1,26 @@
+apiVersion: v1
+items:
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: RoleBinding
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: longhorn
+      meta.helm.sh/release-namespace: longhorn-system
+    creationTimestamp: "2025-11-20T10:29:12Z"
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: longhorn
+    namespace: longhorn-system
+    resourceVersion: "3365885"
+    uid: be613937-ef79-468d-a200-c1c91b0157bd
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: longhorn
+  subjects:
+  - kind: ServiceAccount
+    name: longhorn-service-account
+    namespace: longhorn-system
+kind: List
+metadata:
+  resourceVersion: ""

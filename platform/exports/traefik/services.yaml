@@ -1,0 +1,54 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: traefik
+      meta.helm.sh/release-namespace: traefik
+      metallb.io/ip-allocated-from-pool: single-ip-pool
+      metallb.universe.tf/address-pool: single-ip-pool
+    creationTimestamp: "2025-10-24T10:16:47Z"
+    labels:
+      app.kubernetes.io/instance: traefik-traefik
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: traefik
+      helm.sh/chart: traefik-37.2.0
+    name: traefik
+    namespace: traefik
+    resourceVersion: "50472"
+    uid: c1e35584-28f0-4e65-8f26-b6819a8fd590
+  spec:
+    allocateLoadBalancerNodePorts: true
+    clusterIP: 10.111.35.94
+    clusterIPs:
+    - 10.111.35.94
+    externalTrafficPolicy: Cluster
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: web
+      nodePort: 32402
+      port: 80
+      protocol: TCP
+      targetPort: web
+    - name: websecure
+      nodePort: 31852
+      port: 443
+      protocol: TCP
+      targetPort: websecure
+    selector:
+      app.kubernetes.io/instance: traefik-traefik
+      app.kubernetes.io/name: traefik
+    sessionAffinity: None
+    type: LoadBalancer
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 69.30.233.178
+        ipMode: VIP
+kind: List
+metadata:
+  resourceVersion: ""

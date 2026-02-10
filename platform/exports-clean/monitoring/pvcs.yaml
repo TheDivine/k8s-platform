@@ -1,0 +1,61 @@
+apiVersion: v1
+items:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      annotations:
+        meta.helm.sh/release-name: monitoring
+        meta.helm.sh/release-namespace: monitoring
+        pv.kubernetes.io/bind-completed: "yes"
+        pv.kubernetes.io/bound-by-controller: "yes"
+        volume.beta.kubernetes.io/storage-provisioner: driver.longhorn.io
+        volume.kubernetes.io/storage-provisioner: driver.longhorn.io
+      finalizers:
+        - kubernetes.io/pvc-protection
+      labels:
+        app.kubernetes.io/instance: monitoring
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: grafana
+        app.kubernetes.io/version: 12.3.0
+        helm.sh/chart: grafana-10.1.5
+      name: monitoring-grafana
+      namespace: monitoring
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      storageClassName: longhorn
+      volumeMode: Filesystem
+      volumeName: pvc-c7a0c9e6-0eec-47b3-bfbc-52cbb6b960fc
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      annotations:
+        pv.kubernetes.io/bind-completed: "yes"
+        pv.kubernetes.io/bound-by-controller: "yes"
+        volume.beta.kubernetes.io/storage-provisioner: driver.longhorn.io
+        volume.kubernetes.io/storage-provisioner: driver.longhorn.io
+      finalizers:
+        - kubernetes.io/pvc-protection
+      labels:
+        app.kubernetes.io/instance: monitoring-kube-prometheus-prometheus
+        app.kubernetes.io/managed-by: prometheus-operator
+        app.kubernetes.io/name: prometheus
+        operator.prometheus.io/name: monitoring-kube-prometheus-prometheus
+        operator.prometheus.io/shard: "0"
+        prometheus: monitoring-kube-prometheus-prometheus
+      name: prometheus-monitoring-kube-prometheus-prometheus-db-prometheus-monitoring-kube-prometheus-prometheus-0
+      namespace: monitoring
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 20Gi
+      storageClassName: longhorn
+      volumeMode: Filesystem
+      volumeName: pvc-04808a64-f73c-4d32-991b-d377a1df97c1
+kind: List
+metadata: {}

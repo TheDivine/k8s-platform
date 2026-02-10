@@ -1,0 +1,288 @@
+apiVersion: v1
+items:
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: "1"
+      labels:
+        k8s-app: calico-kube-controllers
+      name: calico-kube-controllers
+      namespace: kube-system
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          k8s-app: calico-kube-controllers
+      strategy:
+        type: Recreate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            k8s-app: calico-kube-controllers
+          name: calico-kube-controllers
+          namespace: kube-system
+        spec:
+          containers:
+            - env:
+                - name: ENABLED_CONTROLLERS
+                  value: node
+                - name: DATASTORE_TYPE
+                  value: kubernetes
+              image: docker.io/calico/kube-controllers:v3.25.0
+              imagePullPolicy: IfNotPresent
+              livenessProbe:
+                exec:
+                  command:
+                    - /usr/bin/check-status
+                    - -l
+                failureThreshold: 6
+                initialDelaySeconds: 10
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 10
+              name: calico-kube-controllers
+              readinessProbe:
+                exec:
+                  command:
+                    - /usr/bin/check-status
+                    - -r
+                failureThreshold: 3
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 1
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          nodeSelector:
+            kubernetes.io/os: linux
+          priorityClassName: system-cluster-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: calico-kube-controllers
+          serviceAccountName: calico-kube-controllers
+          terminationGracePeriodSeconds: 30
+          tolerations:
+            - key: CriticalAddonsOnly
+              operator: Exists
+            - effect: NoSchedule
+              key: node-role.kubernetes.io/master
+            - effect: NoSchedule
+              key: node-role.kubernetes.io/control-plane
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: "1"
+      labels:
+        k8s-app: kube-dns
+      name: coredns
+      namespace: kube-system
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 2
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          k8s-app: kube-dns
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 1
+        type: RollingUpdate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            k8s-app: kube-dns
+        spec:
+          affinity:
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                        - key: k8s-app
+                          operator: In
+                          values:
+                            - kube-dns
+                    topologyKey: kubernetes.io/hostname
+                  weight: 100
+          containers:
+            - args:
+                - -conf
+                - /etc/coredns/Corefile
+              image: registry.k8s.io/coredns/coredns:v1.11.3
+              imagePullPolicy: IfNotPresent
+              livenessProbe:
+                failureThreshold: 5
+                httpGet:
+                  path: /health
+                  port: 8080
+                  scheme: HTTP
+                initialDelaySeconds: 60
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 5
+              name: coredns
+              ports:
+                - containerPort: 53
+                  name: dns
+                  protocol: UDP
+                - containerPort: 53
+                  name: dns-tcp
+                  protocol: TCP
+                - containerPort: 9153
+                  name: metrics
+                  protocol: TCP
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /ready
+                  port: 8181
+                  scheme: HTTP
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 1
+              resources:
+                limits:
+                  memory: 170Mi
+                requests:
+                  cpu: 100m
+                  memory: 70Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  add:
+                    - NET_BIND_SERVICE
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /etc/coredns
+                  name: config-volume
+                  readOnly: true
+          dnsPolicy: Default
+          nodeSelector:
+            kubernetes.io/os: linux
+          priorityClassName: system-cluster-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: coredns
+          serviceAccountName: coredns
+          terminationGracePeriodSeconds: 30
+          tolerations:
+            - key: CriticalAddonsOnly
+              operator: Exists
+            - effect: NoSchedule
+              key: node-role.kubernetes.io/control-plane
+          volumes:
+            - configMap:
+                defaultMode: 420
+                items:
+                  - key: Corefile
+                    path: Corefile
+                name: coredns
+              name: config-volume
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: "1"
+      labels:
+        k8s-app: metrics-server
+      name: metrics-server
+      namespace: kube-system
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 0
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          k8s-app: metrics-server
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 0
+        type: RollingUpdate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            k8s-app: metrics-server
+        spec:
+          containers:
+            - args:
+                - --cert-dir=/tmp
+                - --secure-port=10250
+                - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+                - --kubelet-use-node-status-port
+                - --metric-resolution=15s
+              image: registry.k8s.io/metrics-server/metrics-server:v0.8.0
+              imagePullPolicy: IfNotPresent
+              livenessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /livez
+                  port: https
+                  scheme: HTTPS
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 1
+              name: metrics-server
+              ports:
+                - containerPort: 10250
+                  name: https
+                  protocol: TCP
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /readyz
+                  port: https
+                  scheme: HTTPS
+                initialDelaySeconds: 20
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 1
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 200Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+                runAsUser: 1000
+                seccompProfile:
+                  type: RuntimeDefault
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /tmp
+                  name: tmp-dir
+          dnsPolicy: ClusterFirst
+          nodeSelector:
+            kubernetes.io/os: linux
+          priorityClassName: system-cluster-critical
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          serviceAccount: metrics-server
+          serviceAccountName: metrics-server
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - emptyDir: {}
+              name: tmp-dir
+kind: List
+metadata: {}

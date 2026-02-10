@@ -1,0 +1,66 @@
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: StatefulSet
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"StatefulSet","metadata":{"annotations":{},"name":"postgres","namespace":"drone"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"postgres"}},"serviceName":"postgres","template":{"metadata":{"labels":{"app":"postgres"}},"spec":{"containers":[{"envFrom":[{"configMapRef":{"name":"postgres-config"}}],"image":"postgres:15","imagePullPolicy":"IfNotPresent","name":"postgres","ports":[{"containerPort":5432}]}]}}}}
+    creationTimestamp: "2025-10-24T14:26:18Z"
+    generation: 1
+    name: postgres
+    namespace: drone
+    resourceVersion: "85636"
+    uid: 7f8975c6-ffce-4e93-925f-f030092e5669
+  spec:
+    persistentVolumeClaimRetentionPolicy:
+      whenDeleted: Retain
+      whenScaled: Retain
+    podManagementPolicy: OrderedReady
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: postgres
+    serviceName: postgres
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: postgres
+      spec:
+        containers:
+        - envFrom:
+          - configMapRef:
+              name: postgres-config
+          image: postgres:15
+          imagePullPolicy: IfNotPresent
+          name: postgres
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    updateStrategy:
+      rollingUpdate:
+        partition: 0
+      type: RollingUpdate
+  status:
+    availableReplicas: 1
+    collisionCount: 0
+    currentReplicas: 1
+    currentRevision: postgres-7bb5848cdb
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updateRevision: postgres-7bb5848cdb
+    updatedReplicas: 1
+kind: List
+metadata:
+  resourceVersion: ""

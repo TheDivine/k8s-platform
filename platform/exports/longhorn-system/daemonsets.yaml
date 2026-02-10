@@ -1,0 +1,495 @@
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    annotations:
+      deprecated.daemonset.template.generation: "1"
+      longhorn.io/last-applied-tolerations: '[]'
+    creationTimestamp: "2025-11-20T10:29:37Z"
+    generation: 1
+    labels:
+      longhorn.io/component: engine-image
+      longhorn.io/engine-image: ei-3154f3aa
+      longhorn.io/managed-by: longhorn-manager
+    name: engine-image-ei-3154f3aa
+    namespace: longhorn-system
+    ownerReferences:
+    - apiVersion: longhorn.io/v1beta2
+      blockOwnerDeletion: true
+      kind: EngineImage
+      name: ei-3154f3aa
+      uid: 9e9924df-5d78-4527-8adc-ec2adbb211e5
+    resourceVersion: "22604199"
+    uid: 41d5edd3-7d35-4a7a-b0e1-d526d4033a78
+  spec:
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        longhorn.io/component: engine-image
+        longhorn.io/engine-image: ei-3154f3aa
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          longhorn.io/component: engine-image
+          longhorn.io/engine-image: ei-3154f3aa
+        name: engine-image-ei-3154f3aa
+        ownerReferences:
+        - apiVersion: longhorn.io/v1beta2
+          blockOwnerDeletion: true
+          kind: EngineImage
+          name: ei-3154f3aa
+          uid: 9e9924df-5d78-4527-8adc-ec2adbb211e5
+      spec:
+        containers:
+        - args:
+          - -c
+          - diff /usr/local/bin/longhorn /data/longhorn > /dev/null 2>&1; if [ $?
+            -ne 0 ]; then cp -p /usr/local/bin/longhorn /data/ && echo installed;
+            fi && trap 'rm /data/longhorn* && echo cleaned up' EXIT && sleep infinity
+          command:
+          - /bin/bash
+          image: longhornio/longhorn-engine:v1.10.1
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+              - sh
+              - -c
+              - /data/longhorn version --client-only
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 4
+          name: engine-image-ei-3154f3aa
+          readinessProbe:
+            exec:
+              command:
+              - sh
+              - -c
+              - ls /data/longhorn && /data/longhorn version --client-only
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 4
+          resources: {}
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data/
+            name: data
+        dnsPolicy: ClusterFirst
+        priorityClassName: longhorn-critical
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: longhorn-service-account
+        serviceAccountName: longhorn-service-account
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - hostPath:
+            path: /var/lib/longhorn/engine-binaries/longhornio-longhorn-engine-v1.10.1
+            type: ""
+          name: data
+    updateStrategy:
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 100%
+      type: RollingUpdate
+  status:
+    currentNumberScheduled: 2
+    desiredNumberScheduled: 2
+    numberAvailable: 2
+    numberMisscheduled: 0
+    numberReady: 2
+    observedGeneration: 1
+    updatedNumberScheduled: 2
+- apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    annotations:
+      deprecated.daemonset.template.generation: "1"
+      driver.longhorn.io/git-commit: 29b7fda2692c8df5b1aa18c477f77863c7acc1e7
+      driver.longhorn.io/version: v1.10.1
+      longhorn.io/last-applied-tolerations: '[]'
+    creationTimestamp: "2025-11-20T10:30:37Z"
+    generation: 1
+    labels:
+      longhorn.io/managed-by: longhorn-manager
+    name: longhorn-csi-plugin
+    namespace: longhorn-system
+    resourceVersion: "22604327"
+    uid: 03ac3096-c4d7-40b2-ab54-41460a432efe
+  spec:
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: longhorn-csi-plugin
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: longhorn-csi-plugin
+      spec:
+        containers:
+        - args:
+          - --v=2
+          - --csi-address=$(ADDRESS)
+          - --kubelet-registration-path=/var/lib/kubelet/plugins/driver.longhorn.io/csi.sock
+          env:
+          - name: ADDRESS
+            value: /csi/csi.sock
+          image: longhornio/csi-node-driver-registrar:v2.15.0-20251030
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                - /bin/sh
+                - -c
+                - rm -rf /registration/driver.longhorn.io /registration/driver.longhorn.io-reg.sock
+                  /csi//*
+          name: node-driver-registrar
+          resources: {}
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /csi/
+            name: socket-dir
+          - mountPath: /registration
+            name: registration-dir
+        - args:
+          - --v=4
+          - --csi-address=/csi/csi.sock
+          image: longhornio/livenessprobe:v2.17.0-20251030
+          imagePullPolicy: IfNotPresent
+          name: longhorn-liveness-probe
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /csi/
+            name: socket-dir
+        - args:
+          - longhorn-manager
+          - -d
+          - csi
+          - --nodeid=$(NODE_ID)
+          - --endpoint=$(CSI_ENDPOINT)
+          - --drivername=driver.longhorn.io
+          - --manager-url=http://longhorn-backend:9500/v1
+          env:
+          - name: NODE_ID
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: CSI_ENDPOINT
+            value: unix:///csi/csi.sock
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          image: longhornio/longhorn-manager:v1.10.1
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                - /bin/sh
+                - -c
+                - rm -f /csi//*
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 9808
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 4
+          name: longhorn-csi-plugin
+          ports:
+          - containerPort: 9808
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            capabilities:
+              add:
+              - SYS_ADMIN
+            privileged: true
+          startupProbe:
+            failureThreshold: 36
+            httpGet:
+              path: /healthz
+              port: 9808
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 4
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /csi/
+            name: socket-dir
+          - mountPath: /var/lib/kubelet/plugins/kubernetes.io/csi
+            mountPropagation: Bidirectional
+            name: kubernetes-csi-dir
+          - mountPath: /var/lib/kubelet/pods
+            mountPropagation: Bidirectional
+            name: pods-mount-dir
+          - mountPath: /dev
+            name: host-dev
+          - mountPath: /host/proc
+            name: host-proc
+          - mountPath: /sys
+            name: host-sys
+          - mountPath: /lib/modules
+            name: lib-modules
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        priorityClassName: longhorn-critical
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: longhorn-service-account
+        serviceAccountName: longhorn-service-account
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/kubernetes.io/csi
+            type: DirectoryOrCreate
+          name: kubernetes-csi-dir
+        - hostPath:
+            path: /var/lib/kubelet/plugins_registry
+            type: DirectoryOrCreate
+          name: registration-dir
+        - hostPath:
+            path: /var/lib/kubelet/plugins/driver.longhorn.io
+            type: DirectoryOrCreate
+          name: socket-dir
+        - hostPath:
+            path: /var/lib/kubelet/pods
+            type: DirectoryOrCreate
+          name: pods-mount-dir
+        - hostPath:
+            path: /dev
+            type: ""
+          name: host-dev
+        - hostPath:
+            path: /proc
+            type: ""
+          name: host-proc
+        - hostPath:
+            path: /sys
+            type: ""
+          name: host-sys
+        - hostPath:
+            path: /lib/modules
+            type: ""
+          name: lib-modules
+    updateStrategy:
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
+      type: RollingUpdate
+  status:
+    currentNumberScheduled: 2
+    desiredNumberScheduled: 2
+    numberAvailable: 2
+    numberMisscheduled: 0
+    numberReady: 2
+    observedGeneration: 1
+    updatedNumberScheduled: 2
+- apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    annotations:
+      deprecated.daemonset.template.generation: "1"
+      meta.helm.sh/release-name: longhorn
+      meta.helm.sh/release-namespace: longhorn-system
+    creationTimestamp: "2025-11-20T10:29:12Z"
+    generation: 1
+    labels:
+      app: longhorn-manager
+      app.kubernetes.io/instance: longhorn
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: longhorn
+      app.kubernetes.io/version: v1.10.1
+      helm.sh/chart: longhorn-1.10.1
+    name: longhorn-manager
+    namespace: longhorn-system
+    resourceVersion: "22604157"
+    uid: f9af7913-5617-497f-b3e1-5b5996a92ad3
+  spec:
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: longhorn-manager
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: longhorn-manager
+          app.kubernetes.io/instance: longhorn
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: longhorn
+          app.kubernetes.io/version: v1.10.1
+          helm.sh/chart: longhorn-1.10.1
+      spec:
+        containers:
+        - command:
+          - longhorn-manager
+          - -d
+          - daemon
+          - --engine-image
+          - longhornio/longhorn-engine:v1.10.1
+          - --instance-manager-image
+          - longhornio/longhorn-instance-manager:v1.10.1
+          - --share-manager-image
+          - longhornio/longhorn-share-manager:v1.10.1
+          - --backing-image-manager-image
+          - longhornio/backing-image-manager:v1.10.1
+          - --support-bundle-manager-image
+          - longhornio/support-bundle-kit:v0.0.71
+          - --manager-image
+          - longhornio/longhorn-manager:v1.10.1
+          - --service-account
+          - longhorn-service-account
+          - --upgrade-version-check
+          env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          image: longhornio/longhorn-manager:v1.10.1
+          imagePullPolicy: IfNotPresent
+          name: longhorn-manager
+          ports:
+          - containerPort: 9500
+            name: manager
+            protocol: TCP
+          - containerPort: 9502
+            name: admission-wh
+            protocol: TCP
+          - containerPort: 9503
+            name: recov-backend
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /v1/healthz
+              port: 9502
+              scheme: HTTPS
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /host/boot/
+            name: boot
+            readOnly: true
+          - mountPath: /host/dev/
+            name: dev
+          - mountPath: /host/proc/
+            name: proc
+            readOnly: true
+          - mountPath: /host/etc/
+            name: etc
+            readOnly: true
+          - mountPath: /var/lib/longhorn/
+            mountPropagation: Bidirectional
+            name: longhorn
+          - mountPath: /tls-files/
+            name: longhorn-grpc-tls
+        - command:
+          - sh
+          - -c
+          - echo share-manager image pulled && sleep infinity
+          image: longhornio/longhorn-share-manager:v1.10.1
+          imagePullPolicy: IfNotPresent
+          name: pre-pull-share-manager-image
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        priorityClassName: longhorn-critical
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: longhorn-service-account
+        serviceAccountName: longhorn-service-account
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - hostPath:
+            path: /boot/
+            type: ""
+          name: boot
+        - hostPath:
+            path: /dev/
+            type: ""
+          name: dev
+        - hostPath:
+            path: /proc/
+            type: ""
+          name: proc
+        - hostPath:
+            path: /etc/
+            type: ""
+          name: etc
+        - hostPath:
+            path: /var/lib/longhorn/
+            type: ""
+          name: longhorn
+        - name: longhorn-grpc-tls
+          secret:
+            defaultMode: 420
+            optional: true
+            secretName: longhorn-grpc-tls
+    updateStrategy:
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 100%
+      type: RollingUpdate
+  status:
+    currentNumberScheduled: 2
+    desiredNumberScheduled: 2
+    numberAvailable: 2
+    numberMisscheduled: 0
+    numberReady: 2
+    observedGeneration: 1
+    updatedNumberScheduled: 2
+kind: List
+metadata:
+  resourceVersion: ""

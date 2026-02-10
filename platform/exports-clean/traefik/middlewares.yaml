@@ -1,0 +1,32 @@
+apiVersion: v1
+items:
+  - apiVersion: traefik.io/v1alpha1
+    kind: Middleware
+    metadata:
+      annotations: {}
+      name: dashboard-basicauth
+      namespace: traefik
+    spec:
+      basicAuth:
+        secret: traefik-dashboard-auth
+  - apiVersion: traefik.io/v1alpha1
+    kind: Middleware
+    metadata:
+      annotations: {}
+      name: gzip-compress
+      namespace: traefik
+    spec:
+      compress:
+        minResponseBodyBytes: 1024
+  - apiVersion: traefik.io/v1alpha1
+    kind: Middleware
+    metadata:
+      annotations: {}
+      name: https-redirect
+      namespace: traefik
+    spec:
+      redirectScheme:
+        permanent: true
+        scheme: https
+kind: List
+metadata: {}

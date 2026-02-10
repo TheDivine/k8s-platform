@@ -1,0 +1,62 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  count: 3455
+  eventTime: null
+  firstTimestamp: "2026-02-08T00:21:12Z"
+  involvedObject:
+    apiVersion: v1
+    fieldPath: spec.containers{speaker}
+    kind: Pod
+    name: speaker-wpxlz
+    namespace: metallb-system
+    resourceVersion: "22464764"
+    uid: d92a007b-b692-4cb8-9e1f-d60c1d1d6667
+  kind: Event
+  lastTimestamp: "2026-02-10T19:20:52Z"
+  message: 'Liveness probe failed: Get "http://10.200.0.2:7472/metrics": context deadline
+    exceeded (Client.Timeout exceeded while awaiting headers)'
+  metadata:
+    creationTimestamp: "2026-02-10T17:25:52Z"
+    name: speaker-wpxlz.18921d87dbe165a3
+    namespace: metallb-system
+    resourceVersion: "23137612"
+    uid: 415136c4-a574-41b4-9320-e4d7ed455ffe
+  reason: Unhealthy
+  reportingComponent: kubelet
+  reportingInstance: hcp.kwiki.it.com
+  source:
+    component: kubelet
+    host: hcp.kwiki.it.com
+  type: Warning
+- apiVersion: v1
+  count: 15489
+  eventTime: null
+  firstTimestamp: "2026-02-08T00:24:53Z"
+  involvedObject:
+    apiVersion: v1
+    fieldPath: spec.containers{speaker}
+    kind: Pod
+    name: speaker-wpxlz
+    namespace: metallb-system
+    resourceVersion: "22464764"
+    uid: d92a007b-b692-4cb8-9e1f-d60c1d1d6667
+  kind: Event
+  lastTimestamp: "2026-02-10T19:35:52Z"
+  message: Back-off restarting failed container speaker in pod speaker-wpxlz_metallb-system(d92a007b-b692-4cb8-9e1f-d60c1d1d6667)
+  metadata:
+    creationTimestamp: "2026-02-08T00:25:55Z"
+    name: speaker-wpxlz.18921dbb34a10ad7
+    namespace: metallb-system
+    resourceVersion: "23140135"
+    uid: ee712dbc-9000-4c08-b4cc-b8cb6234d5f5
+  reason: BackOff
+  reportingComponent: kubelet
+  reportingInstance: hcp.kwiki.it.com
+  source:
+    component: kubelet
+    host: hcp.kwiki.it.com
+  type: Warning
+kind: List
+metadata:
+  resourceVersion: ""

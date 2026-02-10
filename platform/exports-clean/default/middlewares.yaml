@@ -1,0 +1,15 @@
+apiVersion: v1
+items:
+  - apiVersion: traefik.io/v1alpha1
+    kind: Middleware
+    metadata:
+      annotations: {}
+      name: redirect-to-https
+      namespace: default
+    spec:
+      redirectScheme:
+        permanent: true
+        port: "443"
+        scheme: https
+kind: List
+metadata: {}

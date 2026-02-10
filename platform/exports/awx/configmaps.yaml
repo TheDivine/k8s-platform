@@ -1,0 +1,344 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  data:
+    environment: |
+      AWX_SKIP_MIGRATIONS=true
+    nginx_conf: "worker_processes  1;\nworker_cpu_affinity  auto;\npid        /tmp/nginx.pid;\n\nevents
+      {\n    worker_connections 1024;\n}\n\nhttp {\n    include       /etc/nginx/mime.types;\n
+      \   default_type  application/octet-stream;\n    server_tokens off;\n    client_max_body_size
+      5M;\n\n    log_format  main  '$remote_addr - $remote_user [$time_local] \"$request\"
+      '\n                      '$status $body_bytes_sent \"$http_referer\" '\n                      '\"$http_user_agent\"
+      \"$http_x_forwarded_for\"';\n\n    access_log /dev/stdout main;\n\n    map $http_upgrade
+      $connection_upgrade {\n        default upgrade;\n        ''      close;\n    }\n\n
+      \   sendfile        on;\n    #tcp_nopush     on;\n    #gzip  on;\n\n    upstream
+      uwsgi {\n        server 127.0.0.1:8050;\n    }\n\n    upstream daphne {\n        server
+      127.0.0.1:8051;\n    }\n\n\n    \n    server {\n                listen 8052
+      default_server;\n                    listen [::]:8052 default_server;\n                \n
+      \       # If you have a domain name, this is where to add it\n        server_name
+      _;\n        keepalive_timeout 65;\n\n        # HSTS (ngx_http_headers_module
+      is required) (15768000 seconds = 6 months)\n        add_header Strict-Transport-Security
+      max-age=15768000;\n\n        # Protect against click-jacking https://www.owasp.org/index.php/Testing_for_Clickjacking_(OTG-CLIENT-009)\n
+      \       add_header X-Frame-Options \"DENY\";\n        # Protect against MIME
+      content sniffing https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options\n
+      \       add_header X-Content-Type-Options nosniff;\n\n        location /nginx_status
+      {\n            stub_status on;\n            access_log off;\n            allow
+      127.0.0.1;\n            deny all;\n        }\n\n        location /static {\n
+      \           alias /var/lib/awx/public/static/;\n        }\n\n        location
+      /locales {\n            alias /var/lib/awx/public/static/awx/locales;\n        }\n\n
+      \       location /favicon.ico {\n            alias /var/lib/awx/public/static/media/favicon.ico;\n
+      \       }\n\n        location ~ ^(/websocket/|/api/websocket/) {\n            #
+      Pass request to the upstream alias\n            proxy_pass http://daphne;\n
+      \           # Require http version 1.1 to allow for upgrade requests\n            proxy_http_version
+      1.1;\n            # We want proxy_buffering off for proxying to websockets.\n
+      \           proxy_buffering off;\n            # http://en.wikipedia.org/wiki/X-Forwarded-For\n
+      \           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\n            #
+      enable this if you use HTTPS:\n            proxy_set_header X-Forwarded-Proto
+      https;\n            # pass the Host: header from the client for the sake of
+      redirects\n            proxy_set_header Host $http_host;\n            # We've
+      set the Host header, so we don't need Nginx to muddle\n            # about with
+      redirects\n            proxy_redirect off;\n            # Depending on the request
+      value, set the Upgrade and\n            # connection headers\n            proxy_set_header
+      Upgrade $http_upgrade;\n            proxy_set_header Connection $connection_upgrade;\n
+      \       }\n\n        location / {\n            # Add trailing / if missing\n
+      \           rewrite ^(.*)$http_host(.*[^/])$ $1$http_host$2/ permanent;\n            uwsgi_read_timeout
+      120s;\n            uwsgi_pass uwsgi;\n            include /etc/nginx/uwsgi_params;\n
+      \           include /etc/nginx/conf.d/*.conf;\n            proxy_set_header
+      X-Forwarded-Port 443;\n            uwsgi_param HTTP_X_FORWARDED_PORT 443;\n\n
+      \           add_header Strict-Transport-Security max-age=15768000;\n            #
+      Protect against click-jacking https://www.owasp.org/index.php/Testing_for_Clickjacking_(OTG-CLIENT-009)\n
+      \           add_header X-Frame-Options \"DENY\";\n            add_header X-Content-Type-Options
+      nosniff;\n            add_header Cache-Control \"no-cache, no-store, must-revalidate\";\n
+      \           add_header Expires \"0\";\n            add_header Pragma \"no-cache\";\n
+      \       }\n    }\n}\n"
+    receptor_conf: |
+      ---
+      - log-level: info
+      - local-only: null
+      - node:
+         firewallrules:
+          - action: reject
+            tonode: HOSTNAME
+            toservice: control
+      - control-service:
+          service: control
+          filename: /var/run/receptor/receptor.sock
+          permissions: '0660'
+      - work-command:
+          worktype: local
+          command: ansible-runner
+          params: worker
+          allowruntimeparams: true
+      - work-kubernetes:
+          worktype: kubernetes-runtime-auth
+          authmethod: runtime
+          allowruntimeauth: true
+          allowruntimepod: true
+          allowruntimeparams: true
+      - work-kubernetes:
+          worktype: kubernetes-incluster-auth
+          authmethod: incluster
+          allowruntimeauth: true
+          allowruntimepod: true
+          allowruntimeparams: true
+      - tls-client:
+          cert: /etc/receptor/tls/receptor.crt
+          key: /etc/receptor/tls/receptor.key
+          name: tlsclient
+          rootcas: /etc/receptor/tls/ca/mesh-CA.crt
+          mintls13: false
+      - work-signing:
+          privatekey: /etc/receptor/work_private_key.pem
+          tokenexpiration: 1m
+    redis_conf: |
+      unixsocket /var/run/redis/redis.sock
+      unixsocketperm 777
+      port 0
+      bind 127.0.0.1
+    settings: |
+      import os
+      import socket
+      # Import all so that extra_settings works properly
+      from django_auth_ldap.config import *
+
+      def get_secret():
+          if os.path.exists("/etc/tower/SECRET_KEY"):
+              return open('/etc/tower/SECRET_KEY', 'rb').read().strip()
+
+      ADMINS = ()
+      STATIC_ROOT = '/var/lib/awx/public/static'
+      STATIC_URL = '/static/'
+      PROJECTS_ROOT = '/var/lib/awx/projects'
+      JOBOUTPUT_ROOT = '/var/lib/awx/job_status'
+
+      IS_K8S = True
+
+      # Set memory available based off of resource request/limit for the task pod
+      SYSTEM_TASK_ABS_MEM = '4Gi'
+
+      # Set cpu available based off of resource request/limit for the task pod
+      SYSTEM_TASK_ABS_CPU = '2'
+
+      SECRET_KEY = get_secret()
+
+      ALLOWED_HOSTS = ['*']
+
+      INTERNAL_API_URL = 'http://127.0.0.1:8052'
+
+
+      # Container environments don't like chroots
+      AWX_PROOT_ENABLED = False
+
+      # Automatically deprovision pods that go offline
+      AWX_AUTO_DEPROVISION_INSTANCES = True
+
+      CLUSTER_HOST_ID = socket.gethostname()
+      SYSTEM_UUID = os.environ.get('MY_POD_UID', '00000000-0000-0000-0000-000000000000')
+
+      CSRF_COOKIE_SECURE = False
+      SESSION_COOKIE_SECURE = False
+
+      SERVER_EMAIL = 'root@localhost'
+      DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+      EMAIL_SUBJECT_PREFIX = '[AWX] '
+
+      EMAIL_HOST = 'localhost'
+      EMAIL_PORT = 25
+      EMAIL_HOST_USER = ''
+      EMAIL_HOST_PASSWORD = ''
+      EMAIL_USE_TLS = False
+
+      USE_X_FORWARDED_PORT = True
+      BROADCAST_WEBSOCKET_PORT = 8052
+      BROADCAST_WEBSOCKET_PROTOCOL = 'http'
+
+
+      RECEPTOR_LOG_LEVEL = 'info'
+    uwsgi_conf: |
+      [uwsgi]
+      socket = 127.0.0.1:8050
+      processes = 5
+      listen = 128
+      master = true
+      vacuum = true
+      no-orphans = true
+      lazy-apps = true
+      manage-script-name = true
+      master-fifo = /var/lib/awx/awxfifo
+      max-requests = 1000
+      buffer-size = 32768
+
+      if-env = UWSGI_MOUNT_PATH
+      mount = %(_)=awx.wsgi:application
+      endif =
+
+      if-not-env = UWSGI_MOUNT_PATH
+      mount = /=awx.wsgi:application
+      endif =
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"v1","data":{"environment":"AWX_SKIP_MIGRATIONS=true\n","nginx_conf":"worker_processes  1;\nworker_cpu_affinity  auto;\npid        /tmp/nginx.pid;\n\nevents
+        {\n    worker_connections 1024;\n}\n\nhttp {\n    include       /etc/nginx/mime.types;\n    default_type  application/octet-stream;\n    server_tokens
+        off;\n    client_max_body_size 5M;\n\n    log_format  main  ''$remote_addr
+        - $remote_user [$time_local] \"$request\" ''\n                      ''$status
+        $body_bytes_sent \"$http_referer\" ''\n                      ''\"$http_user_agent\"
+        \"$http_x_forwarded_for\"'';\n\n    access_log /dev/stdout main;\n\n    map
+        $http_upgrade $connection_upgrade {\n        default upgrade;\n        ''''      close;\n    }\n\n    sendfile        on;\n    #tcp_nopush     on;\n    #gzip  on;\n\n    upstream
+        uwsgi {\n        server 127.0.0.1:8050;\n    }\n\n    upstream daphne {\n        server
+        127.0.0.1:8051;\n    }\n\n\n    \n    server {\n                listen 8052
+        default_server;\n                    listen [::]:8052 default_server;\n                \n        #
+        If you have a domain name, this is where to add it\n        server_name _;\n        keepalive_timeout
+        65;\n\n        # HSTS (ngx_http_headers_module is required) (15768000 seconds
+        = 6 months)\n        add_header Strict-Transport-Security max-age=15768000;\n\n        #
+        Protect against click-jacking https://www.owasp.org/index.php/Testing_for_Clickjacking_(OTG-CLIENT-009)\n        add_header
+        X-Frame-Options \"DENY\";\n        # Protect against MIME content sniffing
+        https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options\n        add_header
+        X-Content-Type-Options nosniff;\n\n        location /nginx_status {\n            stub_status
+        on;\n            access_log off;\n            allow 127.0.0.1;\n            deny
+        all;\n        }\n\n        location /static {\n            alias /var/lib/awx/public/static/;\n        }\n\n        location
+        /locales {\n            alias /var/lib/awx/public/static/awx/locales;\n        }\n\n        location
+        /favicon.ico {\n            alias /var/lib/awx/public/static/media/favicon.ico;\n        }\n\n        location
+        ~ ^(/websocket/|/api/websocket/) {\n            # Pass request to the upstream
+        alias\n            proxy_pass http://daphne;\n            # Require http version
+        1.1 to allow for upgrade requests\n            proxy_http_version 1.1;\n            #
+        We want proxy_buffering off for proxying to websockets.\n            proxy_buffering
+        off;\n            # http://en.wikipedia.org/wiki/X-Forwarded-For\n            proxy_set_header
+        X-Forwarded-For $proxy_add_x_forwarded_for;\n            # enable this if
+        you use HTTPS:\n            proxy_set_header X-Forwarded-Proto https;\n            #
+        pass the Host: header from the client for the sake of redirects\n            proxy_set_header
+        Host $http_host;\n            # We''ve set the Host header, so we don''t need
+        Nginx to muddle\n            # about with redirects\n            proxy_redirect
+        off;\n            # Depending on the request value, set the Upgrade and\n            #
+        connection headers\n            proxy_set_header Upgrade $http_upgrade;\n            proxy_set_header
+        Connection $connection_upgrade;\n        }\n\n        location / {\n            #
+        Add trailing / if missing\n            rewrite ^(.*)$http_host(.*[^/])$ $1$http_host$2/
+        permanent;\n            uwsgi_read_timeout 120s;\n            uwsgi_pass uwsgi;\n            include
+        /etc/nginx/uwsgi_params;\n            include /etc/nginx/conf.d/*.conf;\n            proxy_set_header
+        X-Forwarded-Port 443;\n            uwsgi_param HTTP_X_FORWARDED_PORT 443;\n\n            add_header
+        Strict-Transport-Security max-age=15768000;\n            # Protect against
+        click-jacking https://www.owasp.org/index.php/Testing_for_Clickjacking_(OTG-CLIENT-009)\n            add_header
+        X-Frame-Options \"DENY\";\n            add_header X-Content-Type-Options nosniff;\n            add_header
+        Cache-Control \"no-cache, no-store, must-revalidate\";\n            add_header
+        Expires \"0\";\n            add_header Pragma \"no-cache\";\n        }\n    }\n}\n","receptor_conf":"---\n-
+        log-level: info\n- local-only: null\n- node:\n   firewallrules:\n    - action:
+        reject\n      tonode: HOSTNAME\n      toservice: control\n- control-service:\n    service:
+        control\n    filename: /var/run/receptor/receptor.sock\n    permissions: ''0660''\n-
+        work-command:\n    worktype: local\n    command: ansible-runner\n    params:
+        worker\n    allowruntimeparams: true\n- work-kubernetes:\n    worktype: kubernetes-runtime-auth\n    authmethod:
+        runtime\n    allowruntimeauth: true\n    allowruntimepod: true\n    allowruntimeparams:
+        true\n- work-kubernetes:\n    worktype: kubernetes-incluster-auth\n    authmethod:
+        incluster\n    allowruntimeauth: true\n    allowruntimepod: true\n    allowruntimeparams:
+        true\n- tls-client:\n    cert: /etc/receptor/tls/receptor.crt\n    key: /etc/receptor/tls/receptor.key\n    name:
+        tlsclient\n    rootcas: /etc/receptor/tls/ca/mesh-CA.crt\n    mintls13: false\n-
+        work-signing:\n    privatekey: /etc/receptor/work_private_key.pem\n    tokenexpiration:
+        1m\n","redis_conf":"unixsocket /var/run/redis/redis.sock\nunixsocketperm 777\nport
+        0\nbind 127.0.0.1\n","settings":"import os\nimport socket\n# Import all so
+        that extra_settings works properly\nfrom django_auth_ldap.config import *\n\ndef
+        get_secret():\n    if os.path.exists(\"/etc/tower/SECRET_KEY\"):\n        return
+        open(''/etc/tower/SECRET_KEY'', ''rb'').read().strip()\n\nADMINS = ()\nSTATIC_ROOT
+        = ''/var/lib/awx/public/static''\nSTATIC_URL = ''/static/''\nPROJECTS_ROOT
+        = ''/var/lib/awx/projects''\nJOBOUTPUT_ROOT = ''/var/lib/awx/job_status''\n\nIS_K8S
+        = True\n\n# Set memory available based off of resource request/limit for the
+        task pod\nSYSTEM_TASK_ABS_MEM = ''4Gi''\n\n# Set cpu available based off of
+        resource request/limit for the task pod\nSYSTEM_TASK_ABS_CPU = ''2''\n\nSECRET_KEY
+        = get_secret()\n\nALLOWED_HOSTS = [''*'']\n\nINTERNAL_API_URL = ''http://127.0.0.1:8052''\n\n\n#
+        Container environments don''t like chroots\nAWX_PROOT_ENABLED = False\n\n#
+        Automatically deprovision pods that go offline\nAWX_AUTO_DEPROVISION_INSTANCES
+        = True\n\nCLUSTER_HOST_ID = socket.gethostname()\nSYSTEM_UUID = os.environ.get(''MY_POD_UID'',
+        ''00000000-0000-0000-0000-000000000000'')\n\nCSRF_COOKIE_SECURE = False\nSESSION_COOKIE_SECURE
+        = False\n\nSERVER_EMAIL = ''root@localhost''\nDEFAULT_FROM_EMAIL = ''webmaster@localhost''\nEMAIL_SUBJECT_PREFIX
+        = ''[AWX] ''\n\nEMAIL_HOST = ''localhost''\nEMAIL_PORT = 25\nEMAIL_HOST_USER
+        = ''''\nEMAIL_HOST_PASSWORD = ''''\nEMAIL_USE_TLS = False\n\nUSE_X_FORWARDED_PORT
+        = True\nBROADCAST_WEBSOCKET_PORT = 8052\nBROADCAST_WEBSOCKET_PROTOCOL = ''http''\n\n\nRECEPTOR_LOG_LEVEL
+        = ''info''\n","uwsgi_conf":"[uwsgi]\nsocket = 127.0.0.1:8050\nprocesses =
+        5\nlisten = 128\nmaster = true\nvacuum = true\nno-orphans = true\nlazy-apps
+        = true\nmanage-script-name = true\nmaster-fifo = /var/lib/awx/awxfifo\nmax-requests
+        = 1000\nbuffer-size = 32768\n\nif-env = UWSGI_MOUNT_PATH\nmount = %(_)=awx.wsgi:application\nendif
+        =\n\nif-not-env = UWSGI_MOUNT_PATH\nmount = /=awx.wsgi:application\nendif
+        =\n"},"kind":"ConfigMap","metadata":{"labels":{"app.kubernetes.io/component":"awx","app.kubernetes.io/managed-by":"awx-operator","app.kubernetes.io/operator-version":"2.19.1","app.kubernetes.io/part-of":"awx-kwiki"},"name":"awx-kwiki-awx-configmap","namespace":"awx"}}'
+    creationTimestamp: "2025-11-19T16:23:28Z"
+    labels:
+      app.kubernetes.io/component: awx
+      app.kubernetes.io/managed-by: awx-operator
+      app.kubernetes.io/operator-version: 2.19.1
+      app.kubernetes.io/part-of: awx-kwiki
+    name: awx-kwiki-awx-configmap
+    namespace: awx
+    ownerReferences:
+    - apiVersion: awx.ansible.com/v1beta1
+      kind: AWX
+      name: awx-kwiki
+      uid: 0c76c8fc-9e96-4ff7-8b6c-9aac9fabce91
+    resourceVersion: "3248694"
+    uid: 5c7ac693-8792-44fd-9925-17d7aabeb14c
+- apiVersion: v1
+  data:
+    controller_manager_config.yaml: |
+      apiVersion: controller-runtime.sigs.k8s.io/v1alpha1
+      kind: ControllerManagerConfig
+      health:
+        healthProbeBindAddress: :6789
+      metrics:
+        bindAddress: 127.0.0.1:8080
+
+      leaderElection:
+        leaderElect: true
+        resourceName: 811c9dc5.ansible.com
+      # leaderElectionReleaseOnCancel defines if the leader should step down volume
+      # when the Manager ends. This requires the binary to immediately end when the
+      # Manager is stopped, otherwise, this setting is unsafe. Setting this significantly
+      # speeds up voluntary leader transitions as the new leader don't have to wait
+      # LeaseDuration time first.
+      # In the default scaffold provided, the program ends immediately after
+      # the manager stops, so would be fine to enable this option. However,
+      # if you are doing or is intended to do any operation such as perform cleanups
+      # after the manager stops then its usage might be unsafe.
+      # leaderElectionReleaseOnCancel: true
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","data":{"controller_manager_config.yaml":"apiVersion: controller-runtime.sigs.k8s.io/v1alpha1\nkind: ControllerManagerConfig\nhealth:\n  healthProbeBindAddress: :6789\nmetrics:\n  bindAddress: 127.0.0.1:8080\n\nleaderElection:\n  leaderElect: true\n  resourceName: 811c9dc5.ansible.com\n# leaderElectionReleaseOnCancel defines if the leader should step down volume\n# when the Manager ends. This requires the binary to immediately end when the\n# Manager is stopped, otherwise, this setting is unsafe. Setting this significantly\n# speeds up voluntary leader transitions as the new leader don't have to wait\n# LeaseDuration time first.\n# In the default scaffold provided, the program ends immediately after\n# the manager stops, so would be fine to enable this option. However,\n# if you are doing or is intended to do any operation such as perform cleanups\n# after the manager stops then its usage might be unsafe.\n# leaderElectionReleaseOnCancel: true\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"awx-operator-awx-manager-config","namespace":"awx"}}
+    creationTimestamp: "2025-11-19T12:17:43Z"
+    name: awx-operator-awx-manager-config
+    namespace: awx
+    resourceVersion: "3214149"
+    uid: 36fcd4b9-20a1-40c6-a9c1-5a7244200fa2
+- apiVersion: v1
+  data:
+    ca.crt: |
+      -----BEGIN CERTIFICATE-----
+      MIIDBTCCAe2gAwIBAgIIFdIT0P4hVpAwDQYJKoZIhvcNAQELBQAwFTETMBEGA1UE
+      AxMKa3ViZXJuZXRlczAeFw0yNDEyMDQwMDMwMjVaFw0zNDEyMDIwMDM1MjVaMBUx
+      EzARBgNVBAMTCmt1YmVybmV0ZXMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK
+      AoIBAQDALBkNCNd+FhwmggLmJI398ZY78n0ICJGF7GRJjGyIsCiYgB8UL4ab1/9h
+      yBU/cRW1V0f5ZDpXiN7nMfv/ilv7a43auJhjxHkBZuWnwQSToDnPNztIA8q2kxPv
+      pl9KGmjJ7mNHoJW2hnDU4Wj3IoB4V3L90mVGRLYiUErG7zzgcRtocqGMpJA7+P8P
+      gmCtJGCGeGKEsXjwKy2dutgMYDhW/AZRly21ZiaYMIzmRK4/MXiKgIWfyHRdNe6r
+      8+p/Rm7xUDiU8PKQbx81hiCp1XGI3o+83PsdDTMH+Aco0QAfyv/Vwa1CCVRYorEo
+      k+2SPqMQ76GdwBMap7hKxKkHTEBtAgMBAAGjWTBXMA4GA1UdDwEB/wQEAwICpDAP
+      BgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBS7pLWZGrnAjFZoa8LjhV5h2kt3tjAV
+      BgNVHREEDjAMggprdWJlcm5ldGVzMA0GCSqGSIb3DQEBCwUAA4IBAQA4Xfxrd/gr
+      fmZxAnKvFNM5OPnMMpFHGFa583viZH1b2WsVFf+j25SohPNCy2ypbpA2jBMdAZTD
+      +CZYEeQsebCija0utSK+DWoTEiV9jz9Jd8H1us+B0DEpiAEZ1QnzZaESC21FUgPw
+      0gGvFMDHmFDL4r0gGE/6F/97+rTUZUX3SyCqKlZo0urkNAas0CKNzUPL4o51y5gB
+      FTWyBqG3MB6Ic5lR/cVMOdY4GrEpLonIy8oVZGY9FHiSUqPv+q81c1WxVZiQLL04
+      wm3u8YmVfhCg3JjWQ80cWDZRURm0JWW66Qh3Y+W3Su1QYh1JBjFDWp0cQqWsIkB4
+      I22jWbzWzJZt
+      -----END CERTIFICATE-----
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubernetes.io/description: Contains a CA bundle that can be used to verify the
+        kube-apiserver when using internal endpoints such as the internal service
+        IP or kubernetes.default.svc. No other usage is guaranteed across distributions
+        of Kubernetes clusters.
+    creationTimestamp: "2025-11-19T12:17:43Z"
+    name: kube-root-ca.crt
+    namespace: awx
+    resourceVersion: "3214127"
+    uid: f590625e-7d44-4686-abcf-a464938e2213
+kind: List
+metadata:
+  resourceVersion: ""

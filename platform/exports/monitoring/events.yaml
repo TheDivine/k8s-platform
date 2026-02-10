@@ -1,0 +1,62 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  count: 122436
+  eventTime: null
+  firstTimestamp: "2025-12-28T17:33:39Z"
+  involvedObject:
+    apiVersion: v1
+    fieldPath: spec.containers{node-exporter}
+    kind: Pod
+    name: monitoring-prometheus-node-exporter-v4kp6
+    namespace: monitoring
+    resourceVersion: "12428163"
+    uid: 90de4e6d-8b77-4bf0-bff9-4b58c1a56800
+  kind: Event
+  lastTimestamp: "2026-02-10T19:38:29Z"
+  message: 'Readiness probe failed: Get "http://10.200.0.2:9100/": context deadline
+    exceeded (Client.Timeout exceeded while awaiting headers)'
+  metadata:
+    creationTimestamp: "2026-01-26T17:28:29Z"
+    name: monitoring-prometheus-node-exporter-v4kp6.1885717f1eb87f3f
+    namespace: monitoring
+    resourceVersion: "23140572"
+    uid: dbe91ef5-a1b7-459e-8410-a4761af928ed
+  reason: Unhealthy
+  reportingComponent: kubelet
+  reportingInstance: hcp.kwiki.it.com
+  source:
+    component: kubelet
+    host: hcp.kwiki.it.com
+  type: Warning
+- apiVersion: v1
+  count: 256813
+  eventTime: null
+  firstTimestamp: "2025-12-28T17:35:20Z"
+  involvedObject:
+    apiVersion: v1
+    fieldPath: spec.containers{node-exporter}
+    kind: Pod
+    name: monitoring-prometheus-node-exporter-v4kp6
+    namespace: monitoring
+    resourceVersion: "12428163"
+    uid: 90de4e6d-8b77-4bf0-bff9-4b58c1a56800
+  kind: Event
+  lastTimestamp: "2026-02-10T19:33:35Z"
+  message: Back-off restarting failed container node-exporter in pod monitoring-prometheus-node-exporter-v4kp6_monitoring(90de4e6d-8b77-4bf0-bff9-4b58c1a56800)
+  metadata:
+    creationTimestamp: "2025-12-28T17:43:38Z"
+    name: monitoring-prometheus-node-exporter-v4kp6.1885719693834807
+    namespace: monitoring
+    resourceVersion: "23139748"
+    uid: 0f72e614-b93d-4e35-a88c-441abd235a79
+  reason: BackOff
+  reportingComponent: kubelet
+  reportingInstance: hcp.kwiki.it.com
+  source:
+    component: kubelet
+    host: hcp.kwiki.it.com
+  type: Warning
+kind: List
+metadata:
+  resourceVersion: ""

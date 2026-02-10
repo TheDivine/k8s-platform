@@ -1,0 +1,102 @@
+apiVersion: v1
+items:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations: {}
+      labels:
+        app.kubernetes.io/component: database
+        app.kubernetes.io/instance: postgres-15-awx-kwiki
+        app.kubernetes.io/managed-by: awx-operator
+        app.kubernetes.io/name: postgres-15
+        app.kubernetes.io/operator-version: 2.19.1
+        app.kubernetes.io/part-of: awx-kwiki
+      name: awx-kwiki-postgres-15
+      namespace: awx
+      ownerReferences:
+        - apiVersion: awx.ansible.com/v1beta1
+          kind: AWX
+          name: awx-kwiki
+          uid: 0c76c8fc-9e96-4ff7-8b6c-9aac9fabce91
+    spec:
+      clusterIP: None
+      clusterIPs:
+        - None
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - port: 5432
+          protocol: TCP
+          targetPort: 5432
+      selector:
+        app.kubernetes.io/component: database
+        app.kubernetes.io/instance: postgres-15-awx-kwiki
+        app.kubernetes.io/managed-by: awx-operator
+        app.kubernetes.io/name: postgres-15
+        app.kubernetes.io/part-of: awx-kwiki
+      sessionAffinity: None
+      type: ClusterIP
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations: {}
+      labels:
+        app.kubernetes.io/component: awx
+        app.kubernetes.io/managed-by: awx-operator
+        app.kubernetes.io/operator-version: 2.19.1
+        app.kubernetes.io/part-of: awx-kwiki
+      name: awx-kwiki-service
+      namespace: awx
+      ownerReferences:
+        - apiVersion: awx.ansible.com/v1beta1
+          kind: AWX
+          name: awx-kwiki
+          uid: 0c76c8fc-9e96-4ff7-8b6c-9aac9fabce91
+    spec:
+      clusterIP: 10.96.85.145
+      clusterIPs:
+        - 10.96.85.145
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - name: http
+          port: 80
+          protocol: TCP
+          targetPort: 8052
+      selector:
+        app.kubernetes.io/component: awx
+        app.kubernetes.io/managed-by: awx-operator
+        app.kubernetes.io/name: awx-kwiki-web
+      sessionAffinity: None
+      type: ClusterIP
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations: {}
+      labels:
+        control-plane: controller-manager
+      name: awx-operator-controller-manager-metrics-service
+      namespace: awx
+    spec:
+      clusterIP: 10.109.241.5
+      clusterIPs:
+        - 10.109.241.5
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - name: https
+          port: 8443
+          protocol: TCP
+          targetPort: https
+      selector:
+        control-plane: controller-manager
+      sessionAffinity: None
+      type: ClusterIP
+kind: List
+metadata: {}

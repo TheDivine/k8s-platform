@@ -1,0 +1,696 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: 6ec0a64a59285acc4bd037538bd54ff8355a440c6c2daf88726a6920354080cc
+      cni.projectcalico.org/podIP: 10.244.101.148/32
+      cni.projectcalico.org/podIPs: 10.244.101.148/32
+      kubectl.kubernetes.io/restartedAt: "2025-10-24T15:49:20Z"
+    creationTimestamp: "2025-10-24T15:49:20Z"
+    generateName: drone-server-7cd8d6dd98-
+    labels:
+      app: drone-server
+      pod-template-hash: 7cd8d6dd98
+    name: drone-server-7cd8d6dd98-lg5kn
+    namespace: drone
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: drone-server-7cd8d6dd98
+      uid: 63e7d39f-d27a-4fd5-a2b5-3f22ab510625
+    resourceVersion: "22604302"
+    uid: 06092470-34a7-4ba1-8963-a1d5b0d902f0
+  spec:
+    containers:
+    - env:
+      - name: DRONE_SERVER_HOST
+        valueFrom:
+          secretKeyRef:
+            key: DRONE_SERVER_HOST
+            name: drone-server-secret
+      - name: DRONE_SERVER_PROTO
+        value: https
+      - name: DRONE_RPC_SECRET
+        valueFrom:
+          secretKeyRef:
+            key: DRONE_RPC_SECRET
+            name: drone-server-secret
+      - name: DRONE_DATABASE_DRIVER
+        value: postgres
+      - name: DRONE_DATABASE_DATASOURCE
+        valueFrom:
+          secretKeyRef:
+            key: DRONE_DATABASE_DATASOURCE
+            name: drone-server-secret
+      - name: DRONE_USER_CREATE
+        valueFrom:
+          secretKeyRef:
+            key: DRONE_USER_CREATE
+            name: drone-server-secret
+      - name: DRONE_GITHUB_CLIENT_ID
+        valueFrom:
+          secretKeyRef:
+            key: DRONE_GITHUB_CLIENT_ID
+            name: drone-server-secret
+      - name: DRONE_GITHUB_CLIENT_SECRET
+        valueFrom:
+          secretKeyRef:
+            key: DRONE_GITHUB_CLIENT_SECRET
+            name: drone-server-secret
+      image: drone/drone:2
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /
+          port: http
+          scheme: HTTP
+        initialDelaySeconds: 20
+        periodSeconds: 20
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: drone-server
+      ports:
+      - containerPort: 80
+        name: http
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /
+          port: http
+          scheme: HTTP
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-b8q6w
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: s231226.wholesaleinternet.net
+    nodeSelector:
+      kubernetes.io/hostname: s231226.wholesaleinternet.net
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-b8q6w
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-10-24T15:49:22Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-10-24T15:49:20Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-02-08T14:15:06Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-02-08T14:15:06Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-10-24T15:49:20Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://3eec6e4f9cc59cc3583a0bc89e91049301ec93208bbc832755dbc56c1e72d8c7
+      image: docker.io/drone/drone:2
+      imageID: docker.io/drone/drone@sha256:e91d56c5368fae936be21d779c11e82e85ada2cf769290b3e9e3aca1b75d3d73
+      lastState:
+        terminated:
+          containerID: containerd://7def7e0d4490e28b13d5797455a168f2c592764ee070b41e5185eb064671e296
+          exitCode: 137
+          finishedAt: "2025-10-24T16:47:30Z"
+          reason: Error
+          startedAt: "2025-10-24T16:45:51Z"
+      name: drone-server
+      ready: true
+      restartCount: 18
+      started: true
+      state:
+        running:
+          startedAt: "2025-10-24T16:52:37Z"
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-b8q6w
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 10.200.0.1
+    hostIPs:
+    - ip: 10.200.0.1
+    phase: Running
+    podIP: 10.244.101.148
+    podIPs:
+    - ip: 10.244.101.148
+    qosClass: BestEffort
+    startTime: "2025-10-24T15:49:20Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: ae09793727f890e673ec295a6d70205b6f9891a22bb7f643846685c1d5a2e4ea
+      cni.projectcalico.org/podIP: 10.244.101.153/32
+      cni.projectcalico.org/podIPs: 10.244.101.153/32
+    creationTimestamp: "2025-10-24T16:46:31Z"
+    generateName: postgres-
+    labels:
+      app: postgres
+      apps.kubernetes.io/pod-index: "0"
+      controller-revision-hash: postgres-7bb5848cdb
+      statefulset.kubernetes.io/pod-name: postgres-0
+    name: postgres-0
+    namespace: drone
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: postgres
+      uid: 7f8975c6-ffce-4e93-925f-f030092e5669
+    resourceVersion: "85635"
+    uid: f612a613-6d79-4cc2-9964-ee9c70287e1a
+  spec:
+    containers:
+    - envFrom:
+      - configMapRef:
+          name: postgres-config
+      image: postgres:15
+      imagePullPolicy: IfNotPresent
+      name: postgres
+      ports:
+      - containerPort: 5432
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-r5pkr
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    hostname: postgres-0
+    nodeName: s231226.wholesaleinternet.net
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    subdomain: postgres
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-r5pkr
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-10-24T16:46:33Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-10-24T16:46:31Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-10-24T16:46:33Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-10-24T16:46:33Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-10-24T16:46:31Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://00f71435ff7cf94a528d08c297731f1ca3097d5c8630f74e21e2072129929fbb
+      image: docker.io/library/postgres:15
+      imageID: docker.io/library/postgres@sha256:9541969afa16d1ac724e16d1cf3c26ddd0c5bae5dd1c230118a7f5b9c14cde1f
+      lastState: {}
+      name: postgres
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-10-24T16:46:32Z"
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-r5pkr
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 10.200.0.1
+    hostIPs:
+    - ip: 10.200.0.1
+    phase: Running
+    podIP: 10.244.101.153
+    podIPs:
+    - ip: 10.244.101.153
+    qosClass: BestEffort
+    startTime: "2025-10-24T16:46:31Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app":"drone-server"},"name":"droneserver","namespace":"drone"},"spec":{"ports":[{"name":"http","port":80,"protocol":"TCP","targetPort":80}],"selector":{"app":"drone-server"},"type":"ClusterIP"}}
+    creationTimestamp: "2025-10-24T15:49:06Z"
+    labels:
+      app: drone-server
+    name: droneserver
+    namespace: drone
+    resourceVersion: "80642"
+    uid: 64319afb-030a-4537-aa2b-df70bcb1c8c2
+  spec:
+    clusterIP: 10.104.157.136
+    clusterIPs:
+    - 10.104.157.136
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    selector:
+      app: drone-server
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app":"postgres"},"name":"postgres","namespace":"drone"},"spec":{"ports":[{"name":"http","port":5432,"protocol":"TCP","targetPort":5432}],"selector":{"app":"postgres"}}}
+    creationTimestamp: "2025-10-24T14:26:18Z"
+    labels:
+      app: postgres
+    name: postgres
+    namespace: drone
+    resourceVersion: "73008"
+    uid: f33c10be-c52e-4c52-b01b-2909c05eabbb
+  spec:
+    clusterIP: 10.111.221.242
+    clusterIPs:
+    - 10.111.221.242
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+    selector:
+      app: postgres
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "2"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"drone-server"},"name":"drone-server","namespace":"drone"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"drone-server"}},"template":{"metadata":{"labels":{"app":"drone-server"}},"spec":{"containers":[{"env":[{"name":"DRONE_SERVER_HOST","valueFrom":{"secretKeyRef":{"key":"DRONE_SERVER_HOST","name":"drone-server-secret"}}},{"name":"DRONE_SERVER_PROTO","value":"https"},{"name":"DRONE_RPC_SECRET","valueFrom":{"secretKeyRef":{"key":"DRONE_RPC_SECRET","name":"drone-server-secret"}}},{"name":"DRONE_DATABASE_DRIVER","value":"postgres"},{"name":"DRONE_DATABASE_DATASOURCE","valueFrom":{"secretKeyRef":{"key":"DRONE_DATABASE_DATASOURCE","name":"drone-server-secret"}}},{"name":"DRONE_USER_CREATE","valueFrom":{"secretKeyRef":{"key":"DRONE_USER_CREATE","name":"drone-server-secret"}}},{"name":"DRONE_GITHUB_CLIENT_ID","valueFrom":{"secretKeyRef":{"key":"DRONE_GITHUB_CLIENT_ID","name":"drone-server-secret"}}},{"name":"DRONE_GITHUB_CLIENT_SECRET","valueFrom":{"secretKeyRef":{"key":"DRONE_GITHUB_CLIENT_SECRET","name":"drone-server-secret"}}}],"image":"drone/drone:2","imagePullPolicy":"IfNotPresent","livenessProbe":{"httpGet":{"path":"/","port":"http"},"initialDelaySeconds":20,"periodSeconds":20},"name":"drone-server","ports":[{"containerPort":80,"name":"http"}],"readinessProbe":{"httpGet":{"path":"/","port":"http"},"initialDelaySeconds":5,"periodSeconds":10}}],"nodeSelector":{"kubernetes.io/hostname":"s231226.wholesaleinternet.net"}}}}}
+    creationTimestamp: "2025-10-24T15:43:54Z"
+    generation: 2
+    labels:
+      app: drone-server
+    name: drone-server
+    namespace: drone
+    resourceVersion: "22604306"
+    uid: 4b22df93-f955-4055-9c8e-bcab955b0d61
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: drone-server
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-10-24T15:49:20Z"
+        creationTimestamp: null
+        labels:
+          app: drone-server
+      spec:
+        containers:
+        - env:
+          - name: DRONE_SERVER_HOST
+            valueFrom:
+              secretKeyRef:
+                key: DRONE_SERVER_HOST
+                name: drone-server-secret
+          - name: DRONE_SERVER_PROTO
+            value: https
+          - name: DRONE_RPC_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: DRONE_RPC_SECRET
+                name: drone-server-secret
+          - name: DRONE_DATABASE_DRIVER
+            value: postgres
+          - name: DRONE_DATABASE_DATASOURCE
+            valueFrom:
+              secretKeyRef:
+                key: DRONE_DATABASE_DATASOURCE
+                name: drone-server-secret
+          - name: DRONE_USER_CREATE
+            valueFrom:
+              secretKeyRef:
+                key: DRONE_USER_CREATE
+                name: drone-server-secret
+          - name: DRONE_GITHUB_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                key: DRONE_GITHUB_CLIENT_ID
+                name: drone-server-secret
+          - name: DRONE_GITHUB_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: DRONE_GITHUB_CLIENT_SECRET
+                name: drone-server-secret
+          image: drone/drone:2
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: drone-server
+          ports:
+          - containerPort: 80
+            name: http
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/hostname: s231226.wholesaleinternet.net
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2025-10-24T16:52:50Z"
+      lastUpdateTime: "2025-10-24T16:52:50Z"
+      message: ReplicaSet "drone-server-7cd8d6dd98" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-02-08T14:15:06Z"
+      lastUpdateTime: "2026-02-08T14:15:06Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: "2025-10-24T15:49:20Z"
+    generation: 1
+    labels:
+      app: drone-server
+      pod-template-hash: 7cd8d6dd98
+    name: drone-server-7cd8d6dd98
+    namespace: drone
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: drone-server
+      uid: 4b22df93-f955-4055-9c8e-bcab955b0d61
+    resourceVersion: "22604303"
+    uid: 63e7d39f-d27a-4fd5-a2b5-3f22ab510625
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: drone-server
+        pod-template-hash: 7cd8d6dd98
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-10-24T15:49:20Z"
+        creationTimestamp: null
+        labels:
+          app: drone-server
+          pod-template-hash: 7cd8d6dd98
+      spec:
+        containers:
+        - env:
+          - name: DRONE_SERVER_HOST
+            valueFrom:
+              secretKeyRef:
+                key: DRONE_SERVER_HOST
+                name: drone-server-secret
+          - name: DRONE_SERVER_PROTO
+            value: https
+          - name: DRONE_RPC_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: DRONE_RPC_SECRET
+                name: drone-server-secret
+          - name: DRONE_DATABASE_DRIVER
+            value: postgres
+          - name: DRONE_DATABASE_DATASOURCE
+            valueFrom:
+              secretKeyRef:
+                key: DRONE_DATABASE_DATASOURCE
+                name: drone-server-secret
+          - name: DRONE_USER_CREATE
+            valueFrom:
+              secretKeyRef:
+                key: DRONE_USER_CREATE
+                name: drone-server-secret
+          - name: DRONE_GITHUB_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                key: DRONE_GITHUB_CLIENT_ID
+                name: drone-server-secret
+          - name: DRONE_GITHUB_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: DRONE_GITHUB_CLIENT_SECRET
+                name: drone-server-secret
+          image: drone/drone:2
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: drone-server
+          ports:
+          - containerPort: 80
+            name: http
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/hostname: s231226.wholesaleinternet.net
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: StatefulSet
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"StatefulSet","metadata":{"annotations":{},"name":"postgres","namespace":"drone"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"postgres"}},"serviceName":"postgres","template":{"metadata":{"labels":{"app":"postgres"}},"spec":{"containers":[{"envFrom":[{"configMapRef":{"name":"postgres-config"}}],"image":"postgres:15","imagePullPolicy":"IfNotPresent","name":"postgres","ports":[{"containerPort":5432}]}]}}}}
+    creationTimestamp: "2025-10-24T14:26:18Z"
+    generation: 1
+    name: postgres
+    namespace: drone
+    resourceVersion: "85636"
+    uid: 7f8975c6-ffce-4e93-925f-f030092e5669
+  spec:
+    persistentVolumeClaimRetentionPolicy:
+      whenDeleted: Retain
+      whenScaled: Retain
+    podManagementPolicy: OrderedReady
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: postgres
+    serviceName: postgres
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: postgres
+      spec:
+        containers:
+        - envFrom:
+          - configMapRef:
+              name: postgres-config
+          image: postgres:15
+          imagePullPolicy: IfNotPresent
+          name: postgres
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    updateStrategy:
+      rollingUpdate:
+        partition: 0
+      type: RollingUpdate
+  status:
+    availableReplicas: 1
+    collisionCount: 0
+    currentReplicas: 1
+    currentRevision: postgres-7bb5848cdb
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updateRevision: postgres-7bb5848cdb
+    updatedReplicas: 1
+kind: List
+metadata:
+  resourceVersion: ""

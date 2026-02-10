@@ -1,0 +1,30 @@
+apiVersion: v1
+items:
+  - apiVersion: v1
+    kind: Endpoints
+    metadata:
+      labels:
+        app.kubernetes.io/instance: traefik-traefik
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: traefik
+        helm.sh/chart: traefik-37.2.0
+      name: traefik
+      namespace: traefik
+    subsets:
+      - addresses:
+          - ip: 10.244.101.135
+            nodeName: s231226.wholesaleinternet.net
+            targetRef:
+              kind: Pod
+              name: traefik-f8c46d9df-t59jl
+              namespace: traefik
+              uid: b3e99ee1-cd60-484b-a638-94aa8cf064e5
+        ports:
+          - name: web
+            port: 8000
+            protocol: TCP
+          - name: websecure
+            port: 8443
+            protocol: TCP
+kind: List
+metadata: {}
