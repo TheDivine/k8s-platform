@@ -1,6 +1,8 @@
 # Local repos kept separately
-apps/
-QloudK-Backup/
+/apps/*
+!/apps/kasm/
+!/apps/kasm/**
+/QloudK-Backup/
 
 # Common
 .DS_Store
