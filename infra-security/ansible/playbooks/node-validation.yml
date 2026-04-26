@@ -1,0 +1,7 @@
+---
+- name: Validate Kubernetes node security prerequisites
+  hosts: k8s_control_plane:k8s_workers
+  gather_facts: true
+  roles:
+    - k8s_node_security
+

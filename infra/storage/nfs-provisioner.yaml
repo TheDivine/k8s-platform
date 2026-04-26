@@ -62,13 +62,13 @@ spec:
             - name: PROVISIONER_NAME
               value: "example.com/nfs"
             - name: NFS_SERVER
-              value: "s231226.wholesaleinternet.net"  # Use the hostname or IP of the storage node
+              value: "k8s-node-02.example.com"  # Use the hostname or IP of the storage node
             - name: NFS_PATH
               value: "/srv/nfs/kubedata"
       volumes:
         - name: nfs-client-root
           nfs:
-            server: s231226.wholesaleinternet.net
+            server: k8s-node-02.example.com
             path: "/srv/nfs/kubedata"
 ---
 apiVersion: storage.k8s.io/v1

@@ -1,4 +1,4 @@
-# ArgoCD (argo.kwiki.it.com)
+# ArgoCD (argo.example.com)
 
 ## Purpose
 ArgoCD will manage **platform + infra** resources from this repo. It provides a UI that is excellent for demos, visibility, and audits.
@@ -70,4 +70,4 @@ kubectl apply -f platform/argocd/app-infra.yaml
 ```
 
 ## DNS
-Point `argo.kwiki.it.com` to the Traefik external IP (MetalLB).
+Point `argo.example.com` to the Traefik external IP (MetalLB).

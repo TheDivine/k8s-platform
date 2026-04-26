@@ -1,0 +1,5 @@
+---
+- name: Restart auditd
+  ansible.builtin.debug:
+    msg: "TODO: restart auditd carefully; some distros require service-specific handling."
+

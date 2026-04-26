@@ -1,0 +1,4 @@
+# WireGuard audit rules. Enable only on nodes that run WireGuard.
+-w /etc/wireguard/ -p wa -k wireguard-config
+-w /usr/bin/wg -p x -k wireguard-exec
+

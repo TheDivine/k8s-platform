@@ -1,0 +1,5 @@
+---
+docker_host_validate_runtime: true
+docker_host_scan_bind_mounts: false
+docker_host_notes: "Use Trivy for images; avoid direct scanning of container runtime internals."
+

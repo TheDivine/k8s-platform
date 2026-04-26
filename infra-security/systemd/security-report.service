@@ -1,0 +1,7 @@
+[Unit]
+Description=Collect local security status report
+
+[Service]
+Type=oneshot
+ExecStart=/opt/infra-security/scripts/send-security-report.sh
+

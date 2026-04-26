@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: drone.kwiki.it.com
+    - host: drone.example.com
       http:
         paths:
           - path: /
@@ -34,7 +34,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: drone.kwiki.it.com
+    - host: drone.example.com
       http:
         paths:
           - path: /
@@ -46,5 +46,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - drone.kwiki.it.com
+        - drone.example.com
 

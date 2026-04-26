@@ -1,0 +1,8 @@
+[Unit]
+Description=Run daily Maldet scan using safe paths
+Documentation=file:/opt/infra-security/maldet/README.md
+
+[Service]
+Type=oneshot
+ExecStart=/opt/infra-security/scripts/run-maldet-scan.sh
+

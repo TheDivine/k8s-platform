@@ -133,7 +133,8 @@ TODO:
 Actions:
 
 - Add Ansible inventory examples with placeholder hosts only.
-- Add roles for Linux hardening, SSH, firewall, auditd, fail2ban, ClamAV, and optional Maldet.
+- Add roles for Linux hardening, SSH, firewall, auditd, fail2ban, ClamAV, optional Maldet, Wazuh agent, and Kubernetes node validation.
+- Keep the first implementation in `infra-security/` as public-safe scaffolding and docs.
 - Use check mode in docs before applying to real nodes.
 - Keep vault files, real inventories, and SSH private material out of Git.
 
@@ -146,6 +147,7 @@ TODO:
 
 - Choose supported OS family and version.
 - Decide whether Kubernetes node bootstrap belongs in Ansible or kubeadm docs.
+- Decide whether `infra-security/` remains as an integrated baseline folder or later splits into a dedicated `ansible/` plus `security/` layout.
 
 ## Phase 8: Introduce Terraform Infrastructure Baseline
 

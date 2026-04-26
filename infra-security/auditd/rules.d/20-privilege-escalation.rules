@@ -1,0 +1,4 @@
+# Privilege escalation audit rules. Review before use.
+-a always,exit -F arch=b64 -S setuid,setgid,setreuid,setregid -k privilege-escalation
+-a always,exit -F arch=b64 -S execve -F euid=0 -k root-command
+

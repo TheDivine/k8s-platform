@@ -13,7 +13,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.middlewares: traefik-dashboard-basicauth@kubernetescrd
 spec:
   rules:
-    - host: grafana.kwiki.it.com
+    - host: grafana.example.com
       http:
         paths:
           - path: /
@@ -25,5 +25,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - grafana.kwiki.it.com
+        - grafana.example.com
 

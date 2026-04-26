@@ -1,0 +1,8 @@
+<!-- Example local rules placeholder. Do not commit private detections. -->
+<group name="local,">
+  <rule id="100100" level="3">
+    <decoded_as>json</decoded_as>
+    <description>Example local rule placeholder</description>
+  </rule>
+</group>
+

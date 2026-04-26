@@ -43,6 +43,16 @@ This tree keeps the repo professional and reusable while allowing working nested
 │   ├── trivy/
 │   ├── networkpolicies/
 │   └── rbac/
+├── infra-security/
+│   ├── ansible/
+│   ├── inventory/
+│   ├── scripts/
+│   ├── systemd/
+│   ├── maldet/
+│   ├── clamav/
+│   ├── auditd/
+│   ├── wazuh/
+│   └── docs/
 ├── ansible/
 │   ├── inventories/
 │   ├── roles/
@@ -162,6 +172,23 @@ Does not belong here:
 
 - Live incident evidence.
 - Private detection rules with sensitive environment details.
+
+## `infra-security/`
+
+Belongs here:
+
+- Public-safe node security baseline scaffolding.
+- Example Ansible inventories and roles for host hardening.
+- Safe scanner path lists for ClamAV and Maldet.
+- Wazuh, auditd, fail2ban, and Kubernetes node validation examples.
+- Non-destructive local status scripts and SOPs.
+
+Does not belong here:
+
+- Real inventory host secrets.
+- Wazuh enrollment keys.
+- Private scan results.
+- Commands that apply configuration without operator approval.
 
 ## `ansible/`
 

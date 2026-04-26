@@ -3,3 +3,28 @@
 # at platform/drone-ci/server/droneserver-secret.example.yaml.
 platform/drone-ci/server/droneserver-secret.yaml -diff
 platform/drone-ci/postgres/postgres.yaml -diff
+
+# Normalize text files used by the public GitOps/IaC baseline.
+*.md text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.sh text eol=lf
+Makefile text eol=lf
+
+# Treat generated/binary/archive payloads as binary in diffs.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.tgz binary
+*.tar binary
+*.tar.gz binary
+*.gz binary
+*.7z binary
+*.db binary
+*.sqlite binary
+*.sqlite3 binary

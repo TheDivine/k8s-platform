@@ -11,7 +11,7 @@ grafana:
       traefik.ingress.kubernetes.io/router.tls.certresolver: le
       traefik.ingress.kubernetes.io/router.middlewares: traefik-dashboard-basicauth@kubernetescrd
     hosts:
-      - grafana.kwiki.it.com
+      - grafana.example.com
     path: /
     pathType: Prefix
 
@@ -30,7 +30,7 @@ prometheus:
       traefik.ingress.kubernetes.io/router.tls.certresolver: le
       traefik.ingress.kubernetes.io/router.middlewares: traefik-dashboard-basicauth@kubernetescrd
     hosts:
-      - prometheus.kwiki.it.com
+      - prometheus.example.com
     paths:
       - /
     pathType: Prefix

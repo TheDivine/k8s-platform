@@ -37,7 +37,7 @@ spec:
 
             # Option B: EXTERNAL via Traefik (comment A and uncomment these)
             # - name: DRONE_RPC_HOST
-            #   value: drone.kwiki.it.com
+            #   value: drone.example.com
             # - name: DRONE_RPC_PROTO
             #   value: https
 

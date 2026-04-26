@@ -2,6 +2,91 @@
 
 This document describes the inferred current architecture and a proposed target architecture for a reusable DevSecOps platform baseline.
 
+## Intended Portfolio Architecture
+
+This repository is the public portfolio/reference layer. It shows how the Kubernetes platform is organized, how GitOps ownership should work, and how security and operating standards are documented without publishing private environment data.
+
+The intended split is:
+
+- Public `k8s-home-lab` repo: sanitized GitOps examples, platform manifests, docs, runbooks, and public-safe scaffolds.
+- Private Terraform repo: real infrastructure provisioning, provider configuration, DNS, firewall, object storage, and state.
+- Private Ansible/security repo: real inventories, host hardening, Wazuh enrollment, SSH hardening, firewall automation, and node validation.
+- Private app repos: application source code, CI pipelines, and release workflows.
+- Kubernetes cluster: reconciles approved platform and app desired state through Argo CD or Flux.
+
+## Workload Direction
+
+Kasm is being treated as the example application migration path: the previous host-managed Docker Compose model should be replaced by a Kubernetes-native, GitOps-friendly deployment after upstream chart or manifest details are validated. The public repo keeps only scaffolded namespace, storage, ingress, documentation, and placeholder secrets.
+
+Drone CI is positioned as a CI system for builds and automation, with real OAuth, RPC, and database secrets managed outside public Git. AWX is positioned as an optional Ansible execution layer for node and host automation, but real inventories and credentials belong in the private Ansible/security repo.
+
+Terraform owns infrastructure provisioning in a private repo. Ansible owns node configuration in a private repo. Argo CD or Flux owns Kubernetes desired state from this public-safe GitOps surface.
+
+## Repository Separation Diagram
+
+```mermaid
+flowchart TB
+    dev[Developer or operator] --> forge[GitHub or Gitea]
+
+    forge --> publicRepo[Public k8s-home-lab repo]
+    forge --> privateTf[Private Terraform provisioning repo]
+    forge --> privateAnsible[Private Ansible security repo]
+    forge --> privateApps[Private app repos]
+
+    publicRepo --> gitops[Argo CD or Flux]
+    privateApps --> ci[CI builds images or charts]
+    ci --> registry[Container registry]
+    privateTf --> infraResources[DNS firewall object storage compute]
+    privateAnsible --> nodes[Linux and Kubernetes nodes]
+
+    gitops --> cluster[Kubernetes cluster]
+    registry --> cluster
+    infraResources --> cluster
+    nodes --> cluster
+```
+
+## GitOps Flow Diagram
+
+```mermaid
+flowchart LR
+    commit[Developer commit] --> git[Git repository]
+    git --> checks[CI lint secret scan render checks]
+    checks --> controller[Argo CD or Flux]
+    controller --> cluster[Kubernetes cluster]
+    cluster --> ingress[Traefik ingress]
+    cluster --> storage[Longhorn storage]
+    cluster --> monitoring[Monitoring stack]
+
+    ingress --> users[Users and admins]
+    storage --> stateful[Stateful workloads]
+    monitoring --> alerts[Grafana and Alertmanager]
+```
+
+## Node Security And Monitoring Diagram
+
+```mermaid
+flowchart TB
+    nodes[Linux and Kubernetes nodes]
+
+    nodes --> auditd[auditd]
+    nodes --> scanners[ClamAV and Maldet]
+    nodes --> wazuh[Wazuh agent]
+    nodes --> shipper[Promtail or Fluent Bit]
+    nodes --> metrics[Node and kube metrics]
+
+    auditd --> shipper
+    scanners --> shipper
+    wazuh --> wazuhMgr[Wazuh manager]
+    shipper --> loki[Loki]
+    metrics --> prometheus[Prometheus]
+    prometheus --> alertmanager[Alertmanager]
+    prometheus --> grafana[Grafana]
+    loki --> grafana
+    wazuhMgr --> securityReview[Security review]
+    grafana --> opsReview[Operations review]
+    alertmanager --> opsReview
+```
+
 ## Current Inferred Architecture
 
 The repository represents a Kubernetes home lab with:
@@ -133,9 +218,92 @@ sequenceDiagram
 ## Target Principles
 
 - Git is the desired-state source for Kubernetes resources.
-- Terraform owns external infrastructure resources.
-- Ansible owns OS and node configuration.
+- Terraform owns external infrastructure resources in a private repo.
+- Ansible owns OS and node configuration in a private repo.
 - Helm packages reusable deployments.
 - Scripts are wrappers and validation helpers.
 - Manual actions are reduced, documented, and reviewed.
 - Secrets are never committed as real values.
+
+## Repository Responsibility Split
+
+```mermaid
+flowchart LR
+    baseline[Public DevSecOps baseline repo]
+
+    baseline --> k8s[infra-k8s-cluster]
+    baseline --> security[infra-security]
+    baseline --> monitoring[infra-monitoring]
+    baseline --> apps[infra-apps]
+    baseline --> docs[infra-docs]
+
+    k8s --> clusters[clusters/]
+    k8s --> platform[platform/]
+    k8s --> flux[flux/]
+
+    security --> nodeSecurity[infra-security/]
+    security --> policies[security/]
+    security --> scans[tools/audit and validation]
+
+    monitoring --> prom[Prometheus]
+    monitoring --> grafana[Grafana]
+    monitoring --> loki[Loki]
+
+    apps --> appScaffolds[apps/]
+    apps --> examples[public examples]
+
+    docs --> runbooks[docs/]
+    docs --> diagrams[docs/diagrams/]
+```
+
+## Runtime Security Architecture
+
+```mermaid
+flowchart TB
+    git[Git repository] --> awx[AWX running Ansible from Git]
+    awx --> nodes[Linux and Kubernetes nodes]
+
+    subgraph cluster[Kubernetes cluster]
+        cp[control-plane services]
+        workers[worker nodes]
+        traefik[Traefik]
+        metallb[MetalLB]
+        prom[Prometheus]
+        grafana[Grafana]
+        loki[Loki]
+    end
+
+    nodes --> auditd[auditd]
+    nodes --> fail2ban[fail2ban]
+    nodes --> clamav[ClamAV]
+    nodes --> maldet[Maldet on web/upload/file nodes]
+    nodes --> wazuhAgent[Wazuh agent]
+    nodes --> containerd[containerd and crictl]
+    nodes --> kubelet[kubelet]
+
+    wazuhAgent --> wazuhMgr[Wazuh manager outside cluster]
+    auditd --> loki
+    containerd --> loki
+    kubelet --> loki
+    prom --> grafana
+    loki --> grafana
+```
+
+## Security Event Flow
+
+```mermaid
+flowchart LR
+    hostLogs[Host logs] --> auditd[auditd]
+    scanLogs[ClamAV and Maldet scan logs] --> shipper[promtail or fluent-bit]
+    runtimeLogs[containerd and kubelet logs] --> shipper
+    auditd --> wazuhAgent[Wazuh agent]
+    auditd --> shipper
+
+    shipper --> loki[Loki]
+    loki --> grafana[Grafana alerts]
+    wazuhAgent --> wazuhManager[Wazuh manager]
+    wazuhManager --> wazuhDashboard[Wazuh dashboard]
+
+    grafana --> operator[Operator review]
+    wazuhDashboard --> operator
+```

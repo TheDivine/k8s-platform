@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`argo.kwiki.it.com`)
+    - match: Host(`argo.example.com`)
       kind: Rule
       services:
         - name: argocd-server

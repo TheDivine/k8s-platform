@@ -1,0 +1,5 @@
+---
+- name: Restart ssh
+  ansible.builtin.debug:
+    msg: "TODO: restart SSH only after validating distro-specific service name."
+

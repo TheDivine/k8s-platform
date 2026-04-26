@@ -19,6 +19,7 @@
 .env
 .env.*
 *.env
+.envrc
 *.secret
 *.secrets
 secrets/
@@ -52,6 +53,8 @@ admin.conf
 *.pfx
 id_rsa
 id_ed25519
+*.agekey
+age.key
 *.crt
 *.csr
 *.sops.yaml.dec
@@ -74,6 +77,7 @@ terraform.tfvars
 # Ansible
 *.retry
 vault-password.txt
+ansible-vault-password
 .vault_pass
 group_vars/*/vault.yml
 host_vars/*/vault.yml

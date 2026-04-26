@@ -1,0 +1,11 @@
+<!-- Example only. Replace values outside public Git. -->
+<ossec_config>
+  <client>
+    <server>
+      <address>wazuh-manager.example.com</address>
+      <port>1514</port>
+      <protocol>tcp</protocol>
+    </server>
+  </client>
+</ossec_config>
+

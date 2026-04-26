@@ -76,14 +76,14 @@ OR store them in a dedicated “apps” folder and include it from `clusters/pro
 ## 4) How to check what is working
 
 ArgoCD:
-- UI: `https://argo.kwiki.it.com`
+- UI: `https://argo.example.com`
 - Cluster check:
 ```bash
 kubectl -n argocd get applications
 ```
 
 Flux:
-- UI: `https://flux.kwiki.it.com`
+- UI: `https://flux.example.com`
 - Cluster checks:
 ```bash
 kubectl -n flux-system get pods
@@ -92,7 +92,7 @@ kubectl -n flux-system get helmreleases,helmrepositories
 ```
 
 Drone CI:
-- UI: `https://drone.kwiki.it.com`
+- UI: `https://drone.example.com`
 - Runner must exist for pipelines to run.
 
 ## 5) Secrets (beginner-safe rule)
@@ -106,4 +106,3 @@ Use one of:
 ## 6) Next improvement (optional)
 
 After your first app works end-to-end, add Flux Image Automation so Drone does not need to commit image tag changes.
-

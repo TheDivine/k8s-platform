@@ -7,7 +7,7 @@ This folder deploys a minimal MinIO instance for Velero backups.
 - `pvc.yaml`: 50Gi storage (uses `longhorn`)
 - `deployment.yaml`: MinIO server
 - `service.yaml`: ClusterIP for S3 + console
-- `ingressroute.yaml`: exposes console at `minio.kwiki.it.com`
+- `ingressroute.yaml`: exposes console at `minio.example.com`
 - `secret.template.yaml`: credentials template (do NOT commit real secrets)
 
 ## Setup
@@ -22,4 +22,4 @@ kubectl apply -k platform/backup/minio/
 
 ## Notes
 - Change `storageClassName` if you don’t use Longhorn.
-- Replace `minio.kwiki.it.com` with your chosen domain.
+- Replace `minio.example.com` with your chosen domain.

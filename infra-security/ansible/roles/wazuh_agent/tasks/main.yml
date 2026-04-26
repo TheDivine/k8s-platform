@@ -1,0 +1,18 @@
+---
+- name: Show Wazuh agent baseline scope
+  ansible.builtin.debug:
+    msg:
+      - "TODO: install Wazuh agent using the approved package repository."
+      - "TODO: configure manager address outside public Git."
+      - "Do not commit enrollment keys or manager credentials."
+
+- name: Check Wazuh agent service status
+  ansible.builtin.command: systemctl is-active wazuh-agent
+  register: wazuh_status
+  changed_when: false
+  failed_when: false
+
+- name: Report Wazuh agent status
+  ansible.builtin.debug:
+    var: wazuh_status.stdout
+

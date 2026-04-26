@@ -17,7 +17,7 @@ spec:
         app: drone-server
     spec:
       nodeSelector:
-         kubernetes.io/hostname: s231226.wholesaleinternet.net
+         kubernetes.io/hostname: k8s-node-02.example.com
       containers:
         - name: drone-server
           image: drone/drone:2

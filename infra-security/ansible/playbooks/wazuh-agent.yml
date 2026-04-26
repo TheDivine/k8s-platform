@@ -1,0 +1,7 @@
+---
+- name: Configure Wazuh agent placeholder
+  hosts: all
+  gather_facts: true
+  roles:
+    - wazuh_agent
+

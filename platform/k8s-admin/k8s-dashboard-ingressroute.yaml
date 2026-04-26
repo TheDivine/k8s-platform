@@ -10,7 +10,7 @@ spec:
     certResolver: le
   routes:
     # API: no basic-auth
-    - match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/api`)
+    - match: Host(`k8s.example.com`) && PathPrefix(`/api`)
       kind: Rule
       services:
         - name: kubernetes-dashboard-kong-proxy
@@ -18,7 +18,7 @@ spec:
           scheme: https
           serversTransport: dash-insecure
     # UI: with basic-auth
-    - match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/`)
+    - match: Host(`k8s.example.com`) && PathPrefix(`/`)
       kind: Rule
       middlewares:
         - name: dashboard-basicauth

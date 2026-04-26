@@ -9,5 +9,5 @@ spec:
     command: ["iperf3", "-c", "10.244.101.136", "-t", "20"]
   restartPolicy: Never
   nodeSelector:
-    kubernetes.io/hostname: hcp.kwiki.it.com
+    kubernetes.io/hostname: k8s-node-01.example.com
 

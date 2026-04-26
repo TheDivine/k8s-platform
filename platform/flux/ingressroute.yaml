@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`flux.kwiki.it.com`)
+    - match: Host(`flux.example.com`)
       kind: Rule
       services:
         # Verify service name with:

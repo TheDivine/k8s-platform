@@ -1,0 +1,5 @@
+---
+- name: Restart containerd
+  ansible.builtin.debug:
+    msg: "TODO: restart containerd only during a maintenance window."
+

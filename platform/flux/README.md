@@ -3,7 +3,7 @@
 This folder contains manifests for the Flux UI (Weave GitOps) ingress.
 
 ## Files
-- `ingressroute.yaml`: Traefik route for `flux.kwiki.it.com` to Weave GitOps UI.
+- `ingressroute.yaml`: Traefik route for `flux.example.com` to Weave GitOps UI.
 
 ## Apply
 ```bash

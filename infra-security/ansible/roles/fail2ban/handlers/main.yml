@@ -1,0 +1,5 @@
+---
+- name: Restart fail2ban
+  ansible.builtin.debug:
+    msg: "TODO: restart fail2ban after jail config validation."
+

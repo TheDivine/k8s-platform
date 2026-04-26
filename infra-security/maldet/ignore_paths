@@ -1,0 +1,13 @@
+/proc
+/sys
+/dev
+/run
+/var/lib/kubelet
+/var/lib/containerd
+/var/lib/docker
+/var/lib/longhorn
+/var/lib/rancher
+/var/lib/etcd
+/snap
+/mnt/longhorn
+

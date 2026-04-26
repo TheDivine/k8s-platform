@@ -56,6 +56,20 @@ This baseline defines the professional security posture expected for future repo
 - Do not blanket-scan all Kubernetes nodes by default.
 - Avoid scanning container runtime overlays, Longhorn internals, and database volumes without maintenance windows.
 
+## Wazuh Agent Recommendation
+
+- Use Wazuh agents for host security telemetry where a manager is available.
+- Keep enrollment keys and manager credentials outside public Git.
+- Treat the public `infra-security/wazuh/` files as examples only.
+- Correlate Wazuh events with `auditd`, SSH, package, and runtime logs.
+
+## Container Runtime Validation
+
+- Standardize `crictl` on the containerd socket for Kubernetes nodes.
+- Validate `containerd`, `runc`, kubelet, kernel modules, sysctls, and swap before joining nodes.
+- Keep runtime checks non-destructive unless a maintenance window is approved.
+- Use `infra-security/scripts/check-container-runtime.sh` and `infra-security/scripts/collect-k8s-node-status.sh` as local inspection helpers.
+
 ## Trivy Recommendation
 
 - Use Trivy for:

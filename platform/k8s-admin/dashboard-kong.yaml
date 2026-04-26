@@ -29,7 +29,7 @@ spec:
   tls:
     certResolver: le
   routes:
-    - match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/api`)
+    - match: Host(`k8s.example.com`) && PathPrefix(`/api`)
       kind: Rule
       middlewares:
         - name: dash-forward-headers
@@ -38,7 +38,7 @@ spec:
           port: 443
           scheme: https
           serversTransport: dash-insecure
-    - match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/`)
+    - match: Host(`k8s.example.com`) && PathPrefix(`/`)
       kind: Rule
       middlewares:
         - name: dash-forward-headers

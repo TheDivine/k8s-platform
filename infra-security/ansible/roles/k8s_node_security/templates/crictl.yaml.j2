@@ -1,0 +1,5 @@
+runtime-endpoint: {{ crictl_runtime_endpoint | default('unix:///run/containerd/containerd.sock') }}
+image-endpoint: {{ crictl_image_endpoint | default('unix:///run/containerd/containerd.sock') }}
+timeout: 10
+debug: false
+
