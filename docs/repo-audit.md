@@ -1,98 +1,120 @@
-# Repository Public Safety Audit
+# Repository Audit
 
-Date: 2026-04-26
+This audit is documentation-only. It records the current repository shape, likely ownership boundaries, and safe next steps for turning this home-lab platform repository into a reusable DevSecOps baseline. No cluster changes, file moves, secret rotation, or destructive cleanup were performed for this report.
 
-Scope: local repository inspection only. No cluster commands, no `kubectl apply`, no secret rotation, no deletion, and no Git history rewrite were performed.
+## Current Repository Overview
 
-## Executive Summary
+The repository is now centered around a GitOps/platform baseline:
 
-This repository is close to a useful public B2B GitOps and platform engineering reference, but it should not be treated as clean until risky local app checkouts, live cluster exports, and secret-shaped manifests are reviewed and either removed from the public tree or replaced with sanitized examples.
+- Kubernetes cluster bootstrap and controller wiring under `clusters/`.
+- Reusable infrastructure manifests under `infra/`.
+- Platform services under `platform/`.
+- Application examples and local application workspaces under `apps/`.
+- Flux app wiring under `flux/`.
+- Runbooks, audits, and architecture docs under `docs/`.
+- Archive placeholder documentation under `archive/`.
 
-The safest public-facing story is a curated GitOps/IaC baseline: `clusters/`, `infra/`, `platform/`, `flux/`, selected `apps/`, and `docs/` should contain reusable manifests, examples, runbooks, and diagrams. Generated exports, backups, nested application repos, runtime uploads, local `.env` files, and raw Kubernetes Secrets should stay out of Git.
+Generated cluster exports under `platform/exports/` and `platform/exports-clean/` are ignored and no longer tracked. Local application workspaces such as `apps/kwiki`, `apps/CyberLynxBlog`, and `apps/Cybelynx-blog-content` can stay nested locally, but should be treated as product/application workspaces rather than the public platform source of truth until they are sanitized and documented.
 
-## Current Folder Structure
+## Current Top-Level Folders
 
-Observed top-level areas:
-
-- `apps/`: contains the tracked `apps/kasm` scaffold plus untracked app checkouts and app artifacts.
-- `clusters/`: production/staging GitOps bootstrap and cluster-level wiring.
-- `docs/`: platform documentation and diagrams.
-- `flux/`: app-level Flux wiring, currently including Kasm.
-- `infra/`: storage and networking infrastructure manifests.
-- `platform/`: platform components such as Argo CD, Flux, Traefik, MetalLB, backup, monitoring, Drone CI, and cluster exports.
-- `archive/`: public-facing archive placeholder.
-- `QloudK-Backup/`: not present in the current checkout, but referenced as a historical backup area.
-
-## Public-Safe Areas
-
-These areas are generally suitable for public GitHub after normal review:
-
-- `README.md`
-- `docs/` runbooks, diagrams, public checklists, and architecture notes.
-- `clusters/` GitOps bootstrap manifests when domains, repo URLs, and cluster names are intentionally public lab examples.
-- `infra/storage/` and `infra/networking/` when they contain generic lab manifests only.
-- `platform/argocd/`, `platform/flux/`, `platform/traefik/`, and `platform/metallb/` after confirming they contain no private hostnames, auth material, or internal-only ranges.
-- `platform/backup/` only when secrets remain templates and object storage endpoints are placeholders.
-- `platform/monitoring/` only when ingress hostnames and values are sanitized.
-- `apps/kasm/` because it is a scaffold with placeholders and no real Kasm credentials.
-
-## Risk Findings
-
-### High Risk
-
-- `apps/CyberLynxBlog/.env` exists locally and includes sensitive variable names such as API keys, admin token, admin user, and admin password. Values were not printed during this audit. Keep this file ignored and do not commit it.
-- Nested Git repositories were found at:
-  - `apps/Cybelynx-blog-content/.git`
-  - `apps/CyberLynxBlog/.git`
-  - `apps/CyberLynxBlog/content/.git`
-  - `apps/kwiki/.git`
-- `apps/kwiki/backend/node_modules` and nested `node_modules` directories exist locally. These are generated dependencies and should not be committed.
-- `apps/kwiki/backend/uploads` contains runtime upload assets and logs. Treat as application data, not IaC.
-- `platform/drone-ci/server/droneserver-secret.yaml` is a Kubernetes `Secret` manifest. It appears structured as a secret template/commented example, but the file name and kind are risky for public review. TODO: replace with `droneserver-secret.example.yaml` or SOPS/SealedSecrets documentation before public release.
-
-### Medium Risk
-
-- `platform/exports/` and `platform/exports-clean/` contain live cluster export-style manifests, including `events`, `endpoints`, generated `all.yaml`, RBAC, CRDs, configmaps, and namespace snapshots. These can reveal internal topology, domains, IPs, service names, operational history, and overly broad RBAC. They should be treated as evidence/reference artifacts, not production GitOps source.
-- `platform/exports/_cluster/crds.yaml` and `platform/exports-clean/_cluster/crds.yaml` are large generated CRD exports. Keep out of the curated public tree unless there is a specific reason to show them.
-- `platform/monitoring/old-backup/` contains old ingress backups. TODO: review for hostnames and remove or archive after documentation.
-- `apps/kwiki/traefik/auth`, `apps/kwiki/traefik/basic-atuh.txt`, and `apps/kwiki/traefik/traefik.json` require manual review before any public commit.
-- `apps/kwiki/crd-backup.yaml` appears to be a backup/export artifact and should not be public without sanitization.
-
-### Lower Risk / Needs Review
-
-- Real domains or lab domains appear in several ingress examples. Public exposure may be acceptable for portfolio material, but TODO: decide whether to replace with `example.com` or intentionally keep as lab branding.
-- `platform/backup/minio/secret.template.yaml`, `platform/backup/velero/credentials.secret.template.yaml`, and `apps/kasm/kustomize/base/secrets.example.yaml` are acceptable only if they keep placeholder values.
-- `docs/` may contain operational commands and hostnames. TODO: review docs for private IPs, internal DNS names, usernames, and provider details.
-
-## Negative Findings
-
-The filename scan did not find:
-
-- kubeconfig files
-- `.key`, `.pem`, `.p12`, or `.pfx` files
-- `.crt` files
-- archive dumps such as `.tgz`, `.tar`, `.gz`, or `.sql`
-- Terraform state directories
-
-This does not prove the repository is free of secrets. Run the manual secret scanning commands in the checklist before publishing.
-
-## Recommended Ownership Model
-
-| Area | Recommended manager | Notes |
+| Folder | Current role | Target role |
 | --- | --- | --- |
-| `clusters/` bootstrap | Manual bootstrap scripts, then Flux or Argo CD | Keep bootstrap small and reproducible. |
-| `flux/` | Flux | Use for app/platform reconciliation where Flux is the selected controller. |
-| `platform/argocd/` | Argo CD | Manage Argo CD itself carefully; avoid controller conflicts with Flux. |
-| `platform/traefik/`, `platform/metallb/`, `platform/monitoring/`, `platform/backup/` | Flux or Argo CD | Pick one controller per subtree. Document ownership. |
-| `infra/` | Terraform for external/cloud resources, Ansible for host setup, GitOps for cluster manifests | Keep cloud state and Ansible inventories private. |
-| Host hardening | Ansible | Linux, SSH, firewall, auditd, fail2ban, ClamAV, and selected Maldet setup. |
-| Kubernetes policies | GitOps | Kyverno, NetworkPolicies, RBAC, Falco, and Trivy policy checks. |
-| App workloads | GitOps | `apps/kasm` can be Flux-managed after official Kasm details are validated. |
+| `apps/` | Kasm scaffold plus local app workspaces | Public app scaffolds, GitOps app overlays, and documented examples |
+| `archive/` | Placeholder doc | Notes for retired/generated/private material, not backup payloads |
+| `clusters/` | Production/staging bootstrap and GitOps controller manifests | Cluster entry points and environment-level GitOps wiring |
+| `docs/` | Operational and platform docs | Primary public documentation, architecture, decisions, and runbooks |
+| `flux/` | Flux app wiring | Flux `Kustomization` and `GitRepository` ownership trees |
+| `infra/` | Networking and storage manifests | Cluster-adjacent infrastructure manifests and future IaC handoff docs |
+| `platform/` | Argo CD, Flux, Traefik, MetalLB, backup, monitoring, Drone, dashboard | Platform services managed by GitOps with clear controller ownership |
 
-## Required Decisions
+No tracked `tools/`, `security/`, `ansible/`, `terraform/`, or `scripts/` directories exist yet. Those should be introduced intentionally in later commits.
 
-- TODO: Decide whether `platform/exports/` and `platform/exports-clean/` should be moved to a private archive repo or replaced with sanitized summaries.
-- TODO: Decide whether `apps/kwiki` should become a sanitized portfolio app, remain private, or be replaced with a clean example app.
-- TODO: Decide whether `apps/CyberLynxBlog` and `apps/Cybelynx-blog-content` remain separate repos and are referenced as submodules/docs only.
-- TODO: Decide whether Flux or Argo CD is the primary GitOps controller for each subtree.
-- TODO: Decide public domain policy: real lab domains vs `example.com` placeholders.
+## Important Files Found
+
+- `clusters/production/kustomization.yaml`: current production cluster entry point.
+- `clusters/production/flux-system/gotk-components.yaml`: Flux controller component manifest.
+- `clusters/production/argocd-app-platform.yaml` and `argocd-app-infra.yaml`: Argo CD app wiring.
+- `flux/apps/kasm/kustomization.yaml`: suspended Flux wiring for the Kasm scaffold.
+- `apps/kasm/`: safe Kasm Kubernetes scaffold with placeholder-only secret example.
+- `platform/argocd/`: Argo CD manifests and ingress routing.
+- `platform/backup/minio/` and `platform/backup/velero/`: backup platform manifests and templates.
+- `platform/drone-ci/`: Drone server, runner, and sanitized example secrets.
+- `platform/monitoring/`: Prometheus/Grafana/Longhorn ingress and values.
+- `platform/k8s-admin/`: dashboard-related experiments and variants.
+- `.gitignore`: now excludes generated exports, nested app checkouts, runtime data, secrets, and local metadata.
+- `.gitattributes`: suppresses diffs for removed unsafe historical secret paths.
+
+## Duplicate, Outdated, Misplaced, Or Unclear Files
+
+These are findings only. Do not move or delete them without a separate migration commit.
+
+- `platform/k8s-admin/` contains several dashboard variants with overlapping names such as `dashboard-kong.yaml`, `dashboard-split.yaml`, `dashboard-web-plus-kong.yaml`, `k8s-dashboard.yaml`, and `20-dashboard-ingressroute.yaml`. TODO: pick one supported dashboard pattern and archive the rest as examples or notes.
+- `platform/monitoring/old-backup/` contains old ingressroute files. TODO: decide whether these are historical references or should become archive documentation.
+- `platform/drone-ci/drone.txt` is unclear as a tracked platform artifact. TODO: review and convert to README/runbook content if useful.
+- `infra/networking/*iperf*` looks like benchmark/test workload material. TODO: decide whether it belongs in `tools/`, `apps/examples/`, or `infra/networking/examples/`.
+- `infra/storage/local-storage-provisioner.txt` may be notes rather than a manifest. TODO: convert to Markdown if it is documentation.
+- `apps/helmtest/wikimeida` is an ignored local Helm test tree with a likely typo in the directory name. TODO: keep local, sanitize, or replace with a clean Helm chart example later.
+- `apps/kwiki` includes app code, Kubernetes manifests, Traefik manifests, BGP files, uploads, logs, and a nested Git repo. It can stay nested locally, but public GitOps wiring should be introduced separately and deliberately.
+- `apps/CyberLynxBlog` and `apps/Cybelynx-blog-content` are nested app/content repos. Keep as application workspaces or document them as external repos rather than absorbing raw local repo state into the platform baseline.
+
+## Backup And Archive Folders
+
+- `archive/README.md` correctly states that real backups and live exports should not be stored in this public repository.
+- `platform/exports/` and `platform/exports-clean/` exist locally but are ignored and untracked. Treat them as local generated evidence only.
+- `platform/backup/` is a valid platform area for MinIO and Velero manifests, provided credentials remain templates/examples only.
+- `QloudK-Backup/` is referenced by ignore rules but is not present as tracked content. If restored locally, it should stay private until audited.
+
+## Possible Secret-Risk Files
+
+Do not print or copy values from these files into issues, PRs, or docs.
+
+- `apps/CyberLynxBlog/.env`: local environment file. Must not be committed.
+- `apps/CyberLynxBlog/.env.example`: example file; verify placeholders before public use.
+- `apps/kwiki/traefik/auth` and `apps/kwiki/traefik/basic-atuh.txt`: local auth-looking files. Keep ignored and review manually before any future public commit.
+- `apps/kwiki/traefik/traefik.json` and `apps/kwiki/traefik/ns.json`: local runtime/config exports. Review before use.
+- `platform/backup/minio/secret.template.yaml`: acceptable only as a placeholder template.
+- `platform/backup/velero/credentials.secret.template.yaml`: acceptable only as a placeholder template.
+- `platform/drone-ci/server/droneserver-secret.example.yaml`: acceptable only as a placeholder example.
+- `apps/kasm/kustomize/base/secrets.example.yaml`: acceptable only as a placeholder example.
+
+## GitOps Readiness Findings
+
+- The repo already contains both Flux and Argo CD patterns. That is acceptable for a lab, but public baseline documentation must define controller boundaries to avoid dual ownership.
+- `apps/kasm` is a good example of safe GitOps-first scaffolding: namespace, PVCs, ingress placeholders, suspended Flux wiring, and docs.
+- `clusters/production` currently mixes Argo CD and Flux bootstrap concepts. TODO: document which controller owns each subtree.
+- `platform/backup`, `platform/monitoring`, `platform/argocd`, `platform/flux`, `platform/metallb`, and `platform/traefik` are candidates for GitOps management after ownership is formalized.
+- `platform/k8s-admin` needs consolidation before it is production-style GitOps.
+
+## IaC Readiness Findings
+
+- There is no tracked Terraform baseline yet. DNS, object storage, registry, cloud firewall, and provider IAM should be modeled in `terraform/` later if those resources are external to the cluster.
+- There is no tracked Ansible baseline yet. Linux node hardening, SSH, firewall, auditd, fail2ban, ClamAV, package baselines, and Kubernetes node prerequisites should be modeled in `ansible/`.
+- Shell scripts currently exist inside app/platform subtrees. Scripts should become wrappers or validation tools, not the source of truth for infrastructure state.
+
+## Security Baseline Readiness Findings
+
+- Secret examples are moving in the right direction, but a repository-wide secret scanning gate is still needed.
+- No tracked Kyverno/Falco/Trivy baseline exists yet.
+- NetworkPolicies are present in generated local exports but not curated as a public baseline.
+- Backup docs and Velero/MinIO examples exist; restore validation and schedule policy need clearer runbooks.
+- Kubernetes RBAC exists in several places, but a documented RBAC review process is still needed.
+
+## Risks
+
+- Historical Git commits may still contain values that were later sanitized. Treat old secrets as exposed before publishing broadly.
+- Nested app workspaces can contain runtime data, generated dependencies, local env files, and nested `.git` directories.
+- Live cluster exports can expose topology and operational state if re-added.
+- Multiple GitOps controllers without ownership boundaries can drift or fight over resources.
+- Dashboard and admin ingress examples can expose sensitive UIs if copied without access controls.
+
+## Recommended Next Commits
+
+1. Add documentation-only ownership and security baseline docs. This commit.
+2. Add empty/safe folder scaffolds for `tools/`, `security/`, `ansible/`, `terraform/`, and `scripts/` with README files only.
+3. Add CI linting and secret-scan configuration after local noisy paths are excluded.
+4. Add a curated `policies/` or `security/kyverno/` baseline with audit-mode policies.
+5. Add Ansible node baseline roles in check-mode friendly form.
+6. Add Terraform examples with no state and no real provider credentials.
+7. Consolidate `platform/k8s-admin` into one documented dashboard deployment pattern.
+8. Choose Flux or Argo CD ownership per platform subtree and document it in code-adjacent README files.
