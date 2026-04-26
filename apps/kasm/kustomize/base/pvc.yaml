@@ -1,0 +1,50 @@
+# Longhorn can be used later by changing storageClassName from local-path to the
+# desired Longhorn StorageClass after backup, restore, and performance needs are validated.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kasm-data
+  namespace: kasm
+  labels:
+    app.kubernetes.io/name: kasm
+    app.kubernetes.io/component: storage
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 50Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kasm-db-data
+  namespace: kasm
+  labels:
+    app.kubernetes.io/name: kasm
+    app.kubernetes.io/component: database
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kasm-redis-data
+  namespace: kasm
+  labels:
+    app.kubernetes.io/name: kasm
+    app.kubernetes.io/component: redis
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 5Gi
+
