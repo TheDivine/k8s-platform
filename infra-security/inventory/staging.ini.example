@@ -1,0 +1,14 @@
+# Example only. Do not commit real host inventories.
+
+[k8s_control_plane]
+staging-control-01.example.com
+
+[k8s_workers]
+staging-worker-01.example.com
+
+[file_upload_nodes]
+staging-upload-01.example.com
+
+[all:vars]
+ansible_user=CHANGE_ME_ADMIN_USER
+

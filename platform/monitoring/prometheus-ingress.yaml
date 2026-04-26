@@ -13,7 +13,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.middlewares: traefik-dashboard-basicauth@kubernetescrd
 spec:
   rules:
-    - host: prometheus.kwiki.it.com
+    - host: prometheus.example.com
       http:
         paths:
           - path: /
@@ -25,5 +25,5 @@ spec:
                   number: 9090
   tls:
     - hosts:
-        - prometheus.kwiki.it.com
+        - prometheus.example.com
 

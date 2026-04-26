@@ -12,7 +12,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: longhorn.kwiki.it.com
+    - host: longhorn.example.com
       http:
         paths:
           - path: /
@@ -24,5 +24,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - longhorn.kwiki.it.com
+        - longhorn.example.com
 

@@ -13,6 +13,8 @@ The repository is now centered around a GitOps/platform baseline:
 - Flux app wiring under `flux/`.
 - Runbooks, audits, and architecture docs under `docs/`.
 - Archive placeholder documentation under `archive/`.
+- Security automation baseline scaffolding under `infra-security/`.
+- Local validation and scanner helper entry points under `tools/`.
 
 Generated cluster exports under `platform/exports/` and `platform/exports-clean/` are ignored and no longer tracked. Local application workspaces such as `apps/kwiki`, `apps/CyberLynxBlog`, and `apps/Cybelynx-blog-content` can stay nested locally, but should be treated as product/application workspaces rather than the public platform source of truth until they are sanitized and documented.
 
@@ -28,7 +30,7 @@ Generated cluster exports under `platform/exports/` and `platform/exports-clean/
 | `infra/` | Networking and storage manifests | Cluster-adjacent infrastructure manifests and future IaC handoff docs |
 | `platform/` | Argo CD, Flux, Traefik, MetalLB, backup, monitoring, Drone, dashboard | Platform services managed by GitOps with clear controller ownership |
 
-No tracked `tools/`, `security/`, `ansible/`, `terraform/`, or `scripts/` directories exist yet. Those should be introduced intentionally in later commits.
+`tools/`, `security/`, `ansible/`, `terraform/`, and `scripts/` now exist as public-safe scaffold areas. The deeper node hardening implementation is being introduced under `infra-security/` so it can remain self-contained while the final top-level split is decided.
 
 ## Important Files Found
 
@@ -40,6 +42,7 @@ No tracked `tools/`, `security/`, `ansible/`, `terraform/`, or `scripts/` direct
 - `platform/argocd/`: Argo CD manifests and ingress routing.
 - `platform/backup/minio/` and `platform/backup/velero/`: backup platform manifests and templates.
 - `platform/drone-ci/`: Drone server, runner, and sanitized example secrets.
+- `infra-security/`: public-safe Ansible, scanner, Wazuh, auditd, fail2ban, and Kubernetes node validation scaffolding.
 - `platform/monitoring/`: Prometheus/Grafana/Longhorn ingress and values.
 - `platform/k8s-admin/`: dashboard-related experiments and variants.
 - `.gitignore`: now excludes generated exports, nested app checkouts, runtime data, secrets, and local metadata.
@@ -57,6 +60,8 @@ These are findings only. Do not move or delete them without a separate migration
 - `apps/helmtest/wikimeida` is an ignored local Helm test tree with a likely typo in the directory name. TODO: keep local, sanitize, or replace with a clean Helm chart example later.
 - `apps/kwiki` includes app code, Kubernetes manifests, Traefik manifests, BGP files, uploads, logs, and a nested Git repo. It can stay nested locally, but public GitOps wiring should be introduced separately and deliberately.
 - `apps/CyberLynxBlog` and `apps/Cybelynx-blog-content` are nested app/content repos. Keep as application workspaces or document them as external repos rather than absorbing raw local repo state into the platform baseline.
+- Several tracked platform manifests and docs still include lab hostnames such as `argo.example.com`, `flux.example.com`, `k8s.example.com`, `minio.example.com`, `grafana.example.com`, and `prometheus.example.com`. TODO: convert these to `example.com` placeholders or move environment-specific variants behind private overlays in a dedicated cleanup commit.
+- `platform/drone-ci/server/droneserver-deployment.yaml` contains a node hostname selector. TODO: replace with a generic label pattern or document it as private environment-specific configuration before using this as a public baseline.
 
 ## Backup And Archive Folders
 
@@ -89,13 +94,14 @@ Do not print or copy values from these files into issues, PRs, or docs.
 ## IaC Readiness Findings
 
 - There is no tracked Terraform baseline yet. DNS, object storage, registry, cloud firewall, and provider IAM should be modeled in `terraform/` later if those resources are external to the cluster.
-- There is no tracked Ansible baseline yet. Linux node hardening, SSH, firewall, auditd, fail2ban, ClamAV, package baselines, and Kubernetes node prerequisites should be modeled in `ansible/`.
+- `infra-security/` now provides an initial public-safe Ansible/node-security baseline. It should stay example-first until supported OS families, inventory ownership, and rollout controls are decided.
 - Shell scripts currently exist inside app/platform subtrees. Scripts should become wrappers or validation tools, not the source of truth for infrastructure state.
 
 ## Security Baseline Readiness Findings
 
 - Secret examples are moving in the right direction, but a repository-wide secret scanning gate is still needed.
-- No tracked Kyverno/Falco/Trivy baseline exists yet.
+- No tracked Kyverno/Falco/Trivy policy baseline exists yet.
+- Wazuh, auditd, fail2ban, ClamAV, Maldet, and Kubernetes node validation are now scaffolded under `infra-security/` but not applied to any node.
 - NetworkPolicies are present in generated local exports but not curated as a public baseline.
 - Backup docs and Velero/MinIO examples exist; restore validation and schedule policy need clearer runbooks.
 - Kubernetes RBAC exists in several places, but a documented RBAC review process is still needed.
@@ -107,14 +113,15 @@ Do not print or copy values from these files into issues, PRs, or docs.
 - Live cluster exports can expose topology and operational state if re-added.
 - Multiple GitOps controllers without ownership boundaries can drift or fight over resources.
 - Dashboard and admin ingress examples can expose sensitive UIs if copied without access controls.
+- Public platform manifests still contain lab domains and at least one node-specific hostname selector. These should be sanitized or moved to private overlays before final public portfolio presentation.
 
 ## Recommended Next Commits
 
 1. Add documentation-only ownership and security baseline docs. This commit.
-2. Add empty/safe folder scaffolds for `tools/`, `security/`, `ansible/`, `terraform/`, and `scripts/` with README files only.
-3. Add CI linting and secret-scan configuration after local noisy paths are excluded.
-4. Add a curated `policies/` or `security/kyverno/` baseline with audit-mode policies.
-5. Add Ansible node baseline roles in check-mode friendly form.
+2. Add CI linting and secret-scan configuration after local noisy paths are excluded.
+3. Add a curated `policies/` or `security/kyverno/` baseline with audit-mode policies.
+4. Review whether `infra-security/` should remain self-contained or be split into top-level `ansible/`, `security/`, and `scripts/` paths.
+5. Sanitize remaining lab-domain platform manifests into public examples or private overlays.
 6. Add Terraform examples with no state and no real provider credentials.
 7. Consolidate `platform/k8s-admin` into one documented dashboard deployment pattern.
 8. Choose Flux or Argo CD ownership per platform subtree and document it in code-adjacent README files.

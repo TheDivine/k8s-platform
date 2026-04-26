@@ -1,0 +1,18 @@
+# Example only. Do not commit real host inventories.
+
+[k8s_control_plane]
+k8s-control-01.example.com
+
+[k8s_workers]
+k8s-worker-01.example.com
+k8s-worker-02.example.com
+
+[docker_hosts]
+docker-host-01.example.com
+
+[file_upload_nodes]
+web-upload-01.example.com
+
+[all:vars]
+ansible_user=CHANGE_ME_ADMIN_USER
+

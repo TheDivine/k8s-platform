@@ -10,10 +10,10 @@ metadata:
 spec:
   ingressClassName: traefik
   tls:
-  - hosts: ["k8s.kwiki.it.com"]
+  - hosts: ["k8s.example.com"]
     secretName: k8s-dashboard-tls
   rules:
-  - host: k8s.kwiki.it.com
+  - host: k8s.example.com
     http:
       paths:
       # All API calls go to the API service directly

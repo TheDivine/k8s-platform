@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: HostSNI(`argo.kwiki.it.com`)
+    - match: HostSNI(`argo.example.com`)
       services:
         - name: argocd-server
           port: 443

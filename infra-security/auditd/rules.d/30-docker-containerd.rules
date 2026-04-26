@@ -1,0 +1,6 @@
+# Container runtime audit rules. Review paths for the node runtime.
+-w /etc/containerd/ -p wa -k container-runtime
+-w /run/containerd/ -p wa -k container-runtime
+-w /usr/bin/containerd -p x -k container-runtime
+-w /usr/bin/runc -p x -k container-runtime
+

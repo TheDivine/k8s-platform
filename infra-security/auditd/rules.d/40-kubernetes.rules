@@ -1,0 +1,6 @@
+# Kubernetes node audit rules. Review paths for your distribution.
+-w /etc/kubernetes/ -p wa -k kubernetes-config
+-w /var/lib/kubelet/config.yaml -p wa -k kubelet-config
+-w /usr/bin/kubelet -p x -k kubelet-exec
+-w /etc/cni/ -p wa -k cni-config
+

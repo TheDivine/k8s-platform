@@ -1,0 +1,8 @@
+[Unit]
+Description=Run weekly ClamAV scan using safe paths
+Documentation=file:/opt/infra-security/clamav/README.md
+
+[Service]
+Type=oneshot
+ExecStart=/opt/infra-security/scripts/run-clamav-scan.sh
+

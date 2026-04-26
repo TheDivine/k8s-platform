@@ -1,0 +1,11 @@
+<!-- Example only. Replace manager address outside public Git. -->
+<ossec_config>
+  <client>
+    <server>
+      <address>{{ wazuh_manager_address | default('wazuh-manager.example.com') }}</address>
+      <port>{{ wazuh_manager_port | default('1514') }}</port>
+      <protocol>tcp</protocol>
+    </server>
+  </client>
+</ossec_config>
+

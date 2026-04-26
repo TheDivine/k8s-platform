@@ -59,7 +59,7 @@ kubectl -n backup get ingressroute
 ```
 
 If you are using the provided IngressRoute, the console should be:
-- `https://minio.kwiki.it.com`
+- `https://minio.example.com`
 
 ## Step 2: Create the `velero` bucket in MinIO
 

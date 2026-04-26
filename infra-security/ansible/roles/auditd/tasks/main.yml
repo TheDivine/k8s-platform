@@ -1,0 +1,17 @@
+---
+- name: Show auditd baseline scope
+  ansible.builtin.debug:
+    msg:
+      - "TODO: install auditd for the target distro."
+      - "TODO: copy curated rules from infra-security/auditd/rules.d after review."
+
+- name: Check auditd service status
+  ansible.builtin.command: systemctl is-active auditd
+  register: auditd_status
+  changed_when: false
+  failed_when: false
+
+- name: Report auditd status
+  ansible.builtin.debug:
+    var: auditd_status.stdout
+

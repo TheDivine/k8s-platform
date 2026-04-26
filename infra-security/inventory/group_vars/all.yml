@@ -1,0 +1,9 @@
+---
+# Public-safe defaults only. Override real values outside public Git.
+timezone: UTC
+security_admin_users: []
+security_allowed_ssh_cidrs:
+  - "CHANGE_ME_ADMIN_CIDR"
+security_report_dir: /var/log/security-scans
+security_enable_package_install: false
+

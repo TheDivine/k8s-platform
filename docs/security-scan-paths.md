@@ -98,6 +98,17 @@ Exclude by default:
 - Monthly full review of exclusions and scan logs.
 - On-demand scan after suspicious upload, incident, or restored backup.
 
+## Repository Wrappers
+
+This baseline includes non-destructive wrappers that read safe path lists and exclude known unsafe runtime paths:
+
+```bash
+infra-security/scripts/run-clamav-scan.sh
+infra-security/scripts/run-maldet-scan.sh
+```
+
+Review both scripts before scheduling them with systemd timers. They are examples and should be tuned per node role.
+
 ## Manual Review TODOs
 
 - TODO: identify actual upload paths for `apps/kwiki` if it becomes a public app.

@@ -1,0 +1,14 @@
+# Example clamd.conf fragment. Validate paths for your distro before use.
+LogFile /var/log/clamav/clamav.log
+LogTime yes
+MaxThreads 2
+MaxDirectoryRecursion 15
+ExcludePath ^/proc/
+ExcludePath ^/sys/
+ExcludePath ^/dev/
+ExcludePath ^/run/
+ExcludePath ^/var/lib/kubelet/
+ExcludePath ^/var/lib/containerd/
+ExcludePath ^/var/lib/docker/
+ExcludePath ^/var/lib/longhorn/
+

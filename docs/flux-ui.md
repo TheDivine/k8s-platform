@@ -1,4 +1,4 @@
-# Flux UI (Weave GitOps) at flux.kwiki.it.com
+# Flux UI (Weave GitOps) at flux.example.com
 
 Flux does not ship a web UI by default. To get a UI for viewing Git sources, Kustomizations, HelmReleases, and reconciliation status, we deploy **Weave GitOps** into `flux-system` and expose it via Traefik.
 
@@ -12,7 +12,7 @@ Files in `clusters/production/`:
   - `HelmRelease` named `ww-gitops` (installs the `weave-gitops` chart)
   - Local admin user configuration (bcrypt password hash, not plaintext)
 - `flux-ui-ingressroute.yaml`
-  - Traefik `IngressRoute` exposing the UI at `https://flux.kwiki.it.com`
+  - Traefik `IngressRoute` exposing the UI at `https://flux.example.com`
 
 `clusters/production/kustomization.yaml` includes both resources, so Flux applies them.
 
@@ -22,12 +22,12 @@ Files in `clusters/production/`:
 2. Flux `Kustomization/flux-system` runs kustomize build on `clusters/production/`.
 3. That applies the `HelmRepository` and `HelmRelease` objects.
 4. `helm-controller` sees the `HelmRelease` and installs/updates Weave GitOps.
-5. Traefik routes `flux.kwiki.it.com` to the Weave GitOps service in `flux-system`.
+5. Traefik routes `flux.example.com` to the Weave GitOps service in `flux-system`.
 
 ## DNS and TLS
 
 Prereqs:
-- DNS `A` record: `flux.kwiki.it.com` -> Traefik LoadBalancer IP.
+- DNS `A` record: `flux.example.com` -> Traefik LoadBalancer IP.
 - Traefik must have a certificate resolver named `le`.
 
 ## Verify Deployment

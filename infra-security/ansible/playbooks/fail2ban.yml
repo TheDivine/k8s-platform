@@ -1,0 +1,7 @@
+---
+- name: Configure fail2ban baseline
+  hosts: all
+  gather_facts: true
+  roles:
+    - fail2ban
+

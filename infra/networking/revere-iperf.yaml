@@ -4,7 +4,7 @@ metadata:
   name: iperf-client-control
 spec:
   nodeSelector:
-    kubernetes.io/hostname: s231226.wholesaleinternet.net
+    kubernetes.io/hostname: k8s-node-02.example.com
   containers:
   - name: iperf-client
     image: networkstatic/iperf3

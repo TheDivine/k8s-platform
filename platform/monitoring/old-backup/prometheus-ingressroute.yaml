@@ -7,7 +7,7 @@ spec:
   entryPoints: [websecure]
   tls: { certResolver: le }
   routes:
-    - match: Host(`prometheus.kwiki.it.com`)
+    - match: Host(`prometheus.example.com`)
       kind: Rule
       middlewares:
         - name: dashboard-basicauth

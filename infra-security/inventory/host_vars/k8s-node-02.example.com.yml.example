@@ -1,0 +1,6 @@
+---
+# Example host var file for a private host. Do not commit real values.
+ansible_host: CHANGE_ME_PRIVATE_OR_PUBLIC_IP
+node_role: k8s_worker
+security_notes: "Replace with sanitized notes before public use."
+

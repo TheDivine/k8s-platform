@@ -35,7 +35,7 @@ spec:
     certResolver: le
   routes:
     # API first: must NOT be gated by basic-auth, and must see the forwarded headers
-    - match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/api`)
+    - match: Host(`k8s.example.com`) && PathPrefix(`/api`)
       kind: Rule
       middlewares:
         - name: dash-forward-headers
@@ -46,7 +46,7 @@ spec:
           serversTransport: dash-insecure
 
     # UI: same backend, same headers; still no basic-auth (keeps things simple)
-    - match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/`)
+    - match: Host(`k8s.example.com`) && PathPrefix(`/`)
       kind: Rule
       middlewares:
         - name: dash-forward-headers

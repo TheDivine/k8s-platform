@@ -1,0 +1,18 @@
+---
+- name: Show Maldet baseline scope
+  ansible.builtin.debug:
+    msg:
+      - "Maldet is recommended only for web/upload/file-ingest nodes."
+      - "TODO: install Maldet using an approved internal package/source process."
+      - "Do not scan container runtime, kubelet, Longhorn, or pseudo filesystem paths."
+
+- name: Check maldet availability
+  ansible.builtin.command: maldet --help
+  register: maldet_help
+  changed_when: false
+  failed_when: false
+
+- name: Report Maldet availability
+  ansible.builtin.debug:
+    msg: "{{ 'maldet available' if maldet_help.rc == 0 else 'maldet not installed' }}"
+

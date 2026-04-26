@@ -1,0 +1,7 @@
+---
+- name: Configure auditd baseline
+  hosts: all
+  gather_facts: true
+  roles:
+    - auditd
+

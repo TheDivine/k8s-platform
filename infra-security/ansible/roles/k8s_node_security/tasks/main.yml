@@ -1,0 +1,54 @@
+---
+- name: Show Kubernetes node validation scope
+  ansible.builtin.debug:
+    msg:
+      - "Non-destructive validation role scaffold."
+      - "TODO: add distro-specific package install tasks behind explicit variables."
+      - "TODO: template /etc/crictl.yaml only after operator approval."
+
+- name: Check br_netfilter module
+  ansible.builtin.command: sh -c "lsmod | grep -q '^br_netfilter'"
+  register: br_netfilter_check
+  changed_when: false
+  failed_when: false
+
+- name: Check bridge netfilter sysctl
+  ansible.builtin.command: sysctl -n net.bridge.bridge-nf-call-iptables
+  register: bridge_nf_call_iptables
+  changed_when: false
+  failed_when: false
+
+- name: Check IPv4 forwarding sysctl
+  ansible.builtin.command: sysctl -n net.ipv4.ip_forward
+  register: ip_forward
+  changed_when: false
+  failed_when: false
+
+- name: Check swap status
+  ansible.builtin.command: swapon --show
+  register: swap_status
+  changed_when: false
+  failed_when: false
+
+- name: Check containerd status
+  ansible.builtin.command: systemctl is-active containerd
+  register: containerd_status
+  changed_when: false
+  failed_when: false
+
+- name: Check kubelet status if installed
+  ansible.builtin.command: systemctl is-active kubelet
+  register: kubelet_status
+  changed_when: false
+  failed_when: false
+
+- name: Report Kubernetes node validation summary
+  ansible.builtin.debug:
+    msg:
+      - "br_netfilter loaded rc={{ br_netfilter_check.rc }}"
+      - "net.bridge.bridge-nf-call-iptables={{ bridge_nf_call_iptables.stdout | default('unknown') }}"
+      - "net.ipv4.ip_forward={{ ip_forward.stdout | default('unknown') }}"
+      - "swap entries={{ swap_status.stdout_lines | length }}"
+      - "containerd={{ containerd_status.stdout | default('unknown') }}"
+      - "kubelet={{ kubelet_status.stdout | default('unknown') }}"
+

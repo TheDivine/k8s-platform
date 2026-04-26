@@ -1,0 +1,7 @@
+---
+- name: Baseline Linux hardening
+  hosts: all
+  gather_facts: true
+  roles:
+    - common_baseline
+

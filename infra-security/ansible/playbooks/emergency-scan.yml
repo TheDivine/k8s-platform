@@ -1,0 +1,8 @@
+---
+- name: Emergency malware scan preparation
+  hosts: file_upload_nodes
+  gather_facts: true
+  roles:
+    - clamav
+    - maldet
+

@@ -1,0 +1,9 @@
+---
+security_auditd_enabled: true
+security_fail2ban_enabled: true
+security_clamav_enabled: true
+security_maldet_enabled: false
+security_wazuh_agent_enabled: false
+security_scan_paths_file: /opt/infra-security/maldet/scan_paths
+security_ignore_paths_file: /opt/infra-security/maldet/ignore_paths
+

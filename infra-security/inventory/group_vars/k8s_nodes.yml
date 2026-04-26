@@ -1,0 +1,9 @@
+---
+k8s_node_validate_containerd: true
+k8s_node_validate_kubelet: true
+k8s_node_required_sysctls:
+  net.bridge.bridge-nf-call-iptables: 1
+  net.ipv4.ip_forward: 1
+crictl_runtime_endpoint: unix:///run/containerd/containerd.sock
+crictl_image_endpoint: unix:///run/containerd/containerd.sock
+

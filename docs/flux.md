@@ -1,4 +1,4 @@
-# Flux (flux.kwiki.it.com)
+# Flux (flux.example.com)
 
 ## Purpose
 Flux will manage **apps** (e.g., `kwiki` and future portfolio apps). It is automation-first and great for GitOps pipelines.
@@ -30,7 +30,7 @@ flux bootstrap github \
   --personal
 ```
 
-## Weave GitOps UI (for flux.kwiki.it.com)
+## Weave GitOps UI (for flux.example.com)
 Flux itself has no UI. Weave GitOps provides a dashboard.
 
 ### Install Weave GitOps CLI (local)
@@ -64,7 +64,7 @@ kubectl apply -f platform/flux/ingressroute.yaml
 ```
 
 ## DNS
-Point `flux.kwiki.it.com` to the Traefik external IP (MetalLB).
+Point `flux.example.com` to the Traefik external IP (MetalLB).
 
 ## App GitOps Strategy
 - Apps publish container images or Helm charts.

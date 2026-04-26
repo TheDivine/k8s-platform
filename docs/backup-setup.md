@@ -24,7 +24,7 @@ kubectl -n backup get pods
 
 4. Access console:
 ```
-https://minio.kwiki.it.com
+https://minio.example.com
 ```
 
 ---

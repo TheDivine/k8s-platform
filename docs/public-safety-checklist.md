@@ -15,12 +15,15 @@ This repository is intended to be a public DevSecOps and Kubernetes platform ref
 - [ ] No nested `.git` directories from imported projects.
 - [ ] No generated `node_modules`, build outputs, runtime uploads, logs, or cache directories.
 - [ ] No customer data or private business data.
-- [ ] No internal-only IP ranges, hostnames, or domains unless intentionally documented as lab examples.
+- [ ] No internal-only IP ranges, hostnames, or domains. Use `example.com`, `example.local`, or generic placeholders.
+- [ ] No generated cluster exports from `platform/exports/` or `platform/exports-clean/`.
+- [ ] No nested local app repositories from ignored `apps/` workspaces.
 
 ## Allowed Public Content
 
 - [ ] Sanitized Kubernetes manifests.
 - [ ] Example Secret templates with placeholder values only.
+- [ ] Placeholder hostnames such as `k8s-node-01.example.com` and `service.example.com`.
 - [ ] SOPS, SealedSecrets, or ExternalSecrets examples without private keys.
 - [ ] GitOps `Application` and `Kustomization` examples.
 - [ ] Architecture diagrams and runbooks.
@@ -38,6 +41,7 @@ find . -path './.git' -prune -o -path '*/.git' -type d -print
 find . -path './.git' -prune -o -type f -name '.env*' -print
 find . -path './.git' -prune -o -type f \( -name '*.key' -o -name '*.pem' -o -name '*.p12' -o -name '*.pfx' -o -name '*kubeconfig*' \) -print
 rg -l -S 'BEGIN .*PRIVATE KEY|AWS_SECRET_ACCESS_KEY|client_secret|password|token|api[_-]?key|secret' .
+rg -n -S 'kwiki\.it\.com|wholesaleinternet\.net|admin123|postgresadmin' .
 ```
 
 Recommended optional tools:
@@ -46,6 +50,15 @@ Recommended optional tools:
 gitleaks detect --no-git --redact
 trufflehog filesystem . --no-update --only-verified
 trivy fs --scanners vuln,secret,misconfig .
+```
+
+Repository-local helpers:
+
+```bash
+make public-check
+make secret-grep
+make validate-yaml
+make security-scripts-check
 ```
 
 ## Security Baseline Checklist
@@ -67,5 +80,6 @@ trivy fs --scanners vuln,secret,misconfig .
 ## TODOs
 
 - TODO: Add CI checks for secret scanning and Trivy once the repository is clean enough to avoid noisy failures.
-- TODO: Decide whether real lab domains are acceptable in public examples or should be normalized to `example.com`.
+- TODO: Keep real lab domains normalized to `example.com` placeholders in public examples.
 - TODO: Move risky generated exports to a private archive or replace them with sanitized documentation.
+- TODO: Keep `platform/exports`, `platform/exports-clean`, nested private app repos, and `QloudK-Backup` untracked.

@@ -20,7 +20,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/`)
+      match: Host(`k8s.example.com`) && PathPrefix(`/`)
       services:
         - kind: Service
           name: k8sdash-kong-proxy
@@ -28,7 +28,7 @@ spec:
           port: 443
           serversTransport: k8sdashboard-insecure-transport
     - kind: Rule
-      match: Host(`k8s.kwiki.it.com`) && PathPrefix(`/api`)
+      match: Host(`k8s.example.com`) && PathPrefix(`/api`)
       services:
         - kind: Service
           name: k8sdash-kong-proxy

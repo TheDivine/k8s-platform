@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`minio.kwiki.it.com`)
+    - match: Host(`minio.example.com`)
       kind: Rule
       services:
         - name: minio

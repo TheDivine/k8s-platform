@@ -1,0 +1,5 @@
+---
+- name: Restart wazuh-agent
+  ansible.builtin.debug:
+    msg: "TODO: restart wazuh-agent after enrollment and config validation."
+

@@ -1,0 +1,17 @@
+---
+- name: Show fail2ban baseline scope
+  ansible.builtin.debug:
+    msg:
+      - "TODO: install fail2ban for the target distro."
+      - "TODO: add SSH jail config after admin CIDRs are known."
+
+- name: Check fail2ban service status
+  ansible.builtin.command: systemctl is-active fail2ban
+  register: fail2ban_status
+  changed_when: false
+  failed_when: false
+
+- name: Report fail2ban status
+  ansible.builtin.debug:
+    var: fail2ban_status.stdout
+

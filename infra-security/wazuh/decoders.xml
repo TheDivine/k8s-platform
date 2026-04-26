@@ -1,0 +1,5 @@
+<!-- Example decoder placeholder. Do not commit private parser logic. -->
+<decoder name="local-json-placeholder">
+  <prematch>{</prematch>
+</decoder>
+
