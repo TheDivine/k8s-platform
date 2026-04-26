@@ -1,0 +1,5 @@
+# Prevent public diffs from displaying historical plaintext secret values when
+# this tracked file is removed or renamed. The replacement public example lives
+# at platform/drone-ci/server/droneserver-secret.example.yaml.
+platform/drone-ci/server/droneserver-secret.yaml -diff
+platform/drone-ci/postgres/postgres.yaml -diff

@@ -1,14 +1,120 @@
-# Local repos kept separately
+# Local/private app checkouts.
+# Keep curated public examples explicitly unignored.
 /apps/*
 !/apps/kasm/
 !/apps/kasm/**
+!/apps/README.md
+
+# Historical backups and generated cluster exports should be private unless
+# they are explicitly sanitized and documented for public release.
 /QloudK-Backup/
+/platform/exports/
+/platform/exports-clean/
 
-# Common
-.DS_Store
-*.log
-*.swp
+# Local Codex/session metadata
+/.codex
+/.codex/
+
+# Secrets and environment files
+.env
+.env.*
+*.env
+*.secret
+*.secrets
+secrets/
+secret/
+credentials/
+tokens/
+.npmrc
+.pypirc
+.netrc
+dockerconfigjson
+.docker/config.json
+**/.docker/config.json
+
+# Real Kubernetes Secret manifests. Keep public examples/templates trackable.
+*secret.yaml
+*secrets.yaml
+!*secret.example.yaml
+!*secrets.example.yaml
+!*secret.template.yaml
+!*secrets.template.yaml
+
+# Kubernetes sensitive files
+kubeconfig
+kubeconfig.*
+*.kubeconfig
+admin.conf
+*.confidential
+*.key
+*.pem
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+*.crt
+*.csr
+*.sops.yaml.dec
+*.sops.yml.dec
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+terraform.tfvars
+*.auto.tfvars
+*.auto.tfvars.json
+
+# Ansible
+*.retry
+vault-password.txt
+.vault_pass
+group_vars/*/vault.yml
+host_vars/*/vault.yml
+inventory.local
+hosts.local
+
+# Helm
+charts/*.tgz
+
+# Dependencies and build outputs
 node_modules/
+vendor/
+dist/
+build/
+coverage/
+.next/
+.nuxt/
+.cache/
+tmp/
 
-# K8s generated
-*.tmp
+# Runtime application data
+uploads/
+logs/
+*.log
+*.sqlite
+*.sqlite3
+*.db
+
+# Backups and dumps
+*.bak
+*.backup
+*.dump
+*.sql
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.7z
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
