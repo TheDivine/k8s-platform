@@ -16,16 +16,14 @@ This document separates four states that must not be confused:
 | Component | Current state | Owner | Required work |
 | --- | --- | --- | --- |
 | Flux | Running and reconciling `main` | Bootstrap GitOps controller | Keep as owner of `clusters/production` and network automation |
-| Argo CD | Controller is healthy | Flux bootstraps Argo configuration | Replace the two empty directory Applications with the production ApplicationSet registry |
-| Existing Argo `platform` app | Healthy but manages zero resources | None in practice | Remove; a green empty Application is misleading |
-| Existing Argo `infra` app | Healthy but manages zero resources | None in practice | Remove; onboard real components separately |
+| Argo CD | Controller and production ApplicationSet are healthy | Flux bootstraps Argo configuration; Argo owns registered apps | Add reviewed app registry entries as applications are onboarded |
+| Production app registry | Deployed and intentionally empty | Argo CD ApplicationSet | Onboard the first application after checking live-versus-Git drift |
 | Weave GitOps UI | Running | Flux HelmRelease | Replace `flux.example.com` or remove the public route |
 
-The empty Argo Applications occur because `platform/` and `infra/` contain
-subdirectories but no root Kustomize package. Argo CD directory mode is not
-recursive unless explicitly configured. Recursive deployment would also be
-unsafe here because these trees contain alternatives, templates, backups, and
-incomplete manifests.
+The old empty `platform` and `infra` Applications were removed on 2026-06-07.
+The production ApplicationSet now reads
+`clusters/production/app-registry/*.app.yaml`. No Application is generated
+until a reviewed registry file exists.
 
 ## Network And Edge
 
@@ -43,7 +41,7 @@ incomplete manifests.
 | --- | --- | --- | --- |
 | Monitoring | Running Helm release | Partial values and ingress manifests | Move the full Helm release to one GitOps controller |
 | Longhorn | Running Helm release | Only UI ingress is represented | Add reviewed Helm desired state and backup policy |
-| Kubernetes Dashboard | Mostly running; Kong was `0/1` | Several competing historical manifests | Diagnose Kong, select one canonical package, archive alternatives |
+| Kubernetes Dashboard | API/auth/web are running; Kong is in `CrashLoopBackOff` | Several competing historical manifests | Diagnose Kong, select one canonical package, archive alternatives |
 | AWX | Running through AWX Operator | Not represented as a complete GitOps package | Export only the desired operator/CR configuration, excluding secrets |
 | Drone | Server and runner running | Partial manifests | Add Kustomize or Helm ownership and move credentials to External Secrets |
 | External Secrets | Controller package staged, not installed | Complete controller package and examples | Select a backend and authentication method before enabling |
@@ -70,27 +68,36 @@ under `apps/` is Kasm.
 
 ## Operational Problems
 
-The following live problems were visible during the 2026-06-07 inventory:
+The following live problems were still visible during the latest 2026-06-07
+inventory:
 
 - Six recent `law-firm-postgres-backup` pods were in `Error`.
 - Kubernetes Dashboard Kong was not available.
 - The Flux UI still used `flux.example.com`.
 - Several running Helm releases had no declarative GitOps owner.
 - The default Argo `AppProject` allowed every source repository, destination,
-  and cluster-scoped resource.
+  and cluster-scoped resource. New production apps use the restricted
+  `production-apps` project, but the default project should remain unused or
+  be restricted.
+- Administrative endpoints remain internet-facing without Cloudflare Access
+  and direct-origin filtering.
+- Human-managed secrets still live directly in Kubernetes until an External
+  Secrets backend is selected.
 
 Address backup failures first because a backup job that exists but fails can
 create false confidence.
 
 ## Recommended Order
 
-1. Merge and reconcile the Argo ApplicationSet registry.
-2. Repair the law-firm PostgreSQL backup job.
-3. Diagnose Kubernetes Dashboard Kong.
-4. Replace or remove the Flux UI placeholder route.
+1. Repair the law-firm PostgreSQL backup job.
+2. Diagnose Kubernetes Dashboard Kong.
+3. Replace or remove the Flux UI placeholder route.
+4. Put administrative endpoints behind Cloudflare Access and restrict the
+   origin to Cloudflare traffic.
 5. Onboard CyberLynx Blog as the first real Argo-managed app.
 6. Select an External Secrets backend and migrate human-managed credentials.
-7. Move monitoring, Traefik, Longhorn, and other Helm releases into explicit
+7. Restrict or stop using the broad default Argo AppProject.
+8. Move monitoring, Traefik, Longhorn, and other Helm releases into explicit
    GitOps ownership one release at a time.
-8. Decide whether to repair or remove Kwiki/Qwiki, Hello Node, Whoami, and the
+9. Decide whether to repair or remove Kwiki/Qwiki, Hello Node, Whoami, and the
    Wikimedia chart experiment.
