@@ -22,6 +22,33 @@ The intended architecture is split by responsibility:
 - Private app repos own application source code and CI pipelines.
 - Argo CD or Flux reconciles approved Kubernetes desired state into the cluster.
 
+### Platform At A Glance
+
+```mermaid
+flowchart LR
+    operator[Operator] --> github[GitHub repository]
+    github --> flux[Flux]
+    github --> argo[Argo CD]
+
+    users[Users and administrators] --> cloudflare[Cloudflare DNS proxy]
+    cloudflare --> traefik[Traefik ingress]
+
+    subgraph cluster[Kubernetes cluster]
+        flux --> automation[ExternalDNS and cert-manager]
+        argo --> workloads[Platform and applications]
+        automation --> traefik
+        traefik --> workloads
+        workloads --> monitoring[Prometheus and Grafana]
+        workloads --> storage[Longhorn and persistent volumes]
+    end
+
+    automation --> cloudflare
+    automation --> letsencrypt[Let's Encrypt DNS-01]
+```
+
+See [Platform Architecture Diagrams](docs/diagrams/platform-architecture.md)
+for the detailed runtime, GitOps, DNS, certificate, and repository views.
+
 ## Included
 
 - `apps/kasm/`: Kasm Kubernetes/GitOps scaffold for migrating away from host-managed Docker Compose.
@@ -82,10 +109,14 @@ tools/             Local helper scripts and scanner install guidance
 
 ## Key Documentation
 
+- [Documentation Index](docs/README.md)
+- [Review Guide](docs/review-guide.md)
 - [Architecture](docs/architecture.md)
-- [Repository Operating Model](docs/repo-operating-model.md)
+- [Repository Model](docs/repository-model.md)
+- [Public And Private Boundary](docs/public-private-boundary.md)
 - [Security Baseline](docs/security-baseline.md)
-- [Reference Links](docs/reference-links.md)
+- [Secret Management](docs/secret-management.md)
+- [Tooling Reference](docs/tooling-reference.md)
 - [Terraform Private Repo Plan](docs/terraform-private-repo-plan.md)
 - [Ansible Private Repo Plan](docs/ansible-private-repo-plan.md)
 - [Public Safety Checklist](docs/public-safety-checklist.md)

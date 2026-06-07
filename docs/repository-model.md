@@ -26,10 +26,11 @@ Belongs here:
 - Argo CD, Flux, Traefik, MetalLB, monitoring, backup, Drone CI, dashboard examples
 - Helm values and Kustomize manifests that are sanitized
 - README files explaining ownership, secrets, and rollback
+- approved public routes and ExternalDNS annotations
 
 Should stay private:
 
-- real domains if they identify private infrastructure
+- internal-only domains and private addresses
 - real credentials
 - environment-specific node selectors unless documented as examples
 - generated cluster exports

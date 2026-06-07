@@ -8,6 +8,7 @@ Allowed:
 
 - architecture and runbook Markdown
 - sanitized Kubernetes manifests
+- approved public service domains and the public ingress address
 - placeholder-only examples
 - `*.example.yaml`
 - `*.template.yaml`
@@ -28,6 +29,12 @@ Do not commit:
 - Wazuh enrollment credentials
 - generated cluster exports
 - logs, uploads, database dumps, backup archives, or customer data
+- private addresses, internal DNS names, and non-public network topology
+
+Public DNS names are not secrets. They may be tracked when the service is
+intentionally internet-facing and is listed in `docs/endpoint-inventory.md`.
+This does not permit publishing origin credentials, private node addresses, or
+internal-only services.
 
 ## Examples And Templates Policy
 

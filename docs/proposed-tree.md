@@ -17,11 +17,15 @@ This tree keeps the repo professional and reusable while allowing working nested
 │   └── staging/
 ├── docs/
 │   ├── architecture.md
-│   ├── devsecops-baseline.md
+│   ├── security-baseline.md
+│   ├── secret-management.md
 │   ├── gitops-ownership.md
 │   ├── proposed-tree.md
 │   ├── repo-audit.md
 │   ├── repo-restructure-plan.md
+│   ├── repository-model.md
+│   ├── public-private-boundary.md
+│   ├── tooling-reference.md
 │   └── security-scan-paths.md
 ├── flux/
 │   └── apps/
@@ -32,10 +36,12 @@ This tree keeps the repo professional and reusable while allowing working nested
 │   ├── argocd/
 │   ├── backup/
 │   ├── drone-ci/
+│   ├── external-secrets/
 │   ├── flux/
 │   ├── k8s-admin/
 │   ├── metallb/
 │   ├── monitoring/
+│   ├── network-automation/
 │   └── traefik/
 ├── security/
 │   ├── kyverno/
