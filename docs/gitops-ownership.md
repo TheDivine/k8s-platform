@@ -21,9 +21,10 @@ This matrix defines which system should own each kind of change. The goal is to 
 
 Good fit:
 
-- App-of-apps pattern.
-- Platform bundles where visual app health and sync workflows are useful.
-- Curated app deployments.
+- Applications registered through the production ApplicationSet.
+- Curated app deployments where visual health, sync, and rollback are useful.
+- A dedicated platform component only when it has a complete deployable path
+  and is not owned by Flux.
 
 Rules:
 
@@ -37,8 +38,8 @@ Good fit:
 
 - Cluster bootstrap through `flux-system`.
 - Path-based `Kustomization` reconciliation.
-- App wiring such as `flux/apps/kasm/kustomization.yaml`.
-- Suspended placeholders for future apps.
+- Network automation, issuers, and GitOps controller configuration.
+- Installing the Argo CD AppProject and ApplicationSet.
 
 Rules:
 
@@ -138,7 +139,8 @@ Every manual action should eventually have a runbook and, where safe, an automat
 
 ## TODOs
 
-- TODO: choose the default public example controller: Argo CD, Flux, or both with strict boundaries.
-- TODO: define ownership for each `platform/` subtree.
+- Flux is the production bootstrap/platform automation controller.
+- Argo CD is the production application delivery controller.
+- TODO: migrate each running Helm/platform component into explicit ownership.
 - TODO: define whether app workspaces are in-repo, external repos, or submodules.
 - TODO: add CI checks for controller ownership drift.

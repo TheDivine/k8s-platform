@@ -72,7 +72,10 @@ The following must stay private or ignored:
 
 ## GitOps Approach
 
-Git is the source of truth for Kubernetes desired state. Argo CD and Flux are both represented so the repository can document controller boundaries and migration options. A production implementation should avoid dual ownership of the same resources: one controller should own each path, namespace, or workload group.
+Git is the source of truth for Kubernetes desired state. Flux owns production
+cluster bootstrap and platform automation under `clusters/production`. Argo CD
+owns applications registered through the production ApplicationSet. The two
+controllers must never reconcile the same Kubernetes resource.
 
 ## Security Posture
 
