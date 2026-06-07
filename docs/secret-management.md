@@ -41,6 +41,20 @@ Use SealedSecrets when the cluster controller owns decryption. Document controll
 
 Use External Secrets Operator when secrets should come from an external secret manager. Provider credentials must stay outside public Git.
 
+External Secrets is the preferred target for human-managed production
+credentials in this cluster. The controller package is staged under
+`platform/external-secrets`, but production enablement is blocked until a
+backend and authentication model are approved.
+
+Do not migrate controller-generated state such as Helm release Secrets, TLS
+Secrets, webhook certificates, ACME account keys, or generated runtime
+configuration. See [External Secrets Migration](external-secrets-migration.md)
+for the classified inventory and rollout sequence.
+
+The repository tracks where a credential belongs and which Kubernetes Secret
+consumes it. The external platform tracks the value, versions, access policy,
+rotation dates, and audit log.
+
 ### Manual Bootstrap
 
 Manual `kubectl create secret` is acceptable for bootstrap or small labs when documented, but command history and shell logs must not expose secret values.
