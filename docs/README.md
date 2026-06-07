@@ -22,6 +22,8 @@ This directory is organized so a reviewer can understand the repository from arc
 
 - [Argo CD](argocd.md)
 - [Argo CD Beginner Workflow](argocd-workflow.md)
+- [Add A New Application With Argo CD](argocd-app-onboarding.md)
+- [Platform And Application Status](component-status.md)
 - [Production Endpoint Inventory](endpoint-inventory.md)
 - [Credential Source And Access Map](credential-access.md)
 - [Cloudflare DNS And Certificates](cloudflare-dns-and-certificates.md)

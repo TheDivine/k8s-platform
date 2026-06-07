@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: production-apps
+  namespace: argocd
+spec:
+  description: Reviewed production applications generated from the Git app registry.
+  sourceRepos:
+    - https://github.com/TheDivine/*
+    - ssh://git@github.com/TheDivine/*
+  destinations:
+    - namespace: "*"
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace

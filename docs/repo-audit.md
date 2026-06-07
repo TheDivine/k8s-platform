@@ -36,7 +36,8 @@ Generated cluster exports under `platform/exports/` and `platform/exports-clean/
 
 - `clusters/production/kustomization.yaml`: current production cluster entry point.
 - `clusters/production/flux-system/gotk-components.yaml`: Flux controller component manifest.
-- `clusters/production/argocd-app-platform.yaml` and `argocd-app-infra.yaml`: Argo CD app wiring.
+- `clusters/production/argocd-apps/`: Argo CD AppProject and ApplicationSet.
+- `clusters/production/app-registry/`: reviewed production application registrations.
 - `flux/apps/kasm/kustomization.yaml`: suspended Flux wiring for the Kasm scaffold.
 - `apps/kasm/`: safe Kasm Kubernetes scaffold with placeholder-only secret example.
 - `platform/argocd/`: Argo CD manifests and ingress routing.
@@ -85,9 +86,9 @@ Do not print or copy values from these files into issues, PRs, or docs.
 
 ## GitOps Readiness Findings
 
-- The repo already contains both Flux and Argo CD patterns. That is acceptable for a lab, but public baseline documentation must define controller boundaries to avoid dual ownership.
+- Flux owns cluster bootstrap/platform automation and Argo CD owns registered applications. The controllers must not share resources.
 - `apps/kasm` is a good example of safe GitOps-first scaffolding: namespace, PVCs, ingress placeholders, suspended Flux wiring, and docs.
-- `clusters/production` currently mixes Argo CD and Flux bootstrap concepts. TODO: document which controller owns each subtree.
+- `clusters/production` uses Flux to install Argo registration resources and platform automation.
 - `platform/backup`, `platform/monitoring`, `platform/argocd`, `platform/flux`, `platform/metallb`, and `platform/traefik` are candidates for GitOps management after ownership is formalized.
 - `platform/k8s-admin` needs consolidation before it is production-style GitOps.
 

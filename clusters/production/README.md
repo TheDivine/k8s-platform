@@ -2,11 +2,14 @@
 
 This folder should contain the exact manifests or overlays that define your production cluster state.
 
-## Example
-- `kustomization.yaml` that references:
-  - `../../platform/`
-  - `../../infra/`
-  - app releases pinned to versions
+## Ownership
 
-## Deployment
-- ArgoCD or Flux watches this folder and reconciles the cluster.
+- Flux reconciles this directory from `main`.
+- Flux installs network automation and Argo CD registration resources.
+- The Argo CD ApplicationSet reads `app-registry/*.app.yaml`.
+- Each registry entry produces one independently visible Argo Application.
+
+## Add An Application
+
+Follow `docs/argocd-app-onboarding.md`. Normal onboarding is performed through
+GitHub and does not require a repository checkout on the cluster server.

@@ -14,15 +14,19 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
 
-### Register the Platform Repo
-Create an ArgoCD Application pointing to:
-- Repo: your `k8s-platform` GitHub repo
-- Path: `platform/` and/or `infra/`
-- Destination: target cluster and namespace
+### Register Applications
+
+Flux installs the production Argo CD ApplicationSet from
+`clusters/production/argocd-apps`. Argo creates one Application for each
+reviewed file under `clusters/production/app-registry`.
 
 ### App Repos
-Create separate Applications for each app repo (e.g., `kwiki`).
-Pin versions in the app repo and sync from ArgoCD.
+
+Register each deployable app repository through the app registry. Do not point
+one broad recursive Application at all of `platform/` or `infra/`; those trees
+contain alternatives and incomplete packages.
+
+See `docs/argocd-app-onboarding.md`.
 
 ## Option B: Flux (Recommended for automation-first)
 ### Install
