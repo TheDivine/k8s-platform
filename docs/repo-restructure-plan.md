@@ -14,7 +14,7 @@ This plan is intentionally conservative. It keeps working nested application dir
 
 Actions:
 
-- Maintain `docs/repo-audit.md`, `docs/repo-restructure-plan.md`, `docs/proposed-tree.md`, `docs/gitops-ownership.md`, `docs/devsecops-baseline.md`, `docs/security-scan-paths.md`, and `docs/architecture.md`.
+- Maintain `docs/repo-audit.md`, `docs/repo-restructure-plan.md`, `docs/proposed-tree.md`, `docs/gitops-ownership.md`, `docs/security-baseline.md`, `docs/security-scan-paths.md`, and `docs/architecture.md`.
 - Capture current structure, risks, ownership, and target layout.
 - Add TODO markers for manual decisions.
 

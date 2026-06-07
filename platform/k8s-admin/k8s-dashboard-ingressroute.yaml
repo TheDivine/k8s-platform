@@ -3,6 +3,9 @@ kind: IngressRoute
 metadata:
   name: kubernetes-dashboard
   namespace: kubernetes-dashboard
+  annotations:
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    external-dns.alpha.kubernetes.io/target: "69.30.233.178"
 spec:
   entryPoints:
     - websecure
@@ -10,7 +13,7 @@ spec:
     certResolver: le
   routes:
     # API: no basic-auth
-    - match: Host(`k8s.example.com`) && PathPrefix(`/api`)
+    - match: Host(`k8s.xn--cyberlnx-ykb.com`) && PathPrefix(`/api`)
       kind: Rule
       services:
         - name: kubernetes-dashboard-kong-proxy
@@ -18,7 +21,7 @@ spec:
           scheme: https
           serversTransport: dash-insecure
     # UI: with basic-auth
-    - match: Host(`k8s.example.com`) && PathPrefix(`/`)
+    - match: Host(`k8s.xn--cyberlnx-ykb.com`) && PathPrefix(`/`)
       kind: Rule
       middlewares:
         - name: dashboard-basicauth
@@ -28,4 +31,3 @@ spec:
           port: 443
           scheme: https
           serversTransport: dash-insecure
-

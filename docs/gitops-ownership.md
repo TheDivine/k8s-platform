@@ -8,8 +8,9 @@ This matrix defines which system should own each kind of change. The goal is to 
 | --- | --- | --- | --- |
 | Kubernetes app manifests | Argo CD or Flux | Kasm, future app overlays | Pick one controller per app path. |
 | Kubernetes platform manifests | Argo CD or Flux | Traefik, MetalLB, monitoring, backup | Avoid dual ownership of the same resource. |
+| Route-derived DNS records | ExternalDNS through Flux | app and UI A records, ownership TXT records | Restricted by zone filters and TXT owner ID. |
 | Cluster bootstrap | Manual bootstrap, then GitOps | first controller install, initial repo sync | Keep bootstrap minimal and documented. |
-| Infrastructure resources | Terraform | DNS, object storage, registries, cloud firewall, IAM | Do not commit state or real variables. |
+| Provider infrastructure | Terraform or reviewed provider workflow | DNS zones, mail records, object storage, cloud firewall, IAM | ExternalDNS owns only route-derived records. |
 | OS/node configuration | Ansible | SSH, firewall, packages, auditd, fail2ban, ClamAV | Test in check mode first. |
 | Reusable Kubernetes packaging | Helm | app/platform charts | Use Helm as packaging, GitOps as deployment. |
 | Policy as code | GitOps | Kyverno, NetworkPolicies, RBAC review artifacts | Start in audit mode where possible. |
@@ -49,7 +50,7 @@ Rules:
 
 Good fit:
 
-- DNS records for public app hostnames.
+- DNS zone creation, nameservers, mail records, and non-Kubernetes records.
 - Object storage buckets for backups.
 - Registry resources.
 - Cloud firewall or load balancer resources when external providers are used.
@@ -60,6 +61,23 @@ Rules:
 - Never commit `*.tfstate`, `.terraform/`, real `*.tfvars`, or provider credentials.
 - Use remote state when real resources are introduced.
 - Run `terraform plan` in review before any apply.
+
+## ExternalDNS Ownership
+
+Good fit:
+
+- A and CNAME records derived from Kubernetes Ingress resources.
+- Traefik IngressRoute hostnames.
+- Cloudflare proxy state declared by route annotation.
+- TXT ownership records for collision avoidance.
+
+Rules:
+
+- Keep `domainFilters` explicit.
+- Use a unique TXT owner per cluster.
+- Do not import mail, validation, or unrelated manual records casually.
+- Use `upsert-only` until deletion behavior and recovery are tested.
+- DNS record creation does not replace application health checks.
 
 ## Ansible Ownership
 

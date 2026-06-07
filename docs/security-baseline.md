@@ -79,6 +79,20 @@ Use one of the following for real secrets:
 
 Never commit real Kubernetes `Secret` manifests, OAuth secrets, database passwords, registry credentials, kubeconfigs, or private keys.
 
+### Backup And Restore
+
+- Use Velero or equivalent for Kubernetes resource backup where appropriate.
+- Use S3-compatible object storage such as MinIO for lab backup targets.
+- Keep backup credentials, bucket secrets, and real endpoints outside public Git.
+- Test restore procedures before considering backup coverage complete.
+
+### Logging And Monitoring
+
+- Use Prometheus and Alertmanager for metrics and alerting.
+- Use Loki with Promtail or Fluent Bit for log aggregation.
+- Route security-relevant host logs from auditd, scanners, runtime services, and authentication into a central review path.
+- Keep dashboards public-safe by avoiding private hostnames, customer data, or credentials.
+
 ## Safe Scan Paths
 
 Recommended include paths:
