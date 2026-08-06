@@ -19,6 +19,7 @@ spec:
     domainFilters:
       - xn--cyberlnx-ykb.com
       - getuntoldstory.com
+      - processlayerai.com
     env:
       - name: CF_API_TOKEN
         valueFrom:
