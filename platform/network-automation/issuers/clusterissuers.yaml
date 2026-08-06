@@ -17,6 +17,7 @@ spec:
           dnsZones:
             - xn--cyberlnx-ykb.com
             - getuntoldstory.com
+            - processlayeri.com
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
