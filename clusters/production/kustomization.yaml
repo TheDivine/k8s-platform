@@ -7,3 +7,4 @@ resources:
   - weave-gitops-dashboard.yaml
   - flux-ui-ingressroute.yaml
   - network-automation.yaml
+  - kyverno.yaml
