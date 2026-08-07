@@ -1,0 +1,55 @@
+# Kyverno ClusterPolicy — Require security context hardening (GLOBAL)
+# Enforces: seccompProfile (RuntimeDefault), drop ALL capabilities,
+#           allowPrivilegeEscalation: false
+
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-security-context
+  annotations:
+    policies.kyverno.io/title: Require security context hardening
+    policies.kyverno.io/category: Pod Security Standards
+    policies.kyverno.io/severity: high
+    policies.kyverno.io/description: >-
+      All containers must use RuntimeDefault seccomp, drop ALL
+      capabilities, and disallow privilege escalation.
+      Exceptions: kube-system, cert-manager.
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: check-security-context
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - kube-system
+                - cert-manager
+                - flux-system
+                - argocd
+      validate:
+        message: >-
+          Security context required: seccompProfile.type=RuntimeDefault,
+          capabilities.drop=["ALL"], allowPrivilegeEscalation=false.
+        pattern:
+          spec:
+            securityContext:
+              seccompProfile:
+                type: RuntimeDefault
+            containers:
+              - securityContext:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop:
+                      - ALL
+            =(initContainers):
+              - securityContext:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop:
+                      - ALL
