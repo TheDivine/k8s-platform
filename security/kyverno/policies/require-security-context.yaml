@@ -1,6 +1,7 @@
-# Kyverno ClusterPolicy — Require security context hardening (GLOBAL)
+# Kyverno ClusterPolicy — Require security context hardening by default
 # Enforces: seccompProfile (RuntimeDefault), drop ALL capabilities,
 #           allowPrivilegeEscalation: false
+# Longhorn is namespace-exempt because its storage components require privilege.
 
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
@@ -11,9 +12,10 @@ metadata:
     policies.kyverno.io/category: Pod Security Standards
     policies.kyverno.io/severity: high
     policies.kyverno.io/description: >-
-      All containers must use RuntimeDefault seccomp, drop ALL
-      capabilities, and disallow privilege escalation.
-      Exceptions: kube-system, cert-manager.
+      Containers must use RuntimeDefault seccomp, drop ALL capabilities, and
+      disallow privilege escalation unless they belong to an explicitly exempt
+      platform namespace. Longhorn storage components require privileged host
+      access and mount propagation.
 spec:
   validationFailureAction: Enforce
   background: true
@@ -32,6 +34,7 @@ spec:
                 - cert-manager
                 - flux-system
                 - argocd
+                - longhorn-system
       validate:
         message: >-
           Security context required: seccompProfile.type=RuntimeDefault,

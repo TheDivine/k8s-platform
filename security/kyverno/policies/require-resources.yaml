@@ -1,5 +1,6 @@
-# Kyverno ClusterPolicy — Require CPU and memory limits (GLOBAL)
+# Kyverno ClusterPolicy — Require CPU and memory limits by default
 # Enforces: every container must set requests and limits for CPU and memory
+# Longhorn is namespace-exempt because it manages dynamic system pods and helpers.
 
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
@@ -10,8 +11,9 @@ metadata:
     policies.kyverno.io/category: Best Practices
     policies.kyverno.io/severity: medium
     policies.kyverno.io/description: >-
-      Every container must define CPU and memory requests and limits.
-      Exceptions: kube-system, cert-manager, flux-system, argocd.
+      Every container must define CPU and memory requests and limits unless it
+      belongs to an explicitly exempt platform namespace. Longhorn manages
+      dynamic node-level system pods and helper containers.
 spec:
   validationFailureAction: Enforce
   background: true
@@ -32,6 +34,7 @@ spec:
                 - argocd
                 - kyverno
                 - external-dns
+                - longhorn-system
       validate:
         message: "CPU and memory requests/limits are required. Add resources.requests and resources.limits."
         pattern:

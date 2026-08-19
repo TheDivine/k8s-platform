@@ -1,5 +1,6 @@
-# Kyverno ClusterPolicy — Block root containers (GLOBAL)
+# Kyverno ClusterPolicy — Block root containers by default
 # Enforces: runAsNonRoot must be true, runAsUser must not be 0
+# Longhorn is namespace-exempt because its node and storage components require root.
 
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
@@ -10,8 +11,9 @@ metadata:
     policies.kyverno.io/category: Pod Security Standards
     policies.kyverno.io/severity: high
     policies.kyverno.io/description: >-
-      All containers in all namespaces must run as a non-root user.
-      Exceptions: kube-system and cert-manager namespaces.
+      Containers must run as a non-root user unless they belong to an
+      explicitly exempt platform namespace. Longhorn node and storage
+      components require root and privileged host access.
 spec:
   validationFailureAction: Enforce
   background: true
@@ -31,6 +33,7 @@ spec:
                 - flux-system
                 - argocd
                 - kyverno
+                - longhorn-system
       validate:
         message: "Running as root is not allowed. Set securityContext.runAsNonRoot=true."
         pattern:
