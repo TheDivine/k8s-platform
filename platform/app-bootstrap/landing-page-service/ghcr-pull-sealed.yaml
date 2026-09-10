@@ -1,0 +1,13 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: landing-page-ghcr-read
+  namespace: landing-page-service
+spec:
+  encryptedData:
+    .dockerconfigjson: AgBHiApyQE47ZED+UIjXIH0yJtQL7CvKnFFiUY7dhxnI9Boq4XKlyHN27r0SFvIZm2sTzFxzhkRejQQhqBa3gjmmNmLmB2uDwgj6N1X/SN6ckJ/0pj6sG8bsOi2eXOXCrhikwEk9HrKv17L/q+kF07d8LBA0T2kKYbLhj+fTXvFMXFK+cRkRhr6ZMXfq4C5XAO9FbkBj7UZ/IpOFl0OfKnlTBLIKObd3LjkXpz6D3X9wAhZIOJY+3dYX9tEJJz8ZwY2fCEw56Lv1Gz9V4UR+T8aG8BYD5hkTYMK79/WBSnNg8wunenpXNhdt2FN0/5eUAtOfZ25wmsOSrD2f5/+1J2vsBwA2zkiICYl0EH6qLAgzQ8stB/fqpgkHZXBbNR8IraQ/vRfqC+OeotMT13LMlb3RyZ5PWuTw/0CQS9DVf0kjGYyAgErPU40v34NRiTDOzplxP19fFYGSsrNd2R0EJW3tT3gE4Jajt5yn8ZGVcMLqUZJX1WwA65LkLPsWSgEUU0sHk62xYTqdJ5rLBjmoPQnuCWtLH6nJ9BDhyIxD5wAD89qy4BmiR7qcmpgjVezCh85VyiOfrYry3PG/e7IKq76Ay7z/CJYbtz1FJ8FbKUWSuydl7ug+a7z7tLwORdKQz1zbEjPk4mKsqnDQrNy0OudZ+hUBpb3sH0yAHeflBDeofPcB+t0Ij3m7R2PFxx8DtvT42rxi2ff3/w7TvybbHI3HRyr9nxmTmX3O6e8W2a4p+iPE63s0KK1kyDYnXuQIt3lGbm62j14/mkffsFO1QJpV8xdTur0H3A2wDs31S2GFEdm/Jxqw4THHfGVXjvRYIDdMUIqhzD6uQGJPngiBKX247pJ66TLYR+r+97B4/c3iNVg2csJ+hKd8HeCaw46th00ICFg/wcE9cCKGosscBhlhyyXSmqcgqO7OFKbYJDsLOBVUH6JQ0/wvZA==
+  template:
+    metadata:
+      name: landing-page-ghcr-read
+      namespace: landing-page-service
+    type: kubernetes.io/dockerconfigjson
