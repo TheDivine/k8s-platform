@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: landing-page-service
+resources:
+  - resources.yaml
+# Candidate built and privacy verified in Actions run 34418875590.
+images:
+  - name: landing-page-demo
+    newName: ghcr.io/thedivine/landing-page-service
+    digest: sha256:28cf582461140c699520dd4b83eebdaea8afe377119da54521e9cdb53f95d875
