@@ -4,6 +4,8 @@
 !/apps/kasm/
 !/apps/kasm/**
 !/apps/README.md
+!/apps/landing-page-service/
+!/apps/landing-page-service/**
 
 # Historical backups and generated cluster exports should be private unless
 # they are explicitly sanitized and documented for public release.

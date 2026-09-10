@@ -1,0 +1,6 @@
+app:
+  name: landing-page-service
+  repoURL: https://github.com/TheDivine/k8s-platform.git
+  revision: main
+  path: apps/landing-page-service
+  namespace: landing-page-service

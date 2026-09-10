@@ -10,3 +10,4 @@ resources:
   - kyverno-repo.yaml
   - kyverno-controller.yaml
   - kyverno-policies.yaml
+  - landing-page-bootstrap.yaml
