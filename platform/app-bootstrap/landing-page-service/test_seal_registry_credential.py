@@ -3,26 +3,30 @@ import hashlib
 import json
 import unittest
 from unittest.mock import Mock, patch
+from urllib.error import HTTPError
 import seal_registry_credential as helper
 
 
 class VerifiedSealingTests(unittest.TestCase):
     def test_rejected_auth_never_seals(self):
         seal = Mock()
-        with self.assertRaises(OSError):
-            helper.prepare('fake', Mock(side_effect=OSError()), seal)
+        error = HTTPError('https://ghcr.io/token', 403, 'Forbidden', {}, None)
+        with self.assertRaisesRegex(helper.SafeFailure, 'token request.*HTTP 403'):
+            helper.prepare('fake', Mock(side_effect=error), seal)
         seal.assert_not_called()
 
     def test_token_without_manifest_access_never_seals(self):
         seal = Mock()
         fetch = Mock(side_effect=[b'{"token":"fake-session"}', OSError()])
-        with self.assertRaises(OSError):
+        with self.assertRaisesRegex(helper.SafeFailure, 'image manifest.*HTTP 403'):
+            error = HTTPError('https://ghcr.io/v2/', 403, 'Forbidden', {}, None)
+            fetch = Mock(side_effect=[b'{"token":"fake-session"}', error])
             helper.prepare('fake', fetch, seal)
         seal.assert_not_called()
 
     def test_wrong_digest_never_seals(self):
         seal = Mock()
-        with self.assertRaises(ValueError):
+        with self.assertRaises(helper.SafeFailure):
             helper.prepare('fake', Mock(side_effect=[b'{"token":"fake-session"}', b'wrong']), seal)
         seal.assert_not_called()
 
