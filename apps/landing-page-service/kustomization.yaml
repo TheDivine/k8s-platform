@@ -7,4 +7,4 @@ resources:
 images:
   - name: landing-page-demo
     newName: ghcr.io/thedivine/landing-page-service
-    digest: sha256:28cf582461140c699520dd4b83eebdaea8afe377119da54521e9cdb53f95d875
+    digest: sha256:88e32916a521d5a8fcb60a1b2fcfca9d4eaa415ddc234a445c837594713b0e26
