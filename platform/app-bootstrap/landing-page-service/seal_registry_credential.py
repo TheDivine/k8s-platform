@@ -3,12 +3,14 @@
 import base64
 import getpass
 import hashlib
+import io
 import json
 from pathlib import Path
 import subprocess
 import sys
 import urllib.error
 import urllib.request
+import warnings
 
 DIGEST = '28cf582461140c699520dd4b83eebdaea8afe377119da54521e9cdb53f95d875'
 OUTPUT = 'landing-page-ghcr-read.updated.sealed.json'
@@ -21,6 +23,16 @@ class SafeFailure(Exception):
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, *args, **kwargs):
         return None
+
+
+def read_token():
+    """Read from the controlling terminal without echo; never fall back to echoed stdin."""
+    try:
+        with warnings.catch_warnings():
+            warnings.simplefilter('error', getpass.GetPassWarning)
+            return getpass.getpass('TheDivine classic PAT, read:packages (hidden): ').strip()
+    except (getpass.GetPassWarning, EOFError, OSError, io.UnsupportedOperation):
+        raise SafeFailure('Could not open a hidden interactive token prompt on this terminal.') from None
 
 
 def prepare(token, fetch, seal):
@@ -100,12 +112,7 @@ def main():
                 'Verify the current kubectl context and controller name.')
         return result.stdout
 
-    # Explicit TTY: fail closed rather than falling back to echoed stdin.
-    with open('/dev/tty', 'r+') as terminal:
-        import warnings
-        with warnings.catch_warnings():
-            warnings.simplefilter('error', getpass.GetPassWarning)
-            token = getpass.getpass('TheDivine classic PAT, read:packages (hidden): ', stream=terminal).strip()
+    token = read_token()
     if not token:
         raise SafeFailure('No token was entered.')
     encrypted = prepare(token, fetch, seal)
