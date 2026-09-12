@@ -48,6 +48,16 @@ class VerifiedSealingTests(unittest.TestCase):
     def test_redirects_are_refused(self):
         self.assertIsNone(helper.NoRedirect().redirect_request(None, None, 302, '', {}, 'https://elsewhere.invalid'))
 
+    @patch('seal_registry_credential.getpass.getpass', return_value='  fake-token  ')
+    def test_hidden_prompt_returns_stripped_token(self, prompt):
+        self.assertEqual(helper.read_token(), 'fake-token')
+        prompt.assert_called_once()
+
+    @patch('seal_registry_credential.getpass.getpass', side_effect=OSError())
+    def test_hidden_prompt_failure_is_actionable(self, _prompt):
+        with self.assertRaisesRegex(helper.SafeFailure, 'hidden interactive token prompt'):
+            helper.read_token()
+
 
 if __name__ == '__main__':
     unittest.main()
