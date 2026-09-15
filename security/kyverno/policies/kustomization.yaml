@@ -5,3 +5,7 @@ resources:
   - require-non-root.yaml
   - require-resources.yaml
   - require-security-context.yaml
+  - disallow-latest-tag.yaml
+  - disallow-host-namespaces.yaml
+  - disallow-privileged-containers.yaml
+  - disallow-nodeport.yaml
