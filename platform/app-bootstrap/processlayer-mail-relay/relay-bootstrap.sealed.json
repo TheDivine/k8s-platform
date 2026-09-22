@@ -1,0 +1,47 @@
+{
+  "apiVersion": "v1",
+  "kind": "List",
+  "items": [
+    {
+      "kind": "SealedSecret",
+      "apiVersion": "bitnami.com/v1alpha1",
+      "metadata": {
+        "name": "relay-auth",
+        "namespace": "processlayer-mail-relay"
+      },
+      "spec": {
+        "template": {
+          "metadata": {
+            "name": "relay-auth",
+            "namespace": "processlayer-mail-relay"
+          },
+          "type": "Opaque"
+        },
+        "encryptedData": {
+          "dkim-private.pem": "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",
+          "password-hash": "AgA2Wg/kV7yYQzACrSyee9QME/fO26XjOwonEi1F+uDlJeuMR8OCcB4hYUQoHmqMcefhU3mEsy6I6sjUbfj1tayfvmfc+Fi3yCighBN+XZVOEtWbuAIEoeCjh2+kkrggDKpSZZ3RDQXxINyHktVmLwavjTWY2PQCljgnqKec2XBjT9cIxURuKFJu6zPiMz65rBt0nzr+Ijm6+aQZLOsj1kxpTKV4e6ewYAv8Zl5HX45cB67g6NpuBLffYNxUwJQgKM8S6O+cDvj/mksGmSpIDNllP2aw6Y6thXoSO7s4s61xRRiq6kiFBNkMBb4NBdK7qqQNLEqY0ZkObB2wLY7rQUokWwaY4AwsnOA5mTe9vFp2UFWkei4sXe/I0d9NnQciDwVUfVDGw/6Kzy5xNl92TV3eOSG9xxGsusOBxcgKIAceBANsZLGZ4bnJK91jcN+6rcj+Q0CZu9BPPQkbeSMyf1UbV6JrtwZCft6zz8TPtgtEye5tPrWZn6Q8Vji5V1JcBXWjE777F8NFNAC5D3hpqZ+ch5zk1tiNll45y7rYoX6pq6wsXkCyG0EwZzV89dgO16n35PsRS0pDFTMC+a6m3wgo65WO611MAz9hTOHw+kXFPyzN5A3MMgf7K7HLrQ6maU4b0cahVNeZZnlIBF0juhIyWJgbgn+fHMwD7FLi7bpRaebOj9mDKPh9GbbQL6XU42hj0cikanAFM2txSL4e7lNQiGgA9OJEG6frglfRsF+/fDpfJ664nxHVF6rJ55Lxe2yWXFl8JETS2ehCk8aFXp+CdIvqnbqx97tYy+c3CiM1Vtg2UIMKZRPSpKaT6JbTV07GY5ygd2vh3h5g"
+        }
+      }
+    },
+    {
+      "kind": "SealedSecret",
+      "apiVersion": "bitnami.com/v1alpha1",
+      "metadata": {
+        "name": "relay-ghcr-read",
+        "namespace": "processlayer-mail-relay"
+      },
+      "spec": {
+        "template": {
+          "metadata": {
+            "name": "relay-ghcr-read",
+            "namespace": "processlayer-mail-relay"
+          },
+          "type": "kubernetes.io/dockerconfigjson"
+        },
+        "encryptedData": {
+          ".dockerconfigjson": "AgAZQ4MFQPp8VehRMqpzH6ptQgNCm2owK4RwG0qa5CeIFdlfkl95w5KnmO5TpvcdsXJtOczr1r1V4HZ19ZQORS+4xmwPYaz3i7jdJW5iLyIH9udOe5S1+Gs1CZQmSfKHETXZgp5kw+G+BvMQC9RzONwRhQ9NLl9ZzOzij95V5tgs/wfXNR9Tm9WeuWgV1Bt0sKwvGxyFf+CYZEtvlKidHS9WQp9eUPjqsLqBPfIl7ARaAqwp5PZ0XjqsMRGWdMBINdBim5pDlMqxEx36KOKUyZikD4Sn1V9uXbom5tL1/DJ66yr3Jel3FVVmhp5GcIS7lEfvAGvLVejjJ2K8/bFagT9C3KZ1jAlhAhZsfKy9bdZIPssaj8FC8XM+ORXmBKnhqyN8X0geMa7E0Ho0D1m712CFOocEk+Ww0KS+3y/i4/Es0D5LVFxmiLfK8OJ/24aS0M8gGxNasbfN/gYXR8iDKNX/+1Rdg+lpzAtFDTia2t6b+U29KNVMDUKl9rawC8OpBx+zeUapu+wTB/PGYfMEauyGG52nnDYWeX4hqdaznKuKowMQkrBdC0NTqtT0isfDrHu+ZaoQQWxYw9PfT6uXyzUpJXImjm2oka1PIBdZT/IA3mVelLzXY9c+MKECKuyLeVEKvlYQDmOOmF/kneNFjY/7I4PWi2cIi/OGKVBJDqqbCYVW+noNEEkHVplJ9J1eN752Rw4N5y22XFn61MHDymkKOhYjWU3tcxVSPA7sj9I7OKvDxUnMds/+ekpMUN+QPqBSBOYSO40qJydq1Uhat9H6OW6bgjU2D7ZEVfOswMBfuWVnaK6cyoU/BS0ZNsVDiWrz5ftSRULeMg=="
+        }
+      }
+    }
+  ]
+}

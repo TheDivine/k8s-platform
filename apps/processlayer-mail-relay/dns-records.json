@@ -1,0 +1,13 @@
+[
+  {
+    "type": "A",
+    "name": "smtp.processlayerai.com",
+    "content": "69.30.233.178",
+    "proxied": false
+  },
+  {
+    "type": "TXT",
+    "name": "relay._domainkey.processlayerai.com",
+    "content": "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyAXUlFEFA7+CokUVV8rt9FGyvw5F4MrL93nDg7JFym8QitFT5x5HFb1ttfkMYSbqjTSJR6BEuF0LGTfpAvs8XSHcNJbW+XRzwhU8DOz6bj503XDteAcfZQStQDJVhSR+DnjC75QYJCShp7Sy/Q0zKFUSvoGzN4F8r2KQCJEAVPwUDwN7Rf+6GknQ48QkLRyVv7tSeU5Ur1ts2WhGHSzFzqrFyZdvKG2mYIBY9SJLe2xE1qMpjVqcssxYwKLLL03AyqJGBNK48GlIm8QazmIR+Mji90fcXOuysJcDndQMI93jJMu5yRoO8+Vd5bF3TLYK9MQL8F3zO6IqK+FLnpJanQIDAQAB"
+  }
+]

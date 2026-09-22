@@ -1,0 +1,6 @@
+app:
+  name: processlayer-mail-relay
+  repoURL: https://github.com/TheDivine/k8s-platform.git
+  revision: main
+  path: apps/processlayer-mail-relay
+  namespace: processlayer-mail-relay

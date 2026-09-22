@@ -11,3 +11,4 @@ resources:
   - kyverno-controller.yaml
   - kyverno-policies.yaml
   - landing-page-bootstrap.yaml
+  - processlayer-mail-relay-bootstrap.yaml

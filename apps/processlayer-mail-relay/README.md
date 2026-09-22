@@ -1,6 +1,7 @@
-# ProcessLayer outbound relay candidate
+# ProcessLayer outbound relay
 
-Prepared 22 September 2026; NOT registered with Argo/Flux and NOT deployed.
+Registration prepared 22 September 2026 with the owner-returned encrypted bootstrap.
+Merging this change activates Flux bootstrap and Argo deployment; live readiness must be verified separately.
 There is no change to the website, existing MX or Hestia SMTP routing in this PR.
 
 Owner preflight reports the bare-metal hostname label
@@ -46,31 +47,35 @@ generates a dedicated SMTP password and new relay DKIM key, and encrypts both
 strictly for namespace processlayer-mail-relay using the existing controller.
 It performs no apply, DNS edit, mail send or Hestia change.
 
-Return ONLY relay-bootstrap.sealed.json and dns-records.json from its new
-private output directory. Keep hestia-settings.PRIVATE.json on the server.
-The output folder is 0700, files 0600. Never paste the private file or raw Secret.
-Do not rerun after successful generation: reuse the same output to avoid mismatched passwords.
+The owner completed generation on 22 September 2026 and returned the two safe
+outputs. The encrypted List is committed in the bootstrap directory; the
+public DNS records are in `dns-records.json` alongside this README. Structure,
+exact namespace/name/template scope and ciphertext encoding were validated;
+only the live controller can verify decryption.
 
-Validate encrypted names relay-auth and relay-ghcr-read in the exact namespace,
-then add relay-bootstrap.sealed.json to the bootstrap kustomization. Only then:
+Keep `hestia-settings.PRIVATE.json` in the existing private server directory.
+Do not regenerate credentials or paste the private file. Its password matches
+the sealed password hash now registered for deployment.
 
-1. Add a Flux Kustomization following clusters/production/landing-page-bootstrap.yaml,
-   with name processlayer-mail-relay-bootstrap and path
-   ./platform/app-bootstrap/processlayer-mail-relay; include it in production kustomization.
-2. Add clusters/production/app-registry/processlayer-mail-relay.app.yaml with:
+Flux registration: `clusters/production/processlayer-mail-relay-bootstrap.yaml`.
+Argo registration: `clusters/production/app-registry/processlayer-mail-relay.app.yaml`.
+Merging registrations activates automated deployment. Do not manually apply the
+Deployment or change unrelated cluster resources. DNS publication is separate.
 
-```yaml
-app:
-  name: processlayer-mail-relay
-  repoURL: https://github.com/TheDivine/k8s-platform.git
-  revision: main
-  path: apps/processlayer-mail-relay
-  namespace: processlayer-mail-relay
+## Read-only deployment checks
+
+Run on the bare-metal admin server if the workstation cannot reach the cluster:
+
+```bash
+kubectl -n flux-system get kustomization processlayer-mail-relay-bootstrap
+kubectl -n argocd get application processlayer-mail-relay
+kubectl -n processlayer-mail-relay get sealedsecret,pods,pvc,certificate -o wide
 ```
 
-Adding those registrations and merging activates automated deployment. This
-preparation deliberately has neither registration. Do not manually apply the
-Deployment or change unrelated cluster resources.
+Expected: Flux Ready; Argo Synced/Healthy; both SealedSecrets Synced;
+PVC Bound; Certificate Ready; relay pod Ready on s231226.wholesaleinternet.net.
+These commands reveal no passwords. If a resource is absent immediately after
+merge, allow the existing controllers to reconcile; a merge alone is not proof.
 
 ## Acceptance before Hestia cutover
 
