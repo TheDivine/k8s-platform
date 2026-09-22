@@ -1,0 +1,117 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: relay-queue
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: relay-tls
+spec:
+  secretName: relay-tls
+  dnsNames: [smtp.processlayerai.com]
+  issuerRef:
+    name: letsencrypt-production-cloudflare
+    kind: ClusterIssuer
+  privateKey:
+    algorithm: RSA
+    size: 2048
+    rotationPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: processlayer-mail-relay
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: processlayer-mail-relay
+  template:
+    metadata:
+      labels:
+        app: processlayer-mail-relay
+    spec:
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 60
+      nodeSelector:
+        kubernetes.io/hostname: s231226.wholesaleinternet.net
+      imagePullSecrets:
+        - name: relay-ghcr-read
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: relay
+          image: ghcr.io/thedivine/landing-page-service@sha256:61bc86f7a33e3e58022e575a5e615aadb55ae819390a812bb1f10248c937469d
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: submission
+              containerPort: 1587
+              hostPort: 587
+              protocol: TCP
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10001
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          readinessProbe:
+            tcpSocket:
+              port: submission
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: submission
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          volumeMounts:
+            - name: queue
+              mountPath: /var/spool/exim4
+            - name: tls
+              mountPath: /run/relay-tls
+              readOnly: true
+            - name: auth
+              mountPath: /run/relay-auth
+              readOnly: true
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: queue
+          persistentVolumeClaim:
+            claimName: relay-queue
+        - name: tls
+          secret:
+            secretName: relay-tls
+            defaultMode: 0440
+        - name: auth
+          secret:
+            secretName: relay-auth
+            defaultMode: 0440
+        - name: tmp
+          emptyDir:
+            sizeLimit: 16Mi

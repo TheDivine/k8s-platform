@@ -6,6 +6,12 @@
 !/apps/README.md
 !/apps/landing-page-service/
 !/apps/landing-page-service/**
+!/apps/processlayer-mail-relay/
+!/apps/processlayer-mail-relay/**
+__pycache__/
+*.pyc
+*.PRIVATE.json
+processlayer-relay-*/
 
 # Historical backups and generated cluster exports should be private unless
 # they are explicitly sanitized and documented for public release.

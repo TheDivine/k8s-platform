@@ -1,0 +1,14 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: processlayer-mail-relay-bootstrap
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: ./platform/app-bootstrap/processlayer-mail-relay
+  prune: false
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 2m
+  wait: true
