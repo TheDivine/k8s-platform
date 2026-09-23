@@ -8,6 +8,9 @@
 !/apps/landing-page-service/**
 !/apps/processlayer-mail-relay/
 !/apps/processlayer-mail-relay/**
+!/apps/lfce-staging/
+!/apps/lfce-staging/**
+lfce-bootstrap-private/
 __pycache__/
 *.pyc
 *.PRIVATE.json
