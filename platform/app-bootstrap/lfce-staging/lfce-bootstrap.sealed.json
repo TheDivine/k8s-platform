@@ -1,0 +1,50 @@
+{
+  "apiVersion": "v1",
+  "kind": "List",
+  "items": [
+    {
+      "apiVersion": "bitnami.com/v1alpha1",
+      "kind": "SealedSecret",
+      "metadata": {
+        "name": "lfce-staging-secrets",
+        "namespace": "lfce-staging"
+      },
+      "spec": {
+        "encryptedData": {
+          "DASHBOARD_ADMIN_EMAIL": "AgBZ3TbMYyHs3hoc28xtAQvHILUdbxLDh0SmidrbbOqc3c1tEbFBJLbUMDHZFmZSR+3BRXXuYZ01MNcZ/RZwjmijH/CrawS17zAWjeaHQW3ZbXhhpQrp9CeV/rWJzm4xvTUfpl2SPQx0srMroFhfiGUHiUsKFeKA4Sk7UqUy9FGYrkZ8V8r5nqIfyuOJdUMxM+/Q1Lxeq62aFKBjBsgNSxyV5eFiOkbvcY7XIHDT9qIGrTweT0RSokDStiFTE0WmvTe2BTfSyrshg3OMX6ZCvrxkPq28RsmCIZowisqXkvFHseOsAPp097v1WDGsnMk7XvY9xp/PhPS2Hht+3ELzaMZlEE/JXOIKuCmvbByuCojXBNdcWfZ284FgxYH7z9RNnXNSgVPK5EhGoW+vFi+VnB/WQLW5s4RlgDB9FtkBbTIPyh1sMoBed2Y1BTKDuj8QaSHIdEN+7NFT6+pyfHVQJ+hAri4Uon6zydfkqFRRwRQOntFWD6GRxzayX8ammWYfFfeUgi8if/qSOqFyvidhuNuF8VZERTqwPNbSjdc9Q2t1pJpgtkzmESeYkXGd8I78dMsJnd+mzAvrTLbMBErVxPqRbkwVGHuq8bwT1LafLNZxMD5Lp4JjNhYX8rAjnKyE21ccL2nGeV0ePzwyX0feUg7pTKtKdFWGg0J8YOXUJKaRx28XV+wXnAEPwWaYuj2zUx3TQ6zwhiBrq6vSlNAZTNz503hOyoM=",
+          "DASHBOARD_AUTH_KEY": "AgDSf9D4kTasQJ6EyO0XkB96lYgKLDn5dZkC6NwtelZvIP0JBNy6HKa5Pi52eIKpOBlhLRCcxrpCqGr8nKe+EQvF7dCVfFzORiR2yyIh2RDrc5sfkCbV7wpQFDnelDKxtNL7+uVQqqmnUUISg80dyAxJQPOu2wuXnMav1MaTjb4/ip/JPGDOY224/aF94rJMp51pM5DVCIJ7bp9KYQbUvsu+Gd6WLOOo4TZQ+F3HCedTkqb5RhoQ2pLJzlcbjO7CpgDtutzl5tetzlvFnvNOmzNhZkzzzwJE2FKb4uIl2rtCdOg3Tkn5AIoo/0XOM7a3NTe0pVO7whkl0j7YW+9nLY65dmFVG2Hti6Yb5dITlD8+K6ctztMvukEAITOfFjjppLzlBfxPIGSBfJFKLESmbqayYdqZfOsV5/u4kHD6i03nChaEUu5LDDrNCkn/35IM14Ox3M9pDmVSHSLnrl+YcfIS8Al+dg3MZpWWtiwUPbo6YQZp5ZPo0osvIjK351G3U6o8tddXNsGqysqR//3atz9fqHvk/q+Jd0cmGJYBtYBPSWg2RHmgFkcwePICpqNzIF0d2ys8Hj6pwsjQ5kvIayU/1HsopKNGauoWsQkdFE2NCrA7OxHIm3EN311prUS/B0f8x/QVhg46xtwLouAZIEkA2wdhVxPDAlDBVAaYNcatXzxtAnv7TVXY0qONb6wlXVoNH9r4yY6G8rIjQtFQHybShfMaKyrym31YpUr2Z6A6dTJRW+sgBngfuzZ/6Vjw9bw=",
+          "DATABASE_URL": "AgCHl03yvAPzjxLAFH10UjMvpztR03/Ov1H0Nhd0AsUA3MNuyle2ziv3hUWK3h8nxD7iCb1xWDJ41JePeDYbpj/+yIxSX6N5+K04gz6wC/+OywR+ei+PKdflPBPNYVWj9S/h5yExIe4Jd5bxRwPXb01SoSgKzpaxHMSJQuggc/i68Db3yw5MFxmhZKux9xNvySM/Et8diN4noR25Jpx3Oytax/5FCawnUP8dAiu4xDFrP6Pux9HHJMGY6hZdUt1fxH1/9p2L9avqRLKjuCANqn7p9BcocyWk6W4vZ4CUfPt5E5vjFPqGKXTEenQTtMX/4qxo0orrKjCFNzHjMU+WeVF0hX6Rr3Az8akrQqpTXjQsrDwy2vwp/zKll1hq27P4j3VYbtOOUefqU6jdKqd6fY0D3dAZU7Ioz4pPUTHKfx+VxRmiRs6HJT2y8ur5obiW3sh3IThXgFtlchAPPMpHci1gWaYRCFlDbc0+MurIr/zZvAyJkrJSKR3vVOKDLC4TOLzRvvgei0iyZwlNlUO1AVJmgiEz00YnLLepfyADm82ZPnPM4RP1R2TuTcuYuXOUzY6y6/gyxnORRav35LZqUCAK2Vt+oDjr8pPvNCqjZraSLBBxBXdbSo83Flo8/iAgLUUNwtG44SetabPRVZuUmkAXRgc7Xma4tqPTCCh7Kxo1ALVuu/pUhipqQbfEldxVWFL5+fYyl+hZDSXXcyWUAKXqP4ViDVuq4bPzUbDEStRAZ6su8LCyBRPHa1/40INcML5PP/ha0vdFnE+9/+sLDHPJ/GHh0fXi902Zgyc0rHp+2yzVJnPGuG1tT5Oyii4UbnxBwXoUzXiMoQ==",
+          "INTEGRATION_AUTH_KEY": "AgCIh70Cf0VFYdWxCYTCspvgGBUQYFDbuKMOff/GXS0jS5RxG8dbVa74AMJSRbLdeRUMYL5xV1rtUWn6hlmElkz6JZMPyphpwRoKmWolsXQBXb2dB+rB1RLxNuwFGOHn8I9pjytyoGIWE1j6udst6HMdA/8IbDjZbqCsG4PFRLyMeDpmjcWOoUNX6omRtO2pOksIVMDZb0zlprhhH377aYfrbbJ29eDuUGUB69lmb0cTza0bSm+Lx6qV5Ybb4GB6cqw+/VSo1k8tx2BUU98+LKwpuZZMP7/t5Abhqt8nE1cGxzDx8NU8zbodXsdCNpGh/XrAuWWhpPljxaPwx3wNC3wbTTi96rzD7qjbs9n54GXggaTO98mWwBN+/LiimEUecWzcn2pjnveGeHl0mHtRMqc1BB0Cg6GX9qRhPGKbPYQh23EjHz0vseQN7bsYdbHHVEZucHJD6xkUWX0xek3cAp7fK7A56nCmhiiFhc5pUuDeVZ5lNu2gbzgscg7Tmw4NVAAeoqLo4t6oJee+oWKDwKrLP6D9aEXUMetrnssPbw0y9ATBfnXClAOzigvSpSxx39zdWYS7SnEuokOl4eUhIaUyKUsHYKvfeTlqDeyG+C4p9061N3goL5a1JsR7aVS7bWXg67fqJgcReyfQXP6wdm+CIt3RhBvRYf8s1N9zEY4o/jv/3qBd1gM7Nj0Zo8QJRfZW9S049b084wbHsis4EJafOI7ov0vtk/38n3HEIUsN0DFMQRNEyrnkSjay1hu2O70=",
+          "POSTGRES_PASSWORD": "AgCWZFMsIFhlOMgtfVkuZs3kOosl6nbdXrxujk/cWVnPkHvJK8uFNSL0QYW9unMiN0T8LdwpP8fixU218kG+Yju6+03Of90Z69NBxRWp9KKcSSW8fFDpEpJx1NrnPkbWTJzPTQVzY/Y0r/yaFqiIKKOX5v5G3lo6Qr/6k8FBt0lQexq6oTGFmA45lZ4JqfPPTYuOJzU+m6kpJTu38sVahE1mgUsXX1H1rBH6cNFSRI3P2dIldeFtBK/JFFmlz0EsbKKufHBWX05iCWkMNWEEjfyHtF3ZDMAi1INHEPXGKTCZArbE6Vb66wRxyBLuzuANpDelDmZQg6ztMYpaAC8gJS47Sc61J8DVjVYqK9dgW90oQO5VxxCjRsT3Q6gsRF9DhFii8/xSXglkB5+ECw/hk8jJi7kxkIpvdawPP2PMevCqtb5Q8s79rbqKjTQaWAHniryz44rj3JoAk60zecPlGF0CFQR7hRxKub3dJdqyBNSQp1jiSUcIKp5MMZ2MB/LZfW55ksoGt2azM2B3vp05NOOUt0p0Tdqgds2tnafhBoWyDI/IcSJm8/ES4zb81821Lm+ZiCIVsoStAGHJ2cEujOvQW7AhtCSbZ+SxqX1+mw0RGcB4pAzLi9ucfJEb+F3VICGpIAdQFMgD17Yi+ZW4rajiB/rKFfBGDOLitCLxWRiF2PMUunBE5nZhmm1zhR+K1ZNE2bFW/J8sjG/ymho0qJj429tErmn5qTBOXslt1Xe6aGj65780jSVKLbts7wDlyO2zKhD7YHjghhlPOrI8gYIM"
+        },
+        "template": {
+          "metadata": {
+            "name": "lfce-staging-secrets",
+            "namespace": "lfce-staging"
+          },
+          "type": "Opaque"
+        }
+      }
+    },
+    {
+      "apiVersion": "bitnami.com/v1alpha1",
+      "kind": "SealedSecret",
+      "metadata": {
+        "name": "ghcr-pull",
+        "namespace": "lfce-staging"
+      },
+      "spec": {
+        "encryptedData": {
+          ".dockerconfigjson": "AgBM9vpnE9nsTw+CFk4GHMiz8hNT2aNViFqcdvscbu0a2NNwaqduUXWoImVxc/EA2Rjn+EZ0HXqLdq2uXVq7H36Q3AvzQbWvG85KI4u4wO/li5UBmSKbOJpyRSoQYfFZQzn/W2wid8WuYVSApm1ylBpBVIujVYkxipDX9CK9weScF4u9pyX1qjbd3lQ67aeU5P+EXws2Qs1E6nB2Y4S2yKgbXh/hA1PBSZWD7WsTxqMtNUsIIL7LzRrUOPbG4gKe0kgPy8E54Ug0d3pjOiQogo+wZkt1NNod+ttsNlqvVs6aCicMCPFFwiY4cyLqoZ0Wdgyh3op2wbzdbEgnG6RIfCOJmRyD4YjxwhXURddgFxUUEhrrf328YijamDkGsNa9hgWsldaHr7/HdJVBp3vOD6+68CWoG8xzWn4ibedh8aJQ6liNoBbLiCJeKB9VXHCtIGzZGGGma8pFwQzSjTR19Fw43vAuZjuL0d74Sv2yXBCxsd9uC/DZmne365hQN+YDj+7FhJALW+qxPe5BDqtasKDShoZSBX+5tIMlcopkBRGjhAfc4gU2VQsUYnTqTL+ypxqdoYEi7HOlC/RFCQSdZhFALIaDJz6m9z51yQJEqWcWiGPY+seMRs3vED20V2+QPuFSkUoflJ7LzVzvdGM9zDGAq0rp6G0evQb0CVZGOy9t9OoPZViFCvOgjE3acUas/HODX9Hlksw6jIzpZtdu3/RtpBaDftaPEnfabZ+Jb5LoU/PtAL4lcYynCyMI5OYtP3C2IaoXw41nWGi/KTgSm+Zxgs98h2IVfJyphfY7bGBxhVEW9g8G6RPcELpb3WDRgMfFpx9QfXHzpw=="
+        },
+        "template": {
+          "metadata": {
+            "name": "ghcr-pull",
+            "namespace": "lfce-staging"
+          },
+          "type": "kubernetes.io/dockerconfigjson"
+        }
+      }
+    }
+  ]
+}

@@ -1,11 +1,12 @@
 # LFCE private staging
 
-Prepared for owner-operated bootstrap. These files are not registered for
-deployment until the encrypted credentials and server validation are complete.
+Prepared for owner-operated bootstrap. Flux registers only the namespace and
+encrypted credentials. The application bundle is NOT registered with Argo;
+workload deployment waits for successful decryption and server validation.
 
 ## Ownership
 
-Flux will own namespace and SealedSecrets through
+Flux owns namespace and SealedSecrets through
 `platform/app-bootstrap/lfce-staging`. Argo will read this public platform
 repository at `apps/lfce-staging`. No private LFCE Git deploy key is needed.
 The application source remains private in TheDivine/lfce_app; only reviewed
@@ -17,6 +18,11 @@ origin certificate. The issuer's name does not make this a production app.
 Providers remain mock, with a single operator login. No client accounts.
 
 ## Owner bootstrap
+
+The owner's encrypted bootstrap has been returned and added to Git. Do not
+regenerate credentials. Preserve the matching private operator credentials
+on the admin server; proceed to the verification section below after merge.
+The generation instructions remain here for reference, not for routine reruns.
 
 Run the standalone `prepare_credentials.py` on the admin server with Python 3,
 kubectl and kubeseal. Supply an explicit context. The helper checks API access,
@@ -41,13 +47,13 @@ prevent accidental password regeneration. The helper never applies resources.
 
 ## Activation after returned credentials
 
-1. Validate the encrypted List contains exactly `lfce-staging-secrets` and
-   `ghcr-pull`, scoped strictly to `lfce-staging`; add it to bootstrap resources.
-2. Register a Flux Kustomization following `landing-page-bootstrap.yaml`:
-   name `lfce-staging-bootstrap`, path `./platform/app-bootstrap/lfce-staging`,
+1. Completed in the bootstrap change: validated exactly `lfce-staging-secrets`
+   and `ghcr-pull`, scoped strictly to `lfce-staging`, with encrypted values only.
+2. Completed in the bootstrap change: registered Flux Kustomization
+   `lfce-staging-bootstrap`, path `./platform/app-bootstrap/lfce-staging`,
    source `flux-system`, `prune: false`, `wait: true`.
-3. Merge the bootstrap-only change, then require Flux Ready and both
-   SealedSecrets Synced. Do not add application registration before decryption.
+3. After merge, require Flux Ready and both SealedSecrets Synced using the
+   commands below. Do not add application registration before decryption.
 4. From this reviewed checkout, run server dry-runs for `apps/lfce-staging`
    and `apps/lfce-staging/migration`. Also server-dry-run rendered Pod
    templates to catch admission policies that are not autogen-enabled.
@@ -71,6 +77,39 @@ kubectl -n lfce-staging get pods,pvc,certificate,ingress
 Do not rerun a failed migration blindly. It is excluded from normal Argo sync.
 These PostgreSQL settings initialize a NEW database under `data/pgdata`.
 Existing LFCE PVCs require inspection and backup, never automatic reinitialization.
+
+## Verify the bootstrap on the admin server
+
+First confirm `kubectl config current-context` is the intended cluster. Flux
+will pick up main automatically. If the Flux CLI is installed, this optional
+command requests an immediate refresh of the existing root reconciliation:
+
+```bash
+flux reconcile kustomization flux-system --with-source
+```
+
+Wait until `lfce-staging-bootstrap` appears, then run these checks in order.
+Stop and investigate if a wait fails; do not continue to application activation.
+
+```bash
+kubectl -n flux-system get kustomization lfce-staging-bootstrap
+kubectl -n flux-system wait --for=condition=Ready kustomization/lfce-staging-bootstrap --timeout=5m
+kubectl -n lfce-staging wait --for=condition=Synced sealedsecret/lfce-staging-secrets sealedsecret/ghcr-pull --timeout=2m
+kubectl -n lfce-staging get sealedsecrets
+kubectl -n lfce-staging get secret lfce-staging-secrets ghcr-pull
+kubectl -n lfce-staging get pods,pvc
+```
+
+The last command should show no application Pods or PVCs at this stage.
+The two Secrets should exist with types `Opaque` and
+`kubernetes.io/dockerconfigjson`. Share only this status output, never Secret
+YAML, decoded values, or `operator-credentials.PRIVATE.json`.
+
+If decryption fails, inspect the SealedSecret status on the server and confirm
+the correct controller key is still present. Do not regenerate the database
+password or delete controller keys. Kyverno validates admission; the
+SealedSecrets controller decrypts credentials; Flux applies the encrypted
+objects from Git. These are separate responsibilities.
 
 ## Acceptance and maintenance
 
