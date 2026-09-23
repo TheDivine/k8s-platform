@@ -12,3 +12,4 @@ resources:
   - kyverno-policies.yaml
   - landing-page-bootstrap.yaml
   - processlayer-mail-relay-bootstrap.yaml
+  - lfce-staging-bootstrap.yaml

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lfce-staging
+  labels:
+    app.kubernetes.io/name: lfce
+    platform.cyberlynx.io/environment: staging
