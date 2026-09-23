@@ -32,7 +32,7 @@ spec:
             name: lfce-config
         - secretRef:
             name: lfce-staging-secrets
-        image: ghcr.io/thedivine/lfce-backend:71059fcf5f1885d259b6bcf355985b8f9e955bc1@sha256:0c247e953580f3adbbd06fdf93419f71a5c204662e991e9cdd684bf9a32920e5
+        image: ghcr.io/thedivine/lfce-backend@sha256:7f8b44fe126645938bc4ed54888bf77d248cd354df4660a3e9eca0af44b235b0
         imagePullPolicy: IfNotPresent
         name: migrate
         resources:

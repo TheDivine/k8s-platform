@@ -15,8 +15,8 @@ import urllib.request
 
 NAMESPACE = 'lfce-staging'
 IMAGES = {
-    'thedivine/lfce-backend': 'sha256:0c247e953580f3adbbd06fdf93419f71a5c204662e991e9cdd684bf9a32920e5',
-    'thedivine/lfce-frontend': 'sha256:31386e72decf718533af79afdf6f650fc3dee5059af9fdaa556c1cbd0ebf5a24',
+    'thedivine/lfce-backend': 'sha256:7f8b44fe126645938bc4ed54888bf77d248cd354df4660a3e9eca0af44b235b0',
+    'thedivine/lfce-frontend': 'sha256:1bddf5ed8a9525c2b16b62ef703eac4dfce0d76f0703aee89c9cc357362db763',
 }
 APP_KEYS = {'DATABASE_URL', 'POSTGRES_PASSWORD', 'DASHBOARD_ADMIN_EMAIL',
             'DASHBOARD_AUTH_KEY', 'INTEGRATION_AUTH_KEY'}

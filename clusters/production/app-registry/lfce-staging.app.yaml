@@ -1,0 +1,6 @@
+app:
+  name: lfce-staging
+  repoURL: https://github.com/TheDivine/k8s-platform.git
+  revision: main
+  path: apps/lfce-staging
+  namespace: lfce-staging

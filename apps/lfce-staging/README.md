@@ -1,8 +1,9 @@
 # LFCE private staging
 
-Prepared for owner-operated bootstrap. Flux registers only the namespace and
-encrypted credentials. The application bundle is NOT registered with Argo;
-workload deployment waits for successful decryption and server validation.
+Prepared for owner-operated staging. The activation branch includes an Argo
+registration, but it takes effect ONLY after an explicitly approved merge to
+main. Merging that registration starts deployment automatically. Follow
+[the activation checklist](ACTIVATION.md); do not merge merely to save this work.
 
 ## Ownership
 
@@ -57,7 +58,7 @@ prevent accidental password regeneration. The helper never applies resources.
 4. From this reviewed checkout, run server dry-runs for `apps/lfce-staging`
    and `apps/lfce-staging/migration`. Also server-dry-run rendered Pod
    templates to catch admission policies that are not autogen-enabled.
-5. Add `clusters/production/app-registry/lfce-staging.app.yaml`:
+5. Review `clusters/production/app-registry/lfce-staging.app.yaml`:
    repoURL `https://github.com/TheDivine/k8s-platform.git`, revision `main`,
    path `apps/lfce-staging`, name/namespace `lfce-staging`.
 6. Merge application registration, wait for PostgreSQL Ready, then run:
@@ -120,14 +121,20 @@ mailbox before accepting applications. Use an access policy for private beta.
 Back up PostgreSQL AND the founder-profile PVC and test restoration before
 storing valuable client data.
 
-Current indexes: backend `sha256:0c247e953580f3adbbd06fdf93419f71a5c204662e991e9cdd684bf9a32920e5`;
-frontend `sha256:31386e72decf718533af79afdf6f650fc3dee5059af9fdaa556c1cbd0ebf5a24`.
+Current indexes: backend `sha256:7f8b44fe126645938bc4ed54888bf77d248cd354df4660a3e9eca0af44b235b0`;
+frontend `sha256:1bddf5ed8a9525c2b16b62ef703eac4dfce0d76f0703aee89c9cc357362db763`.
 Both contain amd64/arm64 images from LFCE commit
-`71059fcf5f1885d259b6bcf355985b8f9e955bc1`. Fresh scan evidence and live
-admission validation are required before activation.
+`074fc933c3aefabeb71d6ba85c86588cfff12164`. Publication and blocking Trivy
+checks passed in LFCE Actions run 35922283349 on September 23. The pipeline
+scans on amd64; it does not establish an independent arm64 scan result.
+The operator confirmed namespace/secrets and manifest/six-Pod admission
+dry-runs on the preceding bundle. This branch changes only application image
+references within the workload manifests, not Pod security or storage settings.
 
 LFCE `scripts/export_staging.py <platform-checkout>` regenerates only the
 application/migration bundles and helper. Review the public diff before pushing.
+The LFCE source overlay still has older release pins: do not re-export it over
+this release until those source pins are deliberately updated and reviewed.
 Deployed desired state is this platform bundle; merging LFCE source alone
 does not update the deployment. Do not also register the private LFCE overlay.
 
