@@ -37,6 +37,33 @@ needed. Flux continues to own only the namespace and encrypted secrets.
 
 ## Before approving
 
+### Observed first-rollout issues
+
+The owner confirmed Traefik runs in namespace `traefik`, not `kube-system`.
+The original frontend/backend ingress peers therefore did not allow this
+controller. This repair replaces those two namespace selectors only; default
+deny, internal backend access, database/cache rules and ports remain intact.
+Frontend loopback GET /login returned 200 while public HTTPS returned 504.
+Certificate issuance completed successfully; do not weaken Cloudflare TLS.
+After the approved repair merge, retest public /login, /health and /readyz.
+Admission dry-runs and Ready Pods do not establish cross-Pod connectivity.
+
+The worker's PostgreSQL 42P01 error (`generation_jobs` does not exist) is a
+separate first-migration issue. Backend liveness and database connectivity can
+pass before schema initialization. Run the migration below once; do not recreate
+PostgreSQL, rotate credentials or delete volumes. After Job completion, inspect
+recent worker logs for new errors, not only historical pre-migration entries.
+
+Offline policy regression checks (Python 3 with PyYAML):
+
+```bash
+python3 -m unittest discover -s apps/lfce-staging -p 'test_*.py'
+```
+
+These assert policy structure, not live CNI enforcement. The source LFCE overlay
+also retains the old ingress namespace; do not overwrite the reviewed platform
+bundle with an unreviewed source export.
+
 Review this PR's diff and its local validation evidence. The platform repository
 has no automated PR checks; source image CI is separate evidence. Confirm the
 server is still the intended cluster and credentials have not been rotated:
