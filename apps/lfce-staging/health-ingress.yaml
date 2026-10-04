@@ -1,0 +1,38 @@
+# Exact health routes must outrank the frontend catch-all in Traefik.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lfce-health
+  namespace: lfce-staging
+  labels:
+    app.kubernetes.io/instance: lfce-staging
+    app.kubernetes.io/name: lfce
+    platform.cyberlynx.io/environment: staging
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: 'true'
+    traefik.ingress.kubernetes.io/router.priority: '100'
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: lfce-app.xn--cyberlnx-ykb.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: lfce-backend
+            port:
+              name: http
+        path: /health
+        pathType: Exact
+      - backend:
+          service:
+            name: lfce-backend
+            port:
+              name: http
+        path: /readyz
+        pathType: Exact
+  tls:
+  - hosts:
+    - lfce-app.xn--cyberlnx-ykb.com
+    secretName: lfce-app-staging-tls
