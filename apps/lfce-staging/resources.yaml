@@ -210,7 +210,7 @@ spec:
             name: lfce-config
         - secretRef:
             name: lfce-staging-secrets
-        image: ghcr.io/thedivine/lfce-backend@sha256:7f8b44fe126645938bc4ed54888bf77d248cd354df4660a3e9eca0af44b235b0
+        image: ghcr.io/thedivine/lfce-backend@sha256:03805bb45b765ea149f70bf0cc604254ed99f41caa21ae9d353dd8e3123271c8
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 6
@@ -369,7 +369,7 @@ spec:
             configMapKeyRef:
               key: DASHBOARD_SESSION_TTL_MS
               name: lfce-config
-        image: ghcr.io/thedivine/lfce-frontend@sha256:1bddf5ed8a9525c2b16b62ef703eac4dfce0d76f0703aee89c9cc357362db763
+        image: ghcr.io/thedivine/lfce-frontend@sha256:aefe0f4aea486904a9481cbe9da98c1e58c2ceaff85f5cae27022578fbe03ec7
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 6
@@ -462,7 +462,7 @@ spec:
             name: lfce-config
         - secretRef:
             name: lfce-staging-secrets
-        image: ghcr.io/thedivine/lfce-backend@sha256:7f8b44fe126645938bc4ed54888bf77d248cd354df4660a3e9eca0af44b235b0
+        image: ghcr.io/thedivine/lfce-backend@sha256:03805bb45b765ea149f70bf0cc604254ed99f41caa21ae9d353dd8e3123271c8
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 6
