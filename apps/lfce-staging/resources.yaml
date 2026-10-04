@@ -822,20 +822,6 @@ spec:
         pathType: Prefix
       - backend:
           service:
-            name: lfce-backend
-            port:
-              name: http
-        path: /health
-        pathType: Exact
-      - backend:
-          service:
-            name: lfce-backend
-            port:
-              name: http
-        path: /readyz
-        pathType: Exact
-      - backend:
-          service:
             name: lfce-frontend
             port:
               name: http
