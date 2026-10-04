@@ -80,6 +80,14 @@ class IngressRouteTests(unittest.TestCase):
             self.assertFalse(any(matches(path, requested) for ingress, path
                                  in self.routes if ingress is health))
 
+    def test_original_ingress_remains_the_only_dns_source(self):
+        health = self.ingresses['lfce-health']['metadata']['annotations']
+        original = self.ingresses['lfce']['metadata']['annotations']
+        self.assertEqual(health['external-dns.alpha.kubernetes.io/controller'], 'ignore')
+        self.assertEqual(original['external-dns.alpha.kubernetes.io/hostname'], HOST)
+        self.assertEqual(original['external-dns.alpha.kubernetes.io/target'], '69.30.233.178')
+        self.assertNotIn('external-dns.alpha.kubernetes.io/controller', original)
+
     def test_tls_class_and_entrypoint_are_shared(self):
         expected_tls = [{'hosts': [HOST], 'secretName': 'lfce-app-staging-tls'}]
         for ingress in self.ingresses.values():

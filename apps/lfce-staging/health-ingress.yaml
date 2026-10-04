@@ -9,6 +9,7 @@ metadata:
     app.kubernetes.io/name: lfce
     platform.cyberlynx.io/environment: staging
   annotations:
+    external-dns.alpha.kubernetes.io/controller: ignore
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: 'true'
     traefik.ingress.kubernetes.io/router.priority: '100'
