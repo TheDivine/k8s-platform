@@ -5,12 +5,20 @@ metadata:
   namespace: argocd
 spec:
   description: Reviewed production applications generated from the Git app registry.
+
+  # Zero Trust / least-privilege boundary: only repositories explicitly
+  # onboarded to production are trusted as application sources.
   sourceRepos:
-    - https://github.com/TheDivine/*
-    - ssh://git@github.com/TheDivine/*
+    - https://github.com/TheDivine/k8s-platform.git
+
+  # Keep destinations explicit. Add a namespace here as part of the same
+  # review that adds its app-registry entry.
   destinations:
-    - namespace: "*"
+    - namespace: landing-page-service
       server: https://kubernetes.default.svc
+
+  # Applications may create only their reviewed namespace as a cluster-scoped
+  # resource. Other cluster-scoped resources remain denied by the project.
   clusterResourceWhitelist:
     - group: ""
       kind: Namespace
