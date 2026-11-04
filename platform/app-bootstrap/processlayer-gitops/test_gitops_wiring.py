@@ -40,9 +40,9 @@ class GitOpsWiringTests(unittest.TestCase):
     def test_same_existing_applications_without_duplicate_registry_owner(self):
         output = subprocess.check_output(["kubectl", "kustomize", str(ROOT / "platform/app-bootstrap/processlayer-applications")], text=True)
         applications = list(yaml.safe_load_all(output))
-        # Initial credential repair resumes only staging. Production's reference
-        # remains outside the package until its unsafe old schema Job is replaced.
-        self.assertEqual({item["metadata"]["name"] for item in applications}, {"processlayer"})
+        # This follow-up includes both existing names after the separately
+        # recorded staging/safe-production release gates. Never add duplicates.
+        self.assertEqual({item["metadata"]["name"] for item in applications}, {"processlayer", "processlayer-prod"})
         for app in applications:
             self.assertEqual(app["kind"], "Application")
             self.assertEqual(app["metadata"]["namespace"], "argocd")

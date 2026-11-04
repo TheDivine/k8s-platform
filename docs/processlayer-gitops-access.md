@@ -1,8 +1,12 @@
 # ProcessLayer repository access through Flux and Argo CD
 
-Prepared 4 November 2026. The existing ProcessLayer Applications cannot compare
-Git because their HTTPS repository credential is invalid. This repair belongs
-to the platform repository. It does not deploy with a direct Kubernetes patch.
+Updated 4 November 2026. Invalid HTTPS repository credentials prevented Argo from
+comparing ProcessLayer Git state. Platform
+[PR #21](https://github.com/TheDivine/k8s-platform/pull/21) merged as
+`c21ff3f31e37f8536b0feb369aee75504552a728`, declaring the new repository credential
+and **staging-only** SSH access. This follow-up is local preparation to extend
+the same access to the existing production Application, subject to the gate
+below. No direct Kubernetes patch is used.
 
 ## Exact ownership and scope
 
@@ -12,15 +16,14 @@ to the platform repository. It does not deploy with a direct Kubernetes patch.
   and a newly generated repository-only deploy key.
 - The public half is registered **read-only** on
   `TheDivine/processlayer-ai`. It is not a personal SSH key or account token.
-- This first activation declares only the existing staging Application
-  `processlayer`, with its existing project, path, namespace, main revision and
-  automated sync settings. Argo still owns application workloads.
-- `production.yaml` is an **unreferenced preparation file** for the existing
-  `processlayer-prod` Application. Restore production's SSH access only in a
-  follow-up platform commit after staging acceptance and the safe production
-  hook release are merged in the application repository. Restoring access now
-  would let automatic sync resume the legacy seed-capable production Job.
-- The staging URL becomes `git@github.com:TheDivine/processlayer-ai.git`. The old HTTPS
+- PR #21 declares the existing staging Application `processlayer`, preserving
+  its project, path, namespace, main revision and automated sync settings.
+- This follow-up adds the already-prepared `production.yaml` for the existing
+  `processlayer-prod` Application to the package. It preserves the corresponding
+  production settings. Do not publish/merge it until staging acceptance and the
+  safe production-hook release are proven. Early access restoration could let
+  automatic sync resume the legacy seed-capable production Job.
+- The repository URL is `git@github.com:TheDivine/processlayer-ai.git`. The old HTTPS
   credential entry is left unused; no existing Secret is adopted or overwritten.
 - No new ApplicationSet entry is added for either name. Confirm the live
   Applications have no competing declarative owner or source/image overrides
@@ -106,13 +109,48 @@ candidate has reconciled. Before publishing/merging this activation:
    reads the SSH URL, comparison succeeds and its revision advances. Preserve
    normal SSH host-key verification; never enable insecure SSH/TLS flags.
 
-Restoring repository access resumes staging's already-enabled automatic sync
-to main. Production stays on its current HTTPS reference during this first
-activation. After staging acceptance and the safe production release merge,
-add `production.yaml` to the Application package in a reviewed follow-up and
-update the activation guard test to expect both names. Review the complete main
-desired state before either merge. Repository access success does not prove a
-healthy app, database migration, backup or DF enquiry flow.
+Restoring repository access resumes each Application's already-enabled automatic
+sync to main. PR #21 deliberately leaves production's current HTTPS reference
+alone. This locally prepared follow-up includes `production.yaml` and updates
+the activation guard test to expect both names. Review the complete application
+main desired state before publishing/merging it. Repository access success does
+not prove a healthy app, database migration, backup or DF enquiry flow.
+
+## Production follow-up gate — verified prerequisites
+
+The following prerequisite checks are verified. They authorize the reviewed
+platform follow-up; they do not claim production reconciliation or a completed
+production enquiry. No key generation, rotation or additional GitHub access is
+required.
+
+| Gate | Evidence |
+| --- | --- |
+| Platform staging repair merged | PR #21, `c21ff3f31e37f8536b0feb369aee75504552a728` |
+| Exact repository deploy key approved and registered read-only | GitHub key `168781237`; verified fingerprint recorded below |
+| Credential works; Flux-managed staging Argo SSH comparison succeeds at intended revision | Verified: Flux controller Apply ownership on the existing Application; Argo `Synced`/`Healthy` at `f2c99cda513fdbea4964685a1c38bd034ec7bb66`, completed `2026-11-04T17:00:00Z` |
+| Staging DF enquiry saved under the intended founder, with one lead after retry | Verified by two identical POSTs, authenticated API read-back and exactly one matching dashboard row; acceptance record below |
+| Safe production release merged in application main | [ProcessLayer PR #10](https://github.com/TheDivine/processlayer-ai/pull/10), merge `519a3c45218efa734a5eec03f9cbfb6ffbc5854d`; final-head `b8d81069` checks passed in [CI run 41875386121](https://github.com/TheDivine/processlayer-ai/actions/runs/41875386121) |
+| Complete production desired state reviewed before restoring automatic sync | Read-only GitHub verification confirmed exact main `519a3c45218efa734a5eec03f9cbfb6ffbc5854d`, retained PVC/backup restore hook at Sync wave -2, fail-closed no-seed schema hook at -1, independently pinned schema image, signed v0.2.3 API/web digests and DF owner wiring; CI includes full rendered preservation/rollback checks |
+
+Staging acceptance used labelled synthetic request
+`5edaa949-4b8f-4910-a3ac-b5e1e07960da`. Two identical submissions both returned HTTP
+201 and the same record ID:
+`df-5edaa949-4b8f-4910-a3ac-b5e1e07960da-9bb505fcb5553c9eb3f4c92e96c53aaf`.
+Authenticated dashboard filtering found exactly one matching company row. API
+read-back confirmed owner `5fdcceda-3057-4a03-9f67-fa4db049360c`, matching the
+existing `admin@processlayerai.com` founder, status `NEW`, source
+`dfmarketsolutions.com`, service `other`, and the submitted synthetic message
+and email. No real prospect data or outreach was used. This establishes staging
+persistence, ownership and retry deduplication; it is not production evidence.
+
+The production application release is merged, but its repository-access
+activation and runtime checks remain separate. Successful final-head CI and
+the merge are not evidence that production has executed the new hooks yet.
+
+With those prerequisites verified, publish/review the platform follow-up that changes only the
+Application package inclusion, its guard test and this record. Observe production
+comparison and reconciliation; then verify the backup/restore/schema hooks and
+actual DF lead flow. Preserve residual unrelated degradation in the report.
 
 The unrelated production application SealedSecret ownership failure and old
 backup Job remain separately reported. This change must not adopt/regenerate
