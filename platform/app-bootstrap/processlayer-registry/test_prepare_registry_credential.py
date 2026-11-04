@@ -147,6 +147,33 @@ class PreparationTests(unittest.TestCase):
             helper.validate_sealed(json.loads(output.read_text()))
             self.assertEqual([args[0] for args in seen], ["openssl", "kubeseal"])
 
+    def test_staging_uses_separate_ciphertext_and_strict_namespace(self):
+        value = sealed_fixture()
+        value["metadata"]["namespace"] = "processlayer"
+        value["spec"]["template"]["metadata"]["namespace"] = "processlayer"
+        helper.validate_sealed(value, "processlayer")
+        with self.assertRaises(helper.SafeFailure):
+            helper.validate_sealed(value)
+        with tempfile.TemporaryDirectory() as temporary:
+            folder = Path(temporary)
+            cert = folder / "public.pem"
+            cert.write_text("-----BEGIN CERTIFICATE-----\nfixture-public-only\n")
+            original = folder / helper.SEALED_FILE
+            original.write_text("preserve-production-ciphertext")
+            def command(args, payload=None):
+                if args[0] == "openssl":
+                    return b""
+                self.assertEqual(json.loads(payload)["metadata"], {"name": helper.NAME, "namespace": "processlayer"})
+                self.assertIn("strict", args)
+                return json.dumps(value).encode()
+            auth = base64.b64encode((helper.OWNER + ":" + DUMMY).encode()).decode()
+            with patch.object(helper, "command", side_effect=command), patch.object(helper, "read_token", return_value=DUMMY), patch.object(helper, "verify_access", return_value=auth):
+                output = helper.prepare(cert, folder, "processlayer")
+            self.assertEqual(output.name, "staging-" + helper.SEALED_FILE)
+            self.assertEqual(original.read_text(), "preserve-production-ciphertext")
+            helper.validate_sealed(json.loads(output.read_text()), "processlayer")
+            self.assertNotIn(DUMMY, output.read_text())
+
     def test_existing_output_and_symlink_refused_before_token_prompt(self):
         with tempfile.TemporaryDirectory() as temporary:
             folder = Path(temporary)
