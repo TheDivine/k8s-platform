@@ -28,7 +28,7 @@ class GitOpsWiringTests(unittest.TestCase):
             self.assertIs(resource["spec"]["wait"], True)
             self.assertEqual(resource["spec"]["sourceRef"], {"kind": "GitRepository", "name": "flux-system"})
             self.assertNotIn("force", resource["spec"])
-        self.assertEqual(applications["spec"]["dependsOn"], [{"name": "processlayer-gitops-credentials"}, {"name": "processlayer-registry-credentials"}])
+        self.assertEqual(applications["spec"]["dependsOn"], [{"name": "df-enquiry-smtp"}, {"name": "processlayer-gitops-credentials"}, {"name": "processlayer-registry-credentials"}])
         checks = credentials["spec"]["healthCheckExprs"]
         self.assertEqual(checks[0]["kind"], "SealedSecret")
         self.assertIn("exists", checks[0]["current"])
