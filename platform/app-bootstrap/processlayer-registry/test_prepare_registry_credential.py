@@ -222,6 +222,7 @@ class WiringTests(unittest.TestCase):
         root = yaml.safe_load((ROOT / "clusters/production/kustomization.yaml").read_text())
         self.assertIn("processlayer-registry-credentials.yaml", root["resources"])
         helper.validate_sealed(json.loads(Path(__file__).with_name(helper.SEALED_FILE).read_text()))
+        helper.validate_sealed(json.loads(Path(__file__).with_name("staging-" + helper.SEALED_FILE).read_text()), "processlayer")
         apps = yaml.safe_load((ROOT / "clusters/production/processlayer-applications.yaml").read_text())
         self.assertIn({"name": "processlayer-registry-credentials"}, apps["spec"]["dependsOn"])
         production = yaml.safe_load((ROOT / "platform/app-bootstrap/processlayer-applications/production.yaml").read_text())
@@ -232,10 +233,16 @@ class WiringTests(unittest.TestCase):
             folder = Path(temporary)
             (folder / "kustomization.yaml").write_text(Path(__file__).with_name("kustomization.yaml").read_text())
             (folder / helper.SEALED_FILE).write_text(json.dumps(sealed_fixture()))
+            staging = sealed_fixture()
+            staging["metadata"]["namespace"] = "processlayer"
+            staging["spec"]["template"]["metadata"]["namespace"] = "processlayer"
+            (folder / ("staging-" + helper.SEALED_FILE)).write_text(json.dumps(staging))
             rendered = subprocess.check_output(["kubectl", "kustomize", str(folder)], text=True)
             resources = list(yaml.safe_load_all(rendered))
-            self.assertEqual(len(resources), 1)
-            helper.validate_sealed(resources[0])
+            self.assertEqual(len(resources), 2)
+            self.assertEqual({r["metadata"]["namespace"] for r in resources}, {"processlayer", "processlayer-prod"})
+            for resource in resources:
+                helper.validate_sealed(resource, resource["metadata"]["namespace"])
             self.assertNotIn(DUMMY, rendered)
 
 
