@@ -16,3 +16,4 @@ resources:
   - processlayer-gitops-credentials.yaml
   - processlayer-registry-credentials.yaml
   - processlayer-applications.yaml
+  - df-enquiry-smtp.yaml
