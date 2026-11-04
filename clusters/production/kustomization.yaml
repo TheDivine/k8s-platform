@@ -13,3 +13,5 @@ resources:
   - landing-page-bootstrap.yaml
   - processlayer-mail-relay-bootstrap.yaml
   - lfce-staging-bootstrap.yaml
+  - processlayer-gitops-credentials.yaml
+  - processlayer-applications.yaml

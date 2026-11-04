@@ -1,0 +1,26 @@
+{
+  "kind": "SealedSecret",
+  "apiVersion": "bitnami.com/v1alpha1",
+  "metadata": {
+    "name": "processlayer-gitops-repository",
+    "namespace": "argocd"
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "name": "processlayer-gitops-repository",
+        "namespace": "argocd",
+        "labels": {
+          "argocd.argoproj.io/secret-type": "repository"
+        }
+      },
+      "type": "Opaque"
+    },
+    "encryptedData": {
+      "project": "AgAoc86Zm9O6NBeBbGy0MjrlTztNqJNh15jmAE1VYBmI0LFH3KMD9vwjy/PhuI9LMVur9FWMhTYFhvYYMzE8TWEnCBCz6ChCncOdqYIgzdF0FmJaZHr2kPAJis8xITDLD3U8dVD7UOlJ/tW05Hq85sedW/B0VSh2RIt5U4DfqRFZzVEM3kfcozBzjJEpyR7r9cXJbcpeDKxvyxkymXn5Aectiu5n7RjJN5MOC1ZPKoxAyosZ4xKe8xSW+66a8BbdJlxA4/bTTmQI+zLHk8bsGsxf4RwleZPZW6tSmwolzrq8LG8Ylvryh1+hK1WVadNzpAlwwR64msycU302p6T46/q7jPEayvqcV557/+Z6GKDtk82Dbj+ghPwZXTBktDbqo/3A9XPl/i/8E2IMqP4iVP1bxySd/ZFCm3gvw1wv6ZFbw+gXiyHJCbjYUrEwQ0+41bLdW00ivmOfX3ayYC5Pkg1qfhodyh38Sx35DkwZuS58t6BIymcMqlDJj9cX3wBsgBr3KgDLvN8dsPWmAtpQknS8MCIgRX1RN+uGf4/YHTdy+R8/7NLrCyLWeehEygowiWRvbWy1Mn2OnrUTRlmDiE680E0KkOXHCL4cq6odOsGYbB+V+UNgA5QUIg2Vg4kDrcmECDCRSnGNATiKcaRqDEoAjq8NW4Pp1Am1NVMYbQPRAMbLZ6/ja5/CNdNR6wamiBWGAPJcWiCl",
+      "sshPrivateKey": "AgCakHKAfiU84btc3PUZhvvcZ0qolYElNmyenMk38FmYTgYUMjLzDANF2RN77kdhvlcbCq7wyXcjCpbP2SrjoIzfMLm7i/IbcavTFTDS9301/1px0Cic9uHhoAq7lKqeMKRG4jH68n8lJLzzekNq4dtvKpz7H/a3ABySt+ao0NhUCAYNFnHy1Hv3y7pJobVtk++Rcn6IPCe8X5OYPiPkcCsMXfIyFI5sK5aqEpLjYfGakqBfyAKt7/sQVeUEKE8sqCiG1EiRJpf1vMVAYnlVFlIgvXYf7Hy7xVXbz0yOItVeJd5nk65+MbIkqOP9F1wBBYVQZJjv/2pKcYXo2KwXs+8sx3j19eXBLYakezqdyUSRntuDR0ekAWc9mBfB5+Ud92f+XV1pm+BogogrMjPbWj3AlTPCfkrFkCYYFVoeiyLI/XHo54fpm2Mq3s0iE9W1SNeZZsEC+SymNVuTof2qoK8/SX33dGi+BHPrlMZA2tcrBigPDKI++p7pOiC9XflwPX7Im8xYSFkV6pwiXvRb+IhAgMv+BVsKOsSxB10Cil1TV7aDlFmfLkDDmUWJoQcPLIsYOKJZNZEWpEQvAEPo3QrV5eKL1zfLkquRhNk4dspACWGlU/ykbSAGCjGDYShvD9lgJ1jGV+bAccmDZ/gnD2d88/F5HRfESBzf7VBHW68mgUPHHFPB7oHH+vYwY8qeEr/q+GogGIGwXQTXOKIZpm42oXc2nLN+ahRa3Gvdews9tfAA7+G6icF3IPp7+88p1G8cApSf1xlOwkkAFEwwAovRmbVfFgpiRb+9Idpmqnsafyu0pzIqlvbMixVstFWwOHYldQeNP5u9lgN0n9vOcb8WSM8we9iYSOvjEbAzxU7LDbjgpf92EiqzXLlF3K9U/aONMbbZHZnukUXE71s4eXBnWc3rj2ZAHqnzy4pczsx7bx5fV193kOUGoi9xURolstzXcuNe/ACCPGjw4SvP35rAqQy67E3orjPg2miB1knnFfz8WwjxcB2ErfER1jns3nYgzMS0R3n8sQGDhOl4HR+ldmGrUL/J6JvEHkux/5anjhhFsirLrepYLaT7RFjAHSYdY+ozIdS61CDamZ1lKYB4WDh4KtvtVtbHI6JN7MV0tXwWnxOcmN0nUkTQ3jI8H6v3gO7Mk883v1S7EWbcM/hY5s4Cbul7zB51P+V1tlc8mWc9CUBwH8Uasoj/XS7yD1BLIzKK25BPjbjCvUi+AtkvYf1AyoIicKm6wgeCgXxxk5vY+U4X1xbs6dv7n7/aGbU=",
+      "type": "AgATWQ4qN7L/0lt+nRZ6z2TSgz+1ozlpEEUOy7m1zjTuYuJDzAn+32suBzLhJcv63CHInllJ1Uy4+WBmdjaoq6CIMZGs/Me7kreTBwpedEZbkWddGLSv1AnrhhKiSiJFWHE0Kl+I4y5Rl/vN40jCsl21dfqIPsbvThXlNTBivoozjASY6gJ+hF469Z5Ux+FQXxfF/0o2EeK9hfIoo2mgZkatkM3nthkhQLhOl5d6Mljj8v7elczLo+8basvWahQaEOOiaczSpliI3xfmUCla5t7/ZrSsesZ2y4ZVOZ8BSZinH/yadgRZOMkLgO6Upg6YahndYIX73oc84M+dO4fIZQQgt1svn6SlRLDw22o7eL+jPEOzYQ0UvvTC5njtETGhbtPzcw3gBylubGbFUSfdw9bm1iuy1CgPSJ7pt+IpT/jDSopdmcIDEv8z+huY9E2vzK2uDorl9jmTCUpB6yrbwWxAuDZaZXXx/fMULBWoTfCVPHNnD71xPNkBz/tI9NKP2a7t0iaUd4Gp/QrTAfXq+mwe70pD+ecq0OVxLeM2GuDC73V+UCnbzroD8rdPw46+GbQebak9S7rnxlvXL5PUz8d7xQfQoKsmZBCiSA/yfJrgcC+vxknqyFA8paCrdY4wVlOecWS3GKOydWxbFnb318jSNeDmvj5RynMxqZ9f1OheG2hQR8qsZWt95AVBQbWMuT8Vp5o=",
+      "url": "AgA3cB7VNY0oyxvWBVzFZdjlDbDWoE3/Ij5ZXyo67EuYTTrMSedEkT/IznJqy5OjQPjIp1FyZA2HRwCELNjEriRrNn1e9Drpl6SHleJVb8uUEFNjBQFyWxbwQcu1HVaIQ0qwUreVo8ZQd0TCGAD2Im92uZvhuERGPQzoovcMucfpmoHIw62FIEZ4qhCnbVyiNMFMW2LBGYvCnlhaC5Dk6q0Fd8s8IJUd13mXAasYigL+KAkKFrS40UaeW8WRtKq8a6juTM6b3Pt5kj1Qieci5+IYb73idPhAh309U27jSFvGOYZrJrwGrzCvER26VKkyuWgpLR9s7+Nyz4e18TT31zmp5ZWCJyshk4DhPRZ2YvfqsGCqPp0bPgNlaCzm0EdwHEC7WW9Nci5BrUmWoZj7a/immfpcYQ+Zjnri8WCdMPl1GtrqV0g7tTlfCK0e3E/f8ftfswpjGHINcelIK3aPDymmObbBBtISDypnvEi2Q6RDlSs5b95ehUFkcttg29XiO1HF1Gf+TvuIPdqUReExMdxZu0sfendrLYtW1OzJEQSOrQ0lLOmi8AIVUzIlQ6kc9UswjbWpIEt/PKrx+RmjzinvZdU1B1Fl1xMs0Wr6ySKgBFQYQHbpQ58YM4MWZeRYAYenonzv4/9D7AB8PIzspXxa1yBFlb8nVoTbsu2QTmLI34fEwJMcTdZZttG5LjZuayovB4h+1RbDpuFFqoSUL5AsVcYgbF7aysSh0OvYPZWB4qj5kd9gdRSFgDsYyw=="
+    }
+  }
+}
