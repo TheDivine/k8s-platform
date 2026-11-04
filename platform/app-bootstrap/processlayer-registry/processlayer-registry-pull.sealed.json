@@ -1,0 +1,20 @@
+{
+  "kind": "SealedSecret",
+  "apiVersion": "bitnami.com/v1alpha1",
+  "metadata": {
+    "name": "processlayer-registry-pull",
+    "namespace": "processlayer-prod"
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "name": "processlayer-registry-pull",
+        "namespace": "processlayer-prod"
+      },
+      "type": "kubernetes.io/dockerconfigjson"
+    },
+    "encryptedData": {
+      ".dockerconfigjson": "AgAFwyHmD9LqpCtQvD4ZHvOb0HEpFs3lmDwahLWBKGFOOF93FrSZNngorWfVquD9e0+x8II+uS5791jxxyEAKyRgWf0rYSE/wvz6RdcMfC3aQFmtBls5Gsg9wdSDma7ip8CY16ye2vEHx1gXgztxKBCNvaQubHcT5NQqTRdaUdGbw4UmJuUh9A1Kls1d2XhWgcjOHno5ZMcCFQDj+sx+rfByWpTbcnDgexg0FyvFyRU6d7tbmpm0EMRFHrRCYOKKBJBXD3dQsKUrtF9lAEOe+f5w93IyVzgWHosoy7dc5eyPBttWu8f4B2Qam11FhqOkLGSXaUBG+njj7hdkJFm2boqWTHncaY51hTucaNwXsiEdOaiRv7SvwMFQC1SBia9eF7QDapqIKT7zoqn261lqbchibrGTycBSauT0DmcCXC2JNbvqYFBY/xmPEXNuNtHrclAto80x7Nq0rKyBDPZ0CukKsnQ65UNiyopKTUA4FKlacbqMA/53KdVv8XuK0H3eO5WjaceczIU3oq89Y3/BXLJo4EzkJCPY6q16QTA/5i3uSAIbXFaIZXwqFXRHuMdNlVP61ZoDYZIcHgYPcK7YsY437HQFA8XYXJV+bvfDuCWBE5Sn83ttGyQWIFN9Y4428UV/VHupVWzcVc/x7DQTB1UaFIiOMzbxY5QurogGoSbYTt0M0j/+BIDUXPh2ofZKoatn+Kus5qW5B2kPOAX4BYiCN8fvRN4llwRIgHAHJRJ0s648SejbyPCByANqevA4MCePhZA+i+hX3MjgtZW3+vULmnxEFtBU4MhGVf81StWpWlQomSMK2rc/4F9ODhJB8uhOIl8DQAz7dw=="
+    }
+  }
+}
