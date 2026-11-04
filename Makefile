@@ -1,15 +1,18 @@
 SHELL := /bin/bash
 
-.PHONY: status public-check secret-grep validate-yaml shellcheck tree security-scripts-check processlayer-gitops-check
+.PHONY: status public-check secret-grep validate-yaml shellcheck tree security-scripts-check processlayer-gitops-check processlayer-registry-check
 
 status:
 	@git status --short --untracked-files=all
 
-public-check: status secret-grep validate-yaml security-scripts-check processlayer-gitops-check
+public-check: status secret-grep validate-yaml security-scripts-check processlayer-gitops-check processlayer-registry-check
 	@echo "Public safety checks completed. Review all output before committing."
 
 processlayer-gitops-check:
 	@python3 -B -m unittest discover -s platform/app-bootstrap/processlayer-gitops -p 'test_*.py'
+
+processlayer-registry-check:
+	@python3 -B -m unittest discover -s platform/app-bootstrap/processlayer-registry -p 'test_*.py'
 
 secret-grep:
 	@echo "Checking tracked files for high-risk secret markers..."

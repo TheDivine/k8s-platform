@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: processlayer-prod
   namespace: argocd
+  annotations:
+    processlayer.ai/registry-prerequisite: processlayer-registry-pull-2026-11-04
 spec:
   project: default
   source:

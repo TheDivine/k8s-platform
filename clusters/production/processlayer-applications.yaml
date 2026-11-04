@@ -6,6 +6,7 @@ metadata:
 spec:
   dependsOn:
     - name: processlayer-gitops-credentials
+    - name: processlayer-registry-credentials
   interval: 10m
   path: ./platform/app-bootstrap/processlayer-applications
   prune: false
