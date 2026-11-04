@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify a hidden, read-only PAT and seal a production pull Secret offline.
+"""Verify a hidden, read-only PAT and seal an environment-scoped pull Secret offline.
 
 No credential argument, environment input, plaintext file, Docker login or
 cluster access. Only ciphertext is written; the package stays inactive until
@@ -26,7 +26,7 @@ NAMESPACE = "processlayer-prod"
 SEALED_FILE = NAME + ".sealed.json"
 SECRET_TYPE = "kubernetes.io/dockerconfigjson"
 IMAGES = {
-    "processlayer-api": "sha256:cb9f02594cd2d8f4f746cc1797e8911a6093eaf7781f30eb2aa6d1848e6109ab",
+    "processlayer-api": "sha256:791b83a2137c5b5b8f8e864fb448b68c3cd46832a8b0b31edc01b3188fe84f88",
     "processlayer-web": "sha256:d7787cadd63fe42ceaa22af0c5893213c22c3a0654a1ff74907de122f5007cfb",
     "processlayer-postgres": "sha256:4fa3df2076f34cfc88700481d005d6b3faac181938acd2be2b436fcdfad1a497",
 }
@@ -118,7 +118,9 @@ def verify_access(token, request=fetch):
     return auth
 
 
-def validate_sealed(value):
+def validate_sealed(value, namespace=NAMESPACE):
+    if namespace not in (NAMESPACE, "processlayer"):
+        raise SafeFailure("Unexpected target namespace.")
     if set(value) - {"apiVersion", "kind", "metadata", "spec"}:
         raise SafeFailure("Unexpected fields in sealed output.")
     if value.get("apiVersion") != "bitnami.com/v1alpha1" or value.get("kind") != "SealedSecret":
@@ -130,8 +132,8 @@ def validate_sealed(value):
     for metadata in (value.get("metadata", {}), template.get("metadata", {})):
         if set(metadata) - {"name", "namespace", "creationTimestamp"}:
             raise SafeFailure("Sealed output annotations, ownership or extra metadata are forbidden.")
-        if metadata.get("name") != NAME or metadata.get("namespace") != NAMESPACE or metadata.get("creationTimestamp") is not None:
-            raise SafeFailure("Sealed output must have the exact production name and namespace.")
+        if metadata.get("name") != NAME or metadata.get("namespace") != namespace or metadata.get("creationTimestamp") is not None:
+            raise SafeFailure("Sealed output must have the exact target name and namespace.")
     if template.get("type") != SECRET_TYPE or set(spec["encryptedData"]) != {".dockerconfigjson"}:
         raise SafeFailure("Unexpected Secret type or encrypted fields.")
     try:
@@ -154,9 +156,11 @@ def command(args, payload=None):
     return result.stdout
 
 
-def prepare(cert, output_dir):
+def prepare(cert, output_dir, namespace=NAMESPACE):
+    if namespace not in (NAMESPACE, "processlayer"):
+        raise SafeFailure("Unexpected target namespace.")
     cert = Path(cert).resolve(strict=True)
-    output = Path(output_dir).resolve(strict=True) / SEALED_FILE
+    output = Path(output_dir).resolve(strict=True) / (SEALED_FILE if namespace == NAMESPACE else "staging-" + SEALED_FILE)
     if output.exists() or output.is_symlink():
         raise SafeFailure("Existing ciphertext will not be overwritten; preserve the current credential.")
     certificate = cert.read_bytes()
@@ -172,10 +176,10 @@ def prepare(cert, output_dir):
         config = json.dumps({"auths": {"ghcr.io": {"auth": auth}}})
         encoded = base64.b64encode(config.encode()).decode()
         secret = {"apiVersion": "v1", "kind": "Secret", "type": SECRET_TYPE,
-                  "metadata": {"name": NAME, "namespace": NAMESPACE},
+                  "metadata": {"name": NAME, "namespace": namespace},
                   "data": {".dockerconfigjson": encoded}}
         sealed = json.loads(command(["kubeseal", "--cert", str(cert), "--scope", "strict", "--format", "json"], json.dumps(secret).encode()))
-        validate_sealed(sealed)
+        validate_sealed(sealed, namespace)
         serialized = json.dumps(sealed, indent=2) + "\n"
         if any(sensitive in serialized for sensitive in (token, auth, config, encoded)):
             raise SafeFailure("Plaintext credential material was detected in output.")
@@ -190,9 +194,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cert", required=True, help="Trusted controller public PEM certificate")
     parser.add_argument("--output-dir", default=str(Path(__file__).resolve().parent))
+    parser.add_argument("--namespace", choices=(NAMESPACE, "processlayer"), default=NAMESPACE)
     args = parser.parse_args()
     try:
-        output = prepare(args.cert, args.output_dir)
+        output = prepare(args.cert, args.output_dir, args.namespace)
     except SafeFailure as error:
         print("Stopped: " + str(error), file=sys.stderr)
         return 1

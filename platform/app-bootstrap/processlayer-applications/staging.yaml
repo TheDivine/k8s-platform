@@ -4,6 +4,7 @@ metadata:
   name: processlayer
   namespace: argocd
   annotations:
+    processlayer.ai/registry-prerequisite: staging-registry-pull-2026-11-04
     processlayer.ai/smtp-prerequisite: df-enquiry-smtp-2026-11-04
 spec:
   project: default
