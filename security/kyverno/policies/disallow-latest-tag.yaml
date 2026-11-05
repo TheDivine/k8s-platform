@@ -1,0 +1,63 @@
+# Detective supply-chain control. Keep in Audit until existing workloads are
+# reviewed; then promote to Enforce.
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: disallow-latest-tag
+  annotations:
+    policies.kyverno.io/title: Disallow Latest Tag
+    policies.kyverno.io/category: Supply Chain
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/subject: Pod
+spec:
+  validationFailureAction: Audit
+  background: true
+  rules:
+    - name: require-image-tag
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - kube-system
+                - cert-manager
+                - flux-system
+                - argocd
+                - kyverno
+                - longhorn-system
+      validate:
+        message: "Container images must use an explicit tag or digest."
+        pattern:
+          spec:
+            containers:
+              - image: "*:*"
+            =(initContainers):
+              - image: "*:*"
+    - name: disallow-latest
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - kube-system
+                - cert-manager
+                - flux-system
+                - argocd
+                - kyverno
+                - longhorn-system
+      validate:
+        message: "Mutable image tag ':latest' is not allowed. Use an immutable tag or digest."
+        pattern:
+          spec:
+            containers:
+              - image: "!*:latest"
+            =(initContainers):
+              - image: "!*:latest"

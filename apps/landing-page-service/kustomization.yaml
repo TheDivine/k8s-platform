@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: landing-page-service
 resources:
   - resources.yaml
+  - networkpolicy.yaml
 # Candidate built and privacy verified in Actions run 34418875590.
 images:
   - name: landing-page-demo

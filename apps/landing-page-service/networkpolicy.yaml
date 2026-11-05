@@ -1,0 +1,33 @@
+# Zero Trust workload segmentation for the public landing page.
+# The application is intentionally allowed to receive traffic only from the
+# Traefik ingress namespace and does not require pod egress.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: landing-page-service
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-traefik-ingress
+  namespace: landing-page-service
+spec:
+  podSelector:
+    matchLabels:
+      app: landing-page-service
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: traefik
+      ports:
+        - protocol: TCP
+          port: 8080
